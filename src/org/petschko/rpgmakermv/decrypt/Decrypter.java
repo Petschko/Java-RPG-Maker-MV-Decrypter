@@ -203,4 +203,47 @@ class Decrypter {
 			throw new NullPointerException();
 
 	}
+
+	/**
+	 * Get a new Byte-Array with given start pos and length
+	 *
+	 * @param byteArray - Byte-Array where to extract a new Byte-Array
+	 * @param startPos - Start-Position on the Byte-Array (0 is first pos)
+	 * @param length - Length of the new Array (Values below 0 means to Old-Array end)
+	 * @return - New Byte-Array
+	 */
+	private static byte[] getByteArray(byte[] byteArray, int startPos, int length) {
+		// Don't allow start-values below 0
+		if(startPos < 0)
+			startPos = 0;
+
+		// Check if length is to below 0 (to end of array)
+		if(length < 0)
+			length = byteArray.length - startPos;
+
+		byte[] newByteArray = new byte[length];
+		int n = 0;
+
+		for(int i = startPos; i < (startPos + length); i++) {
+			// Check if byte array is on the last pos and return shorter byte array if
+			if(byteArray.length < i)
+				return getByteArray(newByteArray, 0, n);
+
+			newByteArray[n] = byteArray[i];
+			n++;
+		}
+
+		return newByteArray;
+	}
+
+	/**
+	 * Get a new Byte-Array from the given start pos to the end of the array
+	 *
+	 * @param byteArray - Byte-Array where to extract a new Byte-Array
+	 * @param startPos - Start-Position on the Byte-Array (0 is first pos)
+	 * @return - New Byte-Array
+	 */
+	private static byte[] getByteArray(byte[] byteArray, int startPos) {
+		return getByteArray(byteArray, startPos, -1);
+	}
 }
