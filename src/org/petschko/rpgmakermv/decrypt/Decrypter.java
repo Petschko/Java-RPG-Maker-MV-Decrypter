@@ -1,7 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
-
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
@@ -189,7 +188,7 @@ class Decrypter {
 		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[verifiedDecryptArray.size()]));
 	}
 
-	public void decryptFile(File file) {
+	public void decryptFile(File file) throws Exception {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -199,9 +198,43 @@ class Decrypter {
 			return;
 		}
 
+		// Check if all required external stuff is here
+		if(this.getDecryptCode() == null)
+			throw new NullPointerException("Decryption-Code is not set!");
 		if(file.getContent() == null)
-			throw new NullPointerException();
+			throw new NullPointerException("File-Content is not loaded!");
 
+		// Get Content
+		byte[] content = file.getContent();
+		// Check Header
+		byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
+		byte[] refBytes = new byte[this.getHeaderLen()];
+		String refStr = this.getSignature() + this.getVersion() + this.getRemain();
+
+		// Generate reference bytes
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			int substrStart = i * 2;
+			refBytes[i] = (byte) Integer.parseInt(refStr.substring(substrStart, substrStart + 2), 16);
+		}
+
+		// Verify header (Check if its an encrypted file)
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			if(refBytes[i] != header[i])
+				throw new Exception("Header is invalid");
+		}
+
+		// Remove Header from rest
+		content = Decrypter.getByteArray(content, this.getHeaderLen());
+
+		// Decrypt
+		if(content.length > 0) {
+			for(int i = 0; i < this.getHeaderLen(); i++) {
+				content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
+			}
+		}
+
+		file.setContent(content);
+		//file.save(true); // todo change file extension and may file save dir
 	}
 
 	/**
@@ -245,5 +278,24 @@ class Decrypter {
 	 */
 	private static byte[] getByteArray(byte[] byteArray, int startPos) {
 		return getByteArray(byteArray, startPos, -1);
+	}
+
+	/**
+	 * Returns the real Extension of the current fake extension
+	 *
+	 * @param fakeExt - Fake Extension where you want to get the real Extension
+	 * @return - Real File-Extension
+	 */
+	private static String realExtByFakeExt(String fakeExt) {
+		switch(fakeExt.toLowerCase()) {
+			case "rpgmvp":
+				return "png";
+			case "rpgmvm":
+				return "m4a";
+			case "rpgmvo":
+				return "ogg";
+			default:
+				return "unknown";
+		}
 	}
 }
