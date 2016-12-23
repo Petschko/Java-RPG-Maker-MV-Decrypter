@@ -7,8 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.FileSystemException;
 
 /**
@@ -59,6 +57,17 @@ public class File {
 	}
 
 	/**
+	 * Sets a new File-Name for the File (without ext)
+	 *
+	 * @param newName - New Name for the File (without ext)
+	 */
+	public void changeName(@NotNull String newName) {
+		this.setFilePath(this.getFileDirectoryPath() + newName +
+				((this.getExtension() != null) ? "." + this.getExtension() : ""));
+		this.setName(newName);
+	}
+
+	/**
 	 * Extension getter
 	 *
 	 * @return - File-Extension
@@ -73,7 +82,24 @@ public class File {
 	 * @param extension - New Extension of the File
 	 */
 	private void setExtension(@Nullable String extension) {
+		if(extension.equals(""))
+			extension = null;
+
 		this.extension = extension;
+	}
+
+	/**
+	 * Sets a new Extension (May useful if you changed a File-type)
+	 *
+	 * @param newExtension - New Extension for the File
+	 */
+	public void changeExtension(@Nullable String newExtension) {
+		if(newExtension.equals(""))
+			newExtension = null;
+
+		this.setFilePath(this.getFileDirectoryPath() + this.getName() +
+				((newExtension != null) ? "." + newExtension : ""));
+		this.setExtension(newExtension);
 	}
 
 	/**
@@ -143,12 +169,10 @@ public class File {
 	 */
 	public boolean load() throws FileSystemException {
 		FileInputStream fileIO;
-		java.io.File file;
+		java.io.File file = new java.io.File(this.getFilePath());
 		byte[] byteContent;
 
 		try {
-			file = new java.io.File(new URI(this.getFilePath()));
-
 			// Check if file exists and if it can be read
 			if(! file.exists())
 				throw new FileNotFoundException();
@@ -215,13 +239,7 @@ public class File {
 		java.io.FileOutputStream fileOS;
 		java.io.File file;
 
-		try {
-			file = new java.io.File(new URI(this.getFilePath()));
-		} catch(URISyntaxException uriSynEx) {
-			uriSynEx.printStackTrace();
-
-			return false;
-		}
+		file = new java.io.File(this.getFilePath());
 
 		// Check if file exists and if its allowed to overwrite
 		if(file.exists() && ! overwriteExisting)
