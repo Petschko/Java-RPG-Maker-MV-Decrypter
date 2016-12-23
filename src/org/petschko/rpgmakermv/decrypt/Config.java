@@ -18,4 +18,11 @@ class Config {
 
 	// System-Settings
 	static final String ds = System.getProperty("file.separator");
+
+	/**
+	 * Constructor
+	 */
+	private Config() {
+		// VOID - This is a Static-Class
+	}
 }
