@@ -1,6 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
+import org.json.JSONObject;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
@@ -176,7 +177,7 @@ class Decrypter {
 		if(this.getDecryptCode() == null)
 			throw new NullPointerException("DecryptCode");
 
-		String[] decryptArray = this.getDecryptCode().split("/(.{2})/");
+		String[] decryptArray = this.getDecryptCode().split("(?<=\\G.{2})");
 		ArrayList<String> verifiedDecryptArray = new ArrayList<>();
 
 		// Remove empty parts
@@ -188,6 +189,12 @@ class Decrypter {
 		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[verifiedDecryptArray.size()]));
 	}
 
+	/**
+	 * Decrypts the File (Header) and removes the Encryption-Header
+	 *
+	 * @param file - Encrypted File
+	 * @throws Exception - Various Exceptions
+	 */
 	public void decryptFile(File file) throws Exception {
 		try {
 			if(! file.load())
@@ -203,6 +210,8 @@ class Decrypter {
 			throw new NullPointerException("Decryption-Code is not set!");
 		if(file.getContent() == null)
 			throw new NullPointerException("File-Content is not loaded!");
+		if(file.getContent().length < 32)
+			throw new Exception("File is to short (<32 Bytes)");
 
 		// Get Content
 		byte[] content = file.getContent();
@@ -226,15 +235,55 @@ class Decrypter {
 		// Remove Header from rest
 		content = Decrypter.getByteArray(content, this.getHeaderLen());
 
-		// Decrypt
+		// Decrypt Real-Header
 		if(content.length > 0) {
 			for(int i = 0; i < this.getHeaderLen(); i++) {
 				content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
 			}
 		}
 
+		// Update File-Content
 		file.setContent(content);
-		//file.save(true); // todo change file extension and may file save dir
+		file.changeExtension(Decrypter.realExtByFakeExt(file.getExtension()));
+	}
+
+	/**
+	 * Detect the Decryption-Code from the given File
+	 *
+	 * @param file - JSON-File with Decryption-Key
+	 * @param keyName - Key-Name of the Decryption-Key
+	 */
+	public void detectEncryptionKey(File file, String keyName) {
+		try {
+			if(! file.load())
+				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		JSONObject jsonObj;
+		String key;
+
+		try {
+			String fileContentAsString = new String(file.getContent(), "UTF-8");
+			jsonObj = new JSONObject(fileContentAsString);
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		try {
+			key = jsonObj.getString(keyName);
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		this.setDecryptCode(key);
 	}
 
 	/**
@@ -259,7 +308,7 @@ class Decrypter {
 
 		for(int i = startPos; i < (startPos + length); i++) {
 			// Check if byte array is on the last pos and return shorter byte array if
-			if(byteArray.length < i)
+			if(byteArray.length <= i)
 				return getByteArray(newByteArray, 0, n);
 
 			newByteArray[n] = byteArray[i];
@@ -286,7 +335,7 @@ class Decrypter {
 	 * @param fakeExt - Fake Extension where you want to get the real Extension
 	 * @return - Real File-Extension
 	 */
-	private static String realExtByFakeExt(String fakeExt) {
+	private static String realExtByFakeExt(@NotNull String fakeExt) {
 		switch(fakeExt.toLowerCase()) {
 			case "rpgmvp":
 				return "png";
