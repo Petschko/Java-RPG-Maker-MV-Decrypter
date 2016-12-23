@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Date: 21.12.2016
  * Time: 15:12
  * Update: -
- * Version: 0.0.1
+ * Version: 0.1.0
  *
  * Notes: Decrypter class
  */
@@ -23,6 +23,7 @@ class Decrypter {
 	private String signature = "5250474d56000000";
 	private String version = "000301";
 	private String remain = "0000000000";
+	private boolean ignoreFakeHeader = false;
 
 	/**
 	 * Creates a new Decrypter instance
@@ -169,6 +170,24 @@ class Decrypter {
 	}
 
 	/**
+	 * Returns if Fake-Header can be ignored
+	 *
+	 * @return - true if Fake-Header should be ignored else false
+	 */
+	public boolean isIgnoreFakeHeader() {
+		return ignoreFakeHeader;
+	}
+
+	/**
+	 * Set if Fake-Header should be ignored
+	 *
+	 * @param ignoreFakeHeader - true if Fake-Header can be ignored else false
+	 */
+	public void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
+		this.ignoreFakeHeader = ignoreFakeHeader;
+	}
+
+	/**
 	 * Reads the Decrypt-Code into an Array with 2 Paired Strings
 	 *
 	 * @throws NullPointerException - Decrypt-Code is null
@@ -210,32 +229,35 @@ class Decrypter {
 			throw new NullPointerException("Decryption-Code is not set!");
 		if(file.getContent() == null)
 			throw new NullPointerException("File-Content is not loaded!");
-		if(file.getContent().length < 32)
-			throw new Exception("File is to short (<32 Bytes)");
+		if(file.getContent().length < (this.getHeaderLen() * 2))
+			throw new Exception("File is to short (<" + (this.getHeaderLen() * 2) + " Bytes)");
 
 		// Get Content
 		byte[] content = file.getContent();
+
 		// Check Header
-		byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
-		byte[] refBytes = new byte[this.getHeaderLen()];
-		String refStr = this.getSignature() + this.getVersion() + this.getRemain();
+		if(! this.isIgnoreFakeHeader()) {
+			byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
+			byte[] refBytes = new byte[this.getHeaderLen()];
+			String refStr = this.getSignature() + this.getVersion() + this.getRemain();
 
-		// Generate reference bytes
-		for(int i = 0; i < this.getHeaderLen(); i++) {
-			int substrStart = i * 2;
-			refBytes[i] = (byte) Integer.parseInt(refStr.substring(substrStart, substrStart + 2), 16);
+			// Generate reference bytes
+			for(int i = 0; i < this.getHeaderLen(); i++) {
+				int substrStart = i * 2;
+				refBytes[i] = (byte) Integer.parseInt(refStr.substring(substrStart, substrStart + 2), 16);
+			}
+
+			// Verify header (Check if its an encrypted file)
+			for(int i = 0; i < this.getHeaderLen(); i++) {
+				if(refBytes[i] != header[i])
+					throw new Exception("Header is invalid");
+			}
 		}
 
-		// Verify header (Check if its an encrypted file)
-		for(int i = 0; i < this.getHeaderLen(); i++) {
-			if(refBytes[i] != header[i])
-				throw new Exception("Header is invalid");
-		}
-
-		// Remove Header from rest
+		// Remove Fake-Header from rest
 		content = Decrypter.getByteArray(content, this.getHeaderLen());
 
-		// Decrypt Real-Header
+		// Decrypt Real-Header & First part of the Content
 		if(content.length > 0) {
 			for(int i = 0; i < this.getHeaderLen(); i++) {
 				content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
