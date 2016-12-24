@@ -19,6 +19,9 @@ class Config {
 	// System-Settings
 	static final String ds = System.getProperty("file.separator");
 
+	// File-Path-Settings
+	static final String defaultOutputDir = "output";
+
 	/**
 	 * Constructor
 	 */
