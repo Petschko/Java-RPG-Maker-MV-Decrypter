@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
+import java.util.ArrayList;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -297,5 +298,32 @@ public class File {
 		}
 
 		this.setName(fileName);
+	}
+
+	/**
+	 * Reads all Files (Recursive) of a Directory to an Array
+	 *
+	 * @param dir - Directory to read
+	 * @return - File-Array
+	 */
+	public static ArrayList<java.io.File> readDirFiles(java.io.File dir) {
+		java.io.File[] files = dir.listFiles();
+		ArrayList<java.io.File> fileList = new ArrayList<>();
+
+		if(files == null)
+			files = new java.io.File[0];
+
+		for(java.io.File file : files) {
+			if(file.isDirectory()) {
+				ArrayList<java.io.File> dirContent = readDirFiles(file);
+
+				// Process Directory-Content
+				for(java.io.File aDirContent : dirContent)
+					fileList.add(aDirContent);
+			} else
+				fileList.add(file);
+		}
+
+		return fileList;
 	}
 }
