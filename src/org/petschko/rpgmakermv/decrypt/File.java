@@ -163,6 +163,18 @@ public class File {
 	}
 
 	/**
+	 * Changes the Directory of the File
+	 *
+	 * @param newPath - New Directory of the File
+	 */
+	public void changePathToFile(@Nullable String newPath) {
+		if(newPath == null)
+			newPath = "";
+
+		this.setFilePath(newPath + this.getFullFileName());
+	}
+
+	/**
 	 * Loads the File-Content as Byte-Array
 	 *
 	 * @return true if file was loaded false if not
