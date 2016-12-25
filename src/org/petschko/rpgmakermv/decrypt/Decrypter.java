@@ -1,6 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * Date: 21.12.2016
  * Time: 15:12
  * Update: -
- * Version: 0.1.0
+ * Version: 0.1.1
  *
  * Notes: Decrypter class
  */
@@ -274,8 +275,9 @@ class Decrypter {
 	 *
 	 * @param file - JSON-File with Decryption-Key
 	 * @param keyName - Key-Name of the Decryption-Key
+	 * @throws JSONException - Key not Found Exception
 	 */
-	public void detectEncryptionKey(File file, String keyName) {
+	public void detectEncryptionKey(File file, String keyName) throws JSONException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -297,13 +299,7 @@ class Decrypter {
 			return;
 		}
 
-		try {
-			key = jsonObj.getString(keyName);
-		} catch(Exception e) {
-			e.printStackTrace();
-
-			return;
-		}
+		key = jsonObj.getString(keyName);
 
 		this.setDecryptCode(key);
 	}
