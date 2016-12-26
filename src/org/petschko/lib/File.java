@@ -1,8 +1,7 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.lib;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -154,7 +153,7 @@ public class File {
 	 * @return - File Directory-Path
 	 */
 	public String getFileDirectoryPath() {
-		int lastDSChar = this.getFilePath().lastIndexOf(Config.ds);
+		int lastDSChar = this.getFilePath().lastIndexOf(Const.ds);
 
 		if(lastDSChar == -1)
 			return "";
@@ -292,7 +291,7 @@ public class File {
 	 */
 	private void extractInfosFromPath() throws Exception {
 		int filePathLen = this.getFilePath().length();
-		int lastDSCharPos = this.getFilePath().lastIndexOf(Config.ds);
+		int lastDSCharPos = this.getFilePath().lastIndexOf(Const.ds);
 		int lastDotPos = this.getFilePath().lastIndexOf(".");
 		String fileName = this.getFilePath();
 
@@ -346,8 +345,8 @@ public class File {
 	 * @return - Checked and may corrected Path-String
 	 */
 	public static String ensureDSonEndOfPath(String path) {
-		if(! path.substring(path.length() - 1).equals(Config.ds))
-			path = path + Config.ds;
+		if(! path.substring(path.length() - 1).equals(Const.ds))
+			path = path + Const.ds;
 
 		return path;
 	}
