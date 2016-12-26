@@ -20,7 +20,6 @@ class Decrypter {
 	private String decryptCode = null;
 	private String[] realDecryptCode = null;
 	private int headerLen = 16;
-	private int xhrOk = 400;
 	private String signature = "5250474d56000000";
 	private String version = "000301";
 	private String remain = "0000000000";
@@ -96,24 +95,6 @@ class Decrypter {
 	 */
 	public void setHeaderLen(@NotNull int headerLen) {
 		this.headerLen = headerLen;
-	}
-
-	/**
-	 * Returns the xhrOk Value
-	 *
-	 * @return - xhrOk Value
-	 */
-	public int getXhrOk() {
-		return xhrOk;
-	}
-
-	/**
-	 * Sets the xhrOk Value
-	 *
-	 * @param xhrOk - xhrOk Value
-	 */
-	public void setXhrOk(@NotNull int xhrOk) {
-		this.xhrOk = xhrOk;
 	}
 
 	/**
