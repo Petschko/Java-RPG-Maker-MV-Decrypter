@@ -55,7 +55,7 @@ public class App {
 		useGUI = false;
 
 		// Show Welcome-Message
-		System.out.println(Config.programmName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
+		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
 
 		// Check if help is needed
 		if(args[0].equals("help") || args[0].equals("/?") || args[0].equals("--help")) {

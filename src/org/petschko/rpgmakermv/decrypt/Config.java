@@ -13,7 +13,7 @@ package org.petschko.rpgmakermv.decrypt;
 class Config {
 	// Program Info
 	static final String version = "v0.1 Alpha";
-	static final String programmName = "RPG-Maker MV Decrypter";
+	static final String programName = "RPG-Maker MV Decrypter";
 
 	// File-Path-Settings
 	static final String defaultOutputDir = "output";
