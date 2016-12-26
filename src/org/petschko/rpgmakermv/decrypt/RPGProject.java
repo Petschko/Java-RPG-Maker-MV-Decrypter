@@ -14,11 +14,13 @@ import java.util.ArrayList;
  * Date: 23.12.2016
  * Time: 11:19
  * Update: -
- * Version: 0.0.1
+ * Version: 0.1.0
+ *
+ * todo check if its a real rpg maker dir not more above
  *
  * Notes: RPG-Project-Class
  */
-public class RPGProject {
+class RPGProject {
 	private String path;
 	private String outputPath = Config.defaultOutputDir;
 	private File system = null;
@@ -61,7 +63,7 @@ public class RPGProject {
 	 * @param path - Path of the Project
 	 */
 	private void setPath(@NotNull String path) {
-		this.path = path;
+		this.path = File.ensureDSonEndOfPath(path);
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class RPGProject {
 	 * @param outputPath - Output (Save-Dir)-Path of the Project
 	 */
 	public void setOutputPath(@NotNull String outputPath) {
-		this.outputPath = outputPath;
+		this.outputPath = File.ensureDSonEndOfPath(outputPath);
 	}
 
 	/**
@@ -184,11 +186,21 @@ public class RPGProject {
 		Decrypter d = new Decrypter();
 
 		try {
-			d.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName()); // todo later: add more default values and test them
+			d.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
 		} catch(JSONException e) {
 			this.setEncrypted(false);
-		} finally {
+		}
+
+		if(d.getDecryptCode() != null)
 			this.setEncrypted(true);
+		else {
+			// Test default names
+			String decryptKey = Finder.testEncryptionKeyNames(this.getSystem());
+
+			if(decryptKey != null) {
+				this.setEncryptionKeyName(decryptKey);
+				this.setEncrypted(true);
+			}
 		}
 	}
 
@@ -200,13 +212,19 @@ public class RPGProject {
 			return;
 
 		for(File file : this.getFiles()) {
-			if(file.getExtension().equals("rpgmvp") || file.getExtension().equals("rpgmvm") || file.getExtension().equals("rpgmvo")) // todo later: add more default values and test them
+			if(Finder.isFileEncryptedExt(file.getExtension()))
 				this.getEncryptedFiles().add(file);
 		}
 	}
 
+	/**
+	 * Finds the System-File and assign it
+	 */
 	private void findSystemFile() {
-		// todo implement find system.json
+		File system = Finder.findSystemFile(this.getPath());
+
+		if(system != null)
+			this.setSystem(system);
 	}
 
 	public void decryptFiles(boolean ignoreFakeHeader) throws JSONException {

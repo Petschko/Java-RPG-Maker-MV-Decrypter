@@ -171,7 +171,7 @@ public class File {
 		if(newPath == null)
 			newPath = "";
 
-		this.setFilePath(newPath + this.getFullFileName());
+		this.setFilePath(File.ensureDSonEndOfPath(newPath) + this.getFullFileName());
 	}
 
 	/**
@@ -337,5 +337,18 @@ public class File {
 		}
 
 		return fileList;
+	}
+
+	/**
+	 * Ensure that a Path has always a DIRECTORY_SEPARATOR on the end
+	 *
+	 * @param path - Unchecked Path-String
+	 * @return - Checked and may corrected Path-String
+	 */
+	public static String ensureDSonEndOfPath(String path) {
+		if(! path.substring(path.length() - 1).equals(Config.ds))
+			path = path + Config.ds;
+
+		return path;
 	}
 }
