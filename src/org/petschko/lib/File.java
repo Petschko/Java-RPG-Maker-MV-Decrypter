@@ -350,4 +350,34 @@ public class File {
 
 		return path;
 	}
+
+	/**
+	 * Checks if a Directory exists
+	 *
+	 * @param path - Path of the Directory
+	 * @return - true if Directory exists else false
+	 */
+	public static boolean existsDir(String path) {
+		return existsDir(path, false);
+	}
+
+	/**
+	 * Checks if a Directory exists and if not may create it if set
+	 *
+	 * @param path - Path of the Directory
+	 * @param createMissing - true if the function should create missing Directories
+	 * @return - true if the Directory exists (or was successfully created) else false
+	 */
+	public static boolean existsDir(String path, boolean createMissing) {
+		java.io.File dir = new java.io.File(path);
+
+		if(! dir.exists()) {
+			if(createMissing)
+				if(dir.mkdirs())
+					return true;
+
+			return false;
+		} else
+			return true;
+	}
 }
