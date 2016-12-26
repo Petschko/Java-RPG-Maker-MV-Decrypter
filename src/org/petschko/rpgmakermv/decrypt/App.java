@@ -13,9 +13,9 @@ import org.petschko.lib.Const;
  * Notes: App Class
  */
 public class App {
-	static Boolean useGUI = true;
-	static String pathToProject;
-	static String outputDir;
+	private static Boolean useGUI = true;
+	private static String pathToProject;
+	private static String outputDir;
 
 	/**
 	 * Main-Class
@@ -31,8 +31,6 @@ public class App {
 			// todo: load gui
 			System.out.print("VOID");
 		} else {
-			// todo: Decrypt without GUI
-			// todo check if output dirs really exists - better within class
 			try {
 				RPGProject rpgProject = new RPGProject(pathToProject);
 				rpgProject.setOutputPath(outputDir);
@@ -65,7 +63,7 @@ public class App {
 
 		// Set Path to Project
 		pathToProject = args[0];
-		System.out.println("Set Project-Dir to: \"" + pathToProject + "\"");
+		showMessage("Set Project-Dir to: \"" + pathToProject + "\"");
 
 		// Set Output-Dir
 		try {
@@ -74,7 +72,7 @@ public class App {
 			outputDir = Config.defaultOutputDir;
 		}
 
-		System.out.println("Set Output-Dir to: \"" + outputDir + "\"");
+		showMessage("Set Output-Dir to: \"" + outputDir + "\"");
 	}
 
 	/**
