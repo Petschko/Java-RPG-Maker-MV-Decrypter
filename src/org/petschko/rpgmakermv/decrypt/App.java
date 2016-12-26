@@ -89,7 +89,7 @@ public class App {
 	 *
 	 * @param status - Exit-Status-Code
 	 */
-	public static void exitCMD(int status) {
+	private static void exitCMD(int status) {
 		System.out.println("Done.");
 		System.exit(status);
 	}
@@ -99,8 +99,8 @@ public class App {
 	 *
 	 * @param msg - Message to display
 	 */
-	public static void showMessage(String msg) {
-		if(useGUI)
+	static void showMessage(String msg) {
+		if(! useGUI)
 			System.out.println(msg);
 	}
 }
