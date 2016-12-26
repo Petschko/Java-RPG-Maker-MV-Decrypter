@@ -3,6 +3,7 @@ package org.petschko.rpgmakermv.decrypt;
 import com.sun.istack.internal.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.petschko.lib.File;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 

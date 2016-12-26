@@ -12,12 +12,8 @@ package org.petschko.rpgmakermv.decrypt;
  */
 class Config {
 	// Program Info
-	static final String creator = "Petschko";
 	static final String version = "v0.1 Alpha";
 	static final String programmName = "RPG-Maker MV Decrypter";
-
-	// System-Settings
-	static final String ds = System.getProperty("file.separator");
 
 	// File-Path-Settings
 	static final String defaultOutputDir = "output";

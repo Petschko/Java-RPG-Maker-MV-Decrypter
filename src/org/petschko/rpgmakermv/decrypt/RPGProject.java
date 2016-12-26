@@ -2,8 +2,8 @@ package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
 import org.json.JSONException;
+import org.petschko.lib.File;
 import sun.dc.path.PathException;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;

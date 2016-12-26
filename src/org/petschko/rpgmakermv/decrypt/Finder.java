@@ -1,6 +1,9 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import com.sun.istack.internal.Nullable;
 import org.json.JSONException;
+import org.petschko.lib.Const;
+import org.petschko.lib.File;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -26,10 +29,10 @@ class Finder {
 	 * @param projectDir - Directory of the Project
 	 * @return - System-File-Object if found else null
 	 */
-	public static File findSystemFile(String projectDir) {
+	public static File findSystemFile(@Nullable String projectDir) {
 		String[] filePaths = new String[]{
-				"data" + Config.ds + "System.json",
-				"www" + Config.ds + "data" + Config.ds + "System.json"
+				"data" + Const.ds + "System.json",
+				"www" + Const.ds + "data" + Const.ds + "System.json"
 		};
 		File systemJsonFile = null;
 
@@ -56,7 +59,10 @@ class Finder {
 	 * @param extension - File-Extension to check
 	 * @return - true if the Extension is an encrypted File-extension else false
 	 */
-	public static boolean isFileEncryptedExt(String extension) {
+	public static boolean isFileEncryptedExt(@Nullable String extension) {
+		if(extension == null)
+			extension = "";
+
 		switch(extension) {
 			case "rpgmvp":
 			case "rpgmvm":
