@@ -1,5 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import org.petschko.lib.Const;
+
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
  * Authors-Website: http://petschko.org/
@@ -27,8 +29,19 @@ public class App {
 
 		if(useGUI) {
 			// todo: load gui
+			System.out.print("VOID");
 		} else {
 			// todo: Decrypt without GUI
+			// todo check if output dirs really exists - better within class
+			try {
+				RPGProject rpgProject = new RPGProject(pathToProject);
+				rpgProject.setOutputPath(outputDir);
+				rpgProject.decryptFiles(false);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+
+			exitCMD(0);
 		}
 	}
 
@@ -42,12 +55,12 @@ public class App {
 		useGUI = false;
 
 		// Show Welcome-Message
-		System.out.println(Config.programmName + " - " + Config.version + " by " + Config.creator + " | Command-Line Version");
+		System.out.println(Config.programmName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
 
 		// Check if help is needed
 		if(args[0].equals("help") || args[0].equals("/?") || args[0].equals("--help")) {
 			printHelp();
-			System.exit(0);
+			exitCMD(0);
 		}
 
 		// Set Path to Project
@@ -69,5 +82,25 @@ public class App {
 	 */
 	private static void printHelp() {
 		System.out.println("Usage: java -jar \"RPG Maker MV Decrypter.jar\" [path to decrypt project] [(optional) output path]");
+	}
+
+	/**
+	 * Exit the Program with a Message
+	 *
+	 * @param status - Exit-Status-Code
+	 */
+	public static void exitCMD(int status) {
+		System.out.println("Done.");
+		System.exit(status);
+	}
+
+	/**
+	 * Shows the given message if no GUI is enabled
+	 *
+	 * @param msg - Message to display
+	 */
+	public static void showMessage(String msg) {
+		if(useGUI)
+			System.out.println(msg);
 	}
 }
