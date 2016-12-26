@@ -4,8 +4,6 @@ import com.sun.istack.internal.NotNull;
 import org.json.JSONException;
 import org.petschko.lib.File;
 import sun.dc.path.PathException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +34,7 @@ class RPGProject {
 	 * @throws PathException - Path doesn't exists exception
 	 */
 	RPGProject(@NotNull String path) throws PathException {
-		if(Files.notExists(Paths.get(path)))
+		if(File.existsDir(path))
 			throw new PathException("Project-Path doesn't exists!");
 
 		this.setPath(path);
@@ -228,7 +226,12 @@ class RPGProject {
 	}
 
 	void decryptFiles(boolean ignoreFakeHeader) throws JSONException {
-		// todo implement decryption through encrypted files array and save them to the output location
+		// Check if Output-Dir exists
+		if(! File.existsDir(this.getOutputPath())) {
+			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!");
+			return;
+		}
+
 		Decrypter decrypter = new Decrypter();
 
 		decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
@@ -242,9 +245,7 @@ class RPGProject {
 			} catch(Exception e) {
 				e.printStackTrace();
 			} finally {
-				currentFile.changePathToFile(this.getOutputPath());
-				currentFile.save();
-				currentFile.unloadContent();
+				this.saveFile(currentFile);
 			}
 		}
 	}
@@ -253,5 +254,24 @@ class RPGProject {
 		// todo implement create the project file and check if all is on the right spot and decrypted
 
 		return false;
+	}
+
+	private String projectPathToOutputPath(String path) {
+		return this.getOutputPath() + path.substring(this.getPath().length());
+	}
+
+	private void saveFile(File file) {
+		String newPath = this.projectPathToOutputPath(file.getFileDirectoryPath());
+
+		// Check if dir exists if not create it
+		if(File.existsDir(newPath, true)) {
+			file.changePathToFile(newPath);
+			App.showMessage("Save File to: " + file.getFilePath());
+			file.save();
+		} else
+			App.showMessage("Can't create Directory for File: " + newPath + file.getFullFileName());
+
+		// Clean up Memory
+		file.unloadContent();
 	}
 }
