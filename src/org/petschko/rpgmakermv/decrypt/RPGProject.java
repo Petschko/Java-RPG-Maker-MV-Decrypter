@@ -225,6 +225,12 @@ class RPGProject {
 			this.setSystem(system);
 	}
 
+	/**
+	 * Decrypts all Encrypted Files of the Project
+	 *
+	 * @param ignoreFakeHeader - On true Ignore Header of the Encrypted files else check it too
+	 * @throws JSONException - Key not Found Exception
+	 */
 	void decryptFiles(boolean ignoreFakeHeader) throws JSONException {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
@@ -250,16 +256,32 @@ class RPGProject {
 		}
 	}
 
+	/**
+	 * todo implement
+	 *
+	 * @return - todo
+	 */
 	boolean restoreProjectFile() {
 		// todo implement create the project file and check if all is on the right spot and decrypted
 
 		return false;
 	}
 
+	/**
+	 * Changes the given (Project)Path of the File to output path of the File
+	 *
+	 * @param path - Path to Change
+	 * @return - New Output Path
+	 */
 	private String projectPathToOutputPath(String path) {
 		return this.getOutputPath() + path.substring(this.getPath().length());
 	}
 
+	/**
+	 * Saves a File
+	 *
+	 * @param file - File to save to the Output Directory
+	 */
 	private void saveFile(File file) {
 		String newPath = this.projectPathToOutputPath(file.getFileDirectoryPath());
 
