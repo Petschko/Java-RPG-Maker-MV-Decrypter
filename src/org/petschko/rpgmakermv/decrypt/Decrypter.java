@@ -29,7 +29,7 @@ class Decrypter {
 	/**
 	 * Creates a new Decrypter instance
 	 */
-	public Decrypter() {
+	Decrypter() {
 	}
 
 	/**
@@ -37,7 +37,7 @@ class Decrypter {
 	 *
 	 * @param decryptCode - Decryption-Code
 	 */
-	public Decrypter(@NotNull String decryptCode) {
+	Decrypter(@NotNull String decryptCode) {
 		this.setDecryptCode(decryptCode);
 	}
 
@@ -46,7 +46,7 @@ class Decrypter {
 	 *
 	 * @return DecryptCode or null if not set
 	 */
-	public String getDecryptCode() {
+	String getDecryptCode() {
 		return decryptCode;
 	}
 
@@ -55,7 +55,7 @@ class Decrypter {
 	 *
 	 * @param decryptCode - Decrypt-Code
 	 */
-	public void setDecryptCode(@NotNull String decryptCode) {
+	void setDecryptCode(@NotNull String decryptCode) {
 		this.decryptCode = decryptCode;
 	}
 
@@ -85,7 +85,7 @@ class Decrypter {
 	 *
 	 * @return - File-Header Length in Bytes
 	 */
-	public int getHeaderLen() {
+	int getHeaderLen() {
 		return headerLen;
 	}
 
@@ -94,7 +94,7 @@ class Decrypter {
 	 *
 	 * @param headerLen - File-Header Length in Bytes
 	 */
-	public void setHeaderLen(@NotNull int headerLen) {
+	void setHeaderLen(@NotNull int headerLen) {
 		this.headerLen = headerLen;
 	}
 
@@ -103,7 +103,7 @@ class Decrypter {
 	 *
 	 * @return - Signature
 	 */
-	public String getSignature() {
+	String getSignature() {
 		return signature;
 	}
 
@@ -112,7 +112,7 @@ class Decrypter {
 	 *
 	 * @param signature - Signature
 	 */
-	public void setSignature(@NotNull String signature) {
+	void setSignature(@NotNull String signature) {
 		this.signature = signature;
 	}
 
@@ -121,7 +121,7 @@ class Decrypter {
 	 *
 	 * @return - Version
 	 */
-	public String getVersion() {
+	String getVersion() {
 		return version;
 	}
 
@@ -130,7 +130,7 @@ class Decrypter {
 	 *
 	 * @param version - Version
 	 */
-	public void setVersion(@NotNull String version) {
+	void setVersion(@NotNull String version) {
 		this.version = version;
 	}
 
@@ -139,7 +139,7 @@ class Decrypter {
 	 *
 	 * @return - Remain
 	 */
-	public String getRemain() {
+	String getRemain() {
 		return remain;
 	}
 
@@ -148,7 +148,7 @@ class Decrypter {
 	 *
 	 * @param remain - Remain
 	 */
-	public void setRemain(@NotNull String remain) {
+	void setRemain(@NotNull String remain) {
 		this.remain = remain;
 	}
 
@@ -157,7 +157,7 @@ class Decrypter {
 	 *
 	 * @return - true if Fake-Header should be ignored else false
 	 */
-	public boolean isIgnoreFakeHeader() {
+	boolean isIgnoreFakeHeader() {
 		return ignoreFakeHeader;
 	}
 
@@ -166,7 +166,7 @@ class Decrypter {
 	 *
 	 * @param ignoreFakeHeader - true if Fake-Header can be ignored else false
 	 */
-	public void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
+	void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
 		this.ignoreFakeHeader = ignoreFakeHeader;
 	}
 
@@ -197,7 +197,7 @@ class Decrypter {
 	 * @param file - Encrypted File
 	 * @throws Exception - Various Exceptions
 	 */
-	public void decryptFile(File file) throws Exception {
+	void decryptFile(File file) throws Exception {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -259,7 +259,7 @@ class Decrypter {
 	 * @param keyName - Key-Name of the Decryption-Key
 	 * @throws JSONException - Key not Found Exception
 	 */
-	public void detectEncryptionKey(File file, String keyName) throws JSONException {
+	void detectEncryptionKey(File file, String keyName) throws JSONException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");

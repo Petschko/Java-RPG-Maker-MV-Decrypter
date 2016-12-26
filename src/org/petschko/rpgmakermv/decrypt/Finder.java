@@ -29,7 +29,7 @@ class Finder {
 	 * @param projectDir - Directory of the Project
 	 * @return - System-File-Object if found else null
 	 */
-	public static File findSystemFile(@Nullable String projectDir) {
+	static File findSystemFile(@Nullable String projectDir) {
 		String[] filePaths = new String[]{
 				"data" + Const.ds + "System.json",
 				"www" + Const.ds + "data" + Const.ds + "System.json"
@@ -59,7 +59,7 @@ class Finder {
 	 * @param extension - File-Extension to check
 	 * @return - true if the Extension is an encrypted File-extension else false
 	 */
-	public static boolean isFileEncryptedExt(@Nullable String extension) {
+	static boolean isFileEncryptedExt(@Nullable String extension) {
 		if(extension == null)
 			extension = "";
 
@@ -79,7 +79,7 @@ class Finder {
 	 * @param systemFile - System.json File
 	 * @return - Key-Name or null if not found
 	 */
-	public static String testEncryptionKeyNames(File systemFile) {
+	static String testEncryptionKeyNames(File systemFile) {
 		String[] keyNames = new String[]{"encryptionKey"};
 		Decrypter d = new Decrypter();
 		String result = null;

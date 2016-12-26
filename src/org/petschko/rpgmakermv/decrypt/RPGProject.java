@@ -35,7 +35,7 @@ class RPGProject {
 	 * @param path - Path to the RPG-Maker-Project
 	 * @throws PathException - Path doesn't exists exception
 	 */
-	public RPGProject(@NotNull String path) throws PathException {
+	RPGProject(@NotNull String path) throws PathException {
 		if(Files.notExists(Paths.get(path)))
 			throw new PathException("Project-Path doesn't exists!");
 
@@ -53,7 +53,7 @@ class RPGProject {
 	 *
 	 * @return - Path of the Project
 	 */
-	public String getPath() {
+	String getPath() {
 		return path;
 	}
 
@@ -71,7 +71,7 @@ class RPGProject {
 	 *
 	 * @return - Output (Save-Dir)-Path of Project
 	 */
-	public String getOutputPath() {
+	String getOutputPath() {
 		return outputPath;
 	}
 
@@ -80,7 +80,7 @@ class RPGProject {
 	 *
 	 * @param outputPath - Output (Save-Dir)-Path of the Project
 	 */
-	public void setOutputPath(@NotNull String outputPath) {
+	void setOutputPath(@NotNull String outputPath) {
 		this.outputPath = File.ensureDSonEndOfPath(outputPath);
 	}
 
@@ -89,7 +89,7 @@ class RPGProject {
 	 *
 	 * @return - System-File or null if not set
 	 */
-	public File getSystem() {
+	File getSystem() {
 		return system;
 	}
 
@@ -98,7 +98,7 @@ class RPGProject {
 	 *
 	 * @param system - System-File
 	 */
-	public void setSystem(@NotNull File system) {
+	void setSystem(@NotNull File system) {
 		this.system = system;
 	}
 
@@ -107,7 +107,7 @@ class RPGProject {
 	 *
 	 * @return - EncryptionKeyName
 	 */
-	public String getEncryptionKeyName() {
+	String getEncryptionKeyName() {
 		return encryptionKeyName;
 	}
 
@@ -116,14 +116,14 @@ class RPGProject {
 	 *
 	 * @param encryptionKeyName - EncryptionKeyName
 	 */
-	public void setEncryptionKeyName(String encryptionKeyName) {
+	void setEncryptionKeyName(String encryptionKeyName) {
 		this.encryptionKeyName = encryptionKeyName;
 	}
 
 	/**
 	 * Set the EncryptionKeyName to the Default-Value
 	 */
-	public void setEncryptionKeyNameToDefault() {
+	void setEncryptionKeyNameToDefault() {
 		this.setEncryptionKeyName("encryptionKey");
 	}
 
@@ -132,7 +132,7 @@ class RPGProject {
 	 *
 	 * @return - true if Project is encrypted else false
 	 */
-	public boolean isEncrypted() {
+	boolean isEncrypted() {
 		return isEncrypted;
 	}
 
@@ -150,7 +150,7 @@ class RPGProject {
 	 *
 	 * @return - File List
 	 */
-	public ArrayList<File> getFiles() {
+	ArrayList<File> getFiles() {
 		return files;
 	}
 
@@ -159,7 +159,7 @@ class RPGProject {
 	 *
 	 * @return - Encryption-File List
 	 */
-	public ArrayList<File> getEncryptedFiles() {
+	ArrayList<File> getEncryptedFiles() {
 		return encryptedFiles;
 	}
 
@@ -227,7 +227,7 @@ class RPGProject {
 			this.setSystem(system);
 	}
 
-	public void decryptFiles(boolean ignoreFakeHeader) throws JSONException {
+	void decryptFiles(boolean ignoreFakeHeader) throws JSONException {
 		// todo implement decryption through encrypted files array and save them to the output location
 		Decrypter decrypter = new Decrypter();
 
@@ -249,7 +249,7 @@ class RPGProject {
 		}
 	}
 
-	public boolean restoreProjectFile() {
+	boolean restoreProjectFile() {
 		// todo implement create the project file and check if all is on the right spot and decrypted
 
 		return false;
