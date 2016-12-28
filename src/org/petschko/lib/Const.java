@@ -12,7 +12,14 @@ package org.petschko.lib;
  */
 public class Const {
 	public static final String creator = "Petschko";
+
+	// System Constance's
 	public static final String ds = System.getProperty("file.separator");
+	public static final int errorLevel_fatal = 4;
+	public static final int errorLevel_error = 3;
+	public static final int errorLevel_warning = 2;
+	public static final int errorLevel_notice = 1;
+	public static final int errorLevel_info = 0;
 
 	/**
 	 * Constructor
