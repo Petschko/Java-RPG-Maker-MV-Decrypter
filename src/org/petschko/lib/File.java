@@ -5,6 +5,7 @@ import com.sun.istack.internal.Nullable;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
@@ -382,13 +383,42 @@ public class File {
 	}
 
 	/**
-	 * Check if a File exists
+	 * Checks if a File exists
 	 *
 	 * @param filePath - Path of the File
 	 * @return - true if File exists else false
 	 */
 	public static boolean existsFile(@NotNull String filePath) {
-		// Call the same function like on check dir exists but never create "dirs"^^
-		return existsDir(filePath, false);
+		return existsFile(filePath, false);
+	}
+
+	/**
+	 * Checks if a File exists
+	 *
+	 * @param filePath - Path of the File
+	 * @param createMissing - true if the function should create missing Files
+	 * @return - true if the File exists (or was successfully created) else false
+	 */
+	public static boolean existsFile(@NotNull String filePath, boolean createMissing) {
+		java.io.File file = new java.io.File(filePath);
+
+		if(! file.exists()) {
+			if(createMissing) {
+				try {
+					// Create new File
+					new FileWriter(file).close();
+				} catch(IOException e) {
+					e.printStackTrace();
+
+					return false;
+				}
+
+				// Check if File exists now
+				return file.exists();
+			}
+
+			return false;
+		} else
+			return true;
 	}
 }
