@@ -30,10 +30,11 @@ public class App {
 			App.processArgs(args);
 
 		if(App.useGUI) {
+			// Use GUI
 			App.preferences = new Preferences(Config.preferencesFile);
-
 			App.gui = new GUI();
 		} else {
+			// Use Command-Line Version
 			try {
 				RPGProject rpgProject = new RPGProject(App.pathToProject);
 				rpgProject.setOutputPath(App.outputDir);
