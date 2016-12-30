@@ -344,7 +344,7 @@ public class File {
 	 * @param path - Unchecked Path-String
 	 * @return - Checked and may corrected Path-String
 	 */
-	public static String ensureDSonEndOfPath(String path) {
+	public static String ensureDSonEndOfPath(@NotNull String path) {
 		if(! path.substring(path.length() - 1).equals(Const.ds))
 			path = path + Const.ds;
 
@@ -357,7 +357,7 @@ public class File {
 	 * @param path - Path of the Directory
 	 * @return - true if Directory exists else false
 	 */
-	public static boolean existsDir(String path) {
+	public static boolean existsDir(@NotNull String path) {
 		return existsDir(path, false);
 	}
 
@@ -368,7 +368,7 @@ public class File {
 	 * @param createMissing - true if the function should create missing Directories
 	 * @return - true if the Directory exists (or was successfully created) else false
 	 */
-	public static boolean existsDir(String path, boolean createMissing) {
+	public static boolean existsDir(@NotNull String path, boolean createMissing) {
 		java.io.File dir = new java.io.File(path);
 
 		if(! dir.exists()) {
@@ -379,5 +379,16 @@ public class File {
 			return false;
 		} else
 			return true;
+	}
+
+	/**
+	 * Check if a File exists
+	 *
+	 * @param filePath - Path of the File
+	 * @return - true if File exists else false
+	 */
+	public static boolean existsFile(@NotNull String filePath) {
+		// Call the same function like on check dir exists but never create "dirs"^^
+		return existsDir(filePath, false);
 	}
 }
