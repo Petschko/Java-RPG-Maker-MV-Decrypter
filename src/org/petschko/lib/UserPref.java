@@ -40,7 +40,7 @@ public abstract class UserPref {
 	 *
 	 * @return - Properties Object
 	 */
-	protected Properties getProperties() {
+	private Properties getProperties() {
 		return properties;
 	}
 
@@ -49,7 +49,7 @@ public abstract class UserPref {
 	 *
 	 * @param properties - Properties Object
 	 */
-	private void setProperties(Properties properties) {
+	protected void setProperties(Properties properties) {
 		this.properties = properties;
 	}
 
