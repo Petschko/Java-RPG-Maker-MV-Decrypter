@@ -17,6 +17,7 @@ class Config {
 
 	// File-Path-Settings
 	static final String defaultOutputDir = "output";
+	static final String preferencesFile = "config.pref";
 
 	/**
 	 * Constructor

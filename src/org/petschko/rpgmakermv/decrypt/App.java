@@ -14,8 +14,10 @@ import org.petschko.lib.Const;
  */
 public class App {
 	private static Boolean useGUI = true;
+	private static GUI gui;
 	private static String pathToProject;
 	private static String outputDir;
+	static Preferences preferences;
 
 	/**
 	 * Main-Class
@@ -25,21 +27,22 @@ public class App {
 	public static void main(String[] args) {
 		// Check whats given from CMD
 		if(args.length > 0)
-			processArgs(args);
+			App.processArgs(args);
 
-		if(useGUI) {
-			// todo: load gui
-			System.out.print("VOID");
+		if(App.useGUI) {
+			App.preferences = new Preferences(Config.preferencesFile);
+
+			App.gui = new GUI();
 		} else {
 			try {
-				RPGProject rpgProject = new RPGProject(pathToProject);
-				rpgProject.setOutputPath(outputDir);
+				RPGProject rpgProject = new RPGProject(App.pathToProject);
+				rpgProject.setOutputPath(App.outputDir);
 				rpgProject.decryptFiles(false);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
 
-			exitCMD(0);
+			App.exitCMD(0);
 		}
 	}
 
@@ -50,29 +53,29 @@ public class App {
 	 */
 	private static void processArgs(String[] args) {
 		// Don't use GUI if using Command-Line
-		useGUI = false;
+		App.useGUI = false;
 
 		// Show Welcome-Message
 		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
 
 		// Check if help is needed
 		if(args[0].equals("help") || args[0].equals("/?") || args[0].equals("--help")) {
-			printHelp();
-			exitCMD(0);
+			App.printHelp();
+			App.exitCMD(0);
 		}
 
 		// Set Path to Project
-		pathToProject = args[0];
-		showMessage("Set Project-Dir to: \"" + pathToProject + "\"");
+		App.pathToProject = args[0];
+		App.showMessage("Set Project-Dir to: \"" + App.pathToProject + "\"");
 
 		// Set Output-Dir
 		try {
-			outputDir = args[1];
+			App.outputDir = args[1];
 		} catch(ArrayIndexOutOfBoundsException arEx) {
-			outputDir = Config.defaultOutputDir;
+			App.outputDir = Config.defaultOutputDir;
 		}
 
-		showMessage("Set Output-Dir to: \"" + outputDir + "\"");
+		App.showMessage("Set Output-Dir to: \"" + App.outputDir + "\"");
 	}
 
 	/**
@@ -98,7 +101,18 @@ public class App {
 	 * @param msg - Message to display
 	 */
 	static void showMessage(String msg) {
-		if(! useGUI)
+		if(! App.useGUI)
 			System.out.println(msg);
+	}
+
+	/**
+	 * Saves the settings, close the GUI and quit the Program
+	 */
+	static void closeGUI() {
+		if(! App.preferences.save())
+			App.gui.showError("Can't save Settings...", Const.errorLevel_error, false, null);
+
+		App.gui.dispose();
+		System.exit(0);
 	}
 }
