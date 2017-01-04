@@ -13,7 +13,7 @@ import java.util.Properties;
  * Update: -
  * Version: 0.0.1
  *
- * Notes: -
+ * Notes: Preferences Class
  */
 class Preferences extends UserPref {
 	static final String ignoreFakeHeader = "ignoreFakeHeader";

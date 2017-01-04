@@ -63,7 +63,7 @@ class Finder {
 		if(extension == null)
 			extension = "";
 
-		switch(extension) {
+		switch(extension.toLowerCase()) {
 			case "rpgmvp":
 			case "rpgmvm":
 			case "rpgmvo":
