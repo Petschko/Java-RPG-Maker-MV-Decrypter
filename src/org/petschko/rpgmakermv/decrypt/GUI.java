@@ -51,6 +51,9 @@ class GUI {
 		mainWindow.dispose();
 	}
 
+	/**
+	 * Creates and assign the MainFrame
+	 */
 	private void createMainWindow() {
 		this.mainWindow = new JFrame(Config.programName + " by " + Const.creator + " " + Config.version);
 
@@ -59,6 +62,9 @@ class GUI {
 		this.mainWindow.addWindowListener(GUI_ActionListener.closeButton());
 	}
 
+	/**
+	 * Creates and assign the Main-Menu
+	 */
 	private void createMainMenu() {
 		this.mainMenu = new GUI_Menu();
 		this.mainWindow.add(this.mainMenu, BorderLayout.NORTH);
@@ -81,7 +87,20 @@ class GUI {
 		this.mainMenu.enableOnRPGProject(false);
 
 		// Assign listener
+		// -- File
 		this.mainMenu.exit.addActionListener(GUI_ActionListener.closeMenu());
+		// -- Options
+		this.mainMenu.ignoreFakeHeader.addActionListener(GUI_ActionListener.switchSetting(Preferences.ignoreFakeHeader));
+		this.mainMenu.loadInvalidRPGDirs.addActionListener(GUI_ActionListener.switchSetting(Preferences.loadInvalidRPGDirs));
+		this.mainMenu.clearOutputDir.addActionListener(GUI_ActionListener.switchSetting(Preferences.clearOutputDirBeforeDecrypt));
+		this.mainMenu.clearOutputDir.addActionListener(
+			e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
+		);
+		this.mainMenu.overwriteExistingFiles.addActionListener(GUI_ActionListener.switchSetting(Preferences.overwriteFiles));
+		// -- Decrypt
+		// -- Tools
+		// -- Info
+		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.projectBugReportURL));
 	}
 
 	/**
