@@ -1,6 +1,12 @@
 package org.petschko.lib;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -25,5 +31,51 @@ public class Functions {
 		str = str.toLowerCase();
 
 		return str.equals("1") || str.equals("true");
+	}
+
+	/**
+	 * Opens a Website in the Browser
+	 *
+	 * @param uri - Target URI
+	 */
+	public static void openWebsite(URI uri) {
+		Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+
+		if(desktop == null)
+			return;
+
+		if(desktop.isSupported(Desktop.Action.BROWSE)) {
+			try {
+				desktop.browse(uri);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * Opens a Website in the Browser
+	 *
+	 * @param url - Target URL
+	 */
+	public static void openWebsite(URL url) {
+		try {
+			Functions.openWebsite(url.toURI());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Opens a Website in the Browser
+	 *
+	 * @param url - Target URI as String
+	 */
+	public static void openWebsite(@NotNull String url) {
+		try {
+			Functions.openWebsite(new URI(url));
+		} catch(URISyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 }
