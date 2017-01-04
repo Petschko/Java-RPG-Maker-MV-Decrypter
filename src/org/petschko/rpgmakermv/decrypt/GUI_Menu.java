@@ -164,5 +164,7 @@ class GUI_Menu extends JMenuBar {
 		this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
 		this.restoreProject.setEnabled(enable);
+		this.doClearOutputDir.setEnabled(enable);
+		this.tools.setEnabled(enable);
 	}
 }
