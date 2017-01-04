@@ -421,4 +421,82 @@ public class File {
 		} else
 			return true;
 	}
+
+	/**
+	 * Deletes/Clears a Directory
+	 *
+	 * @param directoryPath - Path to the Directory
+	 * @param recursive - Specify if it should delete recursively
+	 * @param deleteOwn - Specify if it should delete itself too or just clearing
+	 * @return - true on success else false
+	 */
+	private static boolean deleteDirectoryOperation(@NotNull String directoryPath, boolean recursive, boolean deleteOwn) {
+		java.io.File dir = new java.io.File(directoryPath);
+		java.io.File[] dirContent;
+
+		// Ensure that dir Exists
+		if(!File.existsDir(directoryPath))
+			return false;
+
+		dirContent = dir.listFiles();
+
+		// Empty Directory
+		if(dirContent == null)
+			return !deleteOwn || dir.delete();
+
+		for(java.io.File item : dirContent) {
+			if(item.isDirectory() && recursive) {
+				if(!File.deleteDirectory(item.getPath()))
+					return false;
+			} else {
+				if(!item.delete())
+					return false;
+			}
+		}
+
+		return !deleteOwn || dir.delete();
+
+	}
+
+	/**
+	 * Deletes a whole Directory recursively
+	 *
+	 * @param directoryPath - Path to the Directory
+	 * @return - true on success else false
+	 */
+	public static boolean deleteDirectory(@NotNull String directoryPath) {
+		return File.deleteDirectoryOperation(directoryPath, true, true);
+	}
+
+	/**
+	 * Deletes the Files in the current dir but not recursively
+	 *
+	 * @param directoryPath - Path to the Directory
+	 * @return - true on success else false
+	 */
+	public static boolean deleteFilesInDir(@NotNull String directoryPath) {
+		return File.deleteDirectoryOperation(directoryPath, false, false);
+	}
+
+	/**
+	 * Try to create a Directory on the given Position
+	 *
+	 * @param directoryPath - Path of the new Directory
+	 * @return - true if a Directory was created else false
+	 */
+	public static boolean createDirectory(@NotNull String directoryPath) {
+		java.io.File dir = new java.io.File(directoryPath);
+
+		return ! dir.exists() && dir.mkdirs();
+	}
+
+	/**
+	 * Empty (Clears) a Directory
+	 *
+	 * @param directoryPath - Path to the Directory
+	 * @return - true if Directory was cleared else false
+	 */
+	public static boolean clearDirectory(@NotNull String directoryPath) {
+		return File.deleteDirectoryOperation(directoryPath, true, false);
+	}
 }
