@@ -219,23 +219,9 @@ class Decrypter {
 		byte[] content = file.getContent();
 
 		// Check Header
-		if(! this.isIgnoreFakeHeader()) {
-			byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
-			byte[] refBytes = new byte[this.getHeaderLen()];
-			String refStr = this.getSignature() + this.getVersion() + this.getRemain();
-
-			// Generate reference bytes
-			for(int i = 0; i < this.getHeaderLen(); i++) {
-				int substrStart = i * 2;
-				refBytes[i] = (byte) Integer.parseInt(refStr.substring(substrStart, substrStart + 2), 16);
-			}
-
-			// Verify header (Check if its an encrypted file)
-			for(int i = 0; i < this.getHeaderLen(); i++) {
-				if(refBytes[i] != header[i])
-					throw new Exception("Header is invalid");
-			}
-		}
+		if(! this.isIgnoreFakeHeader())
+			if(! this.checkFakeHeader(content))
+				throw new Exception("Header is Invalid!");
 
 		// Remove Fake-Header from rest
 		content = Decrypter.getByteArray(content, this.getHeaderLen());
@@ -250,6 +236,32 @@ class Decrypter {
 		// Update File-Content
 		file.setContent(content);
 		file.changeExtension(Decrypter.realExtByFakeExt(file.getExtension()));
+	}
+
+	/**
+	 * Check if the Fake-Header is valid
+	 *
+	 * @param content - File-Content as Byte-Array
+	 * @return - true if the header is valid else false
+	 */
+	boolean checkFakeHeader(byte[] content) {
+		byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
+		byte[] refBytes = new byte[this.getHeaderLen()];
+		String refStr = this.getSignature() + this.getVersion() + this.getRemain();
+
+		// Generate reference bytes
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			int subStrStart = i * 2;
+			refBytes[i] = (byte) Integer.parseInt(refStr.substring(subStrStart, subStrStart + 2), 16);
+		}
+
+		// Verify header (Check if its an encrypted file)
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			if(refBytes[i] != header[i])
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
