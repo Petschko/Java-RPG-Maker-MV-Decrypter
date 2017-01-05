@@ -34,7 +34,7 @@ class RPGProject {
 	 * @throws PathException - Path doesn't exists exception
 	 */
 	RPGProject(@NotNull String path) throws PathException {
-		if(File.existsDir(path))
+		if(! File.existsDir(path))
 			throw new PathException("Project-Path doesn't exists!");
 
 		this.setPath(path);
