@@ -1,7 +1,6 @@
 # Petschko's RPG-Maker-MV File-Decrypter (Java-Version)
 
 ## What's that?
-
 This Project is used to decrypt RPG-Maker-MV-Resource-Files that are encrypted with the Build-In-Encryption of the RPG-Maker.
 
 This Project is also able to decrypt whole RPG-Directories. It's similar to [my previous Project](https://github.com/Petschko/RPG-Maker-MV-Decrypter) but more comfortable.
@@ -89,3 +88,8 @@ Please **don't steal, reuse or share stuff in Public**! That's not the idea of t
 You can save them for **Personal-Use only**. If the origin Licence allow use you can use them of course, but please follow the Licences!
 
 **If that's your Project** and you simply lost your Origin-Files, **you have the same rights**, to do stuff with them, **as before** =)
+
+## Contact
+- E-Mail me if you have questions (no bug reporting please): peter-91@hotmail.de
+  - You can also tell me you like it or not >.< Of course you can make improvement suggestions if you want
+- Please report Bugs here on github.com use the "[Issue](http://project_issue_url)"-Section on this Project
