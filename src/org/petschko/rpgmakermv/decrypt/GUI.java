@@ -84,10 +84,10 @@ class GUI {
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.clearOutputDirBeforeDecrypt, "true")))
 			this.mainMenu.clearOutputDir.setState(true);
 
-		if(! this.mainMenu.clearOutputDir.isSelected())
+		if(! this.mainMenu.clearOutputDir.isSelected()) {
 			if(Functions.strToBool(App.preferences.getConfig(Preferences.overwriteFiles, "false")))
 				this.mainMenu.overwriteExistingFiles.setState(true);
-		else
+		} else
 			this.mainMenu.overwriteExistingFiles.setEnabled(false);
 		this.mainMenu.enableOnRPGProject(false);
 	}
@@ -97,7 +97,7 @@ class GUI {
 	 */
 	private void createWindowGUI() {
 		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (File -> Open)");
-		filesListText.setRows(2);
+		filesListText.setColumns(20);
 
 		/*JScrollPane scrollPane = new JScrollPane(
 				this.fileList,
@@ -111,7 +111,7 @@ class GUI {
 		this.windowPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Assign to the main comps
-		this.projectFilesPanel.add(filesListText, BorderLayout.CENTER);
+		this.projectFilesPanel.add(filesListText, BorderLayout.NORTH);
 		this.mainWindow.add(this.windowPanel, BorderLayout.CENTER);
 		this.windowPanel.add(projectFilesPanel);
 		this.windowPanel.add(this.fileInfo);
