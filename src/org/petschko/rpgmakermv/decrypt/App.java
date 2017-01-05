@@ -1,6 +1,8 @@
 package org.petschko.rpgmakermv.decrypt;
 
 import org.petschko.lib.Const;
+import org.petschko.lib.gui.notification.ErrorWindow;
+import org.petschko.lib.gui.notification.InfoWindow;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -110,8 +112,10 @@ public class App {
 	 * Saves the settings, close the GUI and quit the Program
 	 */
 	static void closeGUI() {
-		if(! App.preferences.save())
-			App.gui.showError("Can't save Settings...", Const.errorLevel_error, false, null);
+		if(! App.preferences.save()) {
+			ErrorWindow errorWindow = new ErrorWindow("Can't save Settings...", ErrorWindow.ERROR_LEVEL_ERROR, false);
+			errorWindow.show();
+		}
 
 		App.gui.dispose();
 		System.exit(0);

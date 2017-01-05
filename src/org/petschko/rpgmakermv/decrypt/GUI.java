@@ -4,10 +4,14 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.Functions;
+import org.petschko.lib.gui.JLabelWrap;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -24,7 +28,12 @@ import java.io.StringWriter;
 class GUI {
 	private JFrame mainWindow;
 	private GUI_Menu mainMenu;
+	private JPanel windowPanel = new JPanel(new GridLayout(1, 2));
+	private JPanel projectFilesPanel = new JPanel();
+	private JPanel fileList = new JPanel();
+	private GUI_FileInfo fileInfo = new GUI_FileInfo();
 	private RPGProject rpgProject;
+	private String decryptKey = "";
 
 	/**
 	 * GUI Constructor
@@ -33,6 +42,7 @@ class GUI {
 		// Create and Setup components
 		this.createMainWindow();
 		this.createMainMenu();
+		this.createWindowGUI();
 
 		// Center Window and Display it
 		this.mainWindow.setLocationRelativeTo(null);
@@ -40,8 +50,8 @@ class GUI {
 		this.mainWindow.pack();
 
 		// Assign Listener
+		this.assignMainMenuListener();
 		// todo implement
-
 	}
 
 	/**
@@ -85,8 +95,37 @@ class GUI {
 		else
 			this.mainMenu.overwriteExistingFiles.setEnabled(false);
 		this.mainMenu.enableOnRPGProject(false);
+	}
 
-		// Assign listener
+	/**
+	 * Creates all Components for the Window
+	 */
+	private void createWindowGUI() {
+		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (File -> Open)");
+		filesListText.setRows(2);
+
+		/*JScrollPane scrollPane = new JScrollPane(
+				this.fileList,
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+		);*/
+
+		// Design stuff
+		this.projectFilesPanel.setLayout(new BorderLayout());
+		this.projectFilesPanel.setBorder(BorderFactory.createTitledBorder("Project-Files"));
+		this.windowPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+		// Assign to the main comps
+		this.projectFilesPanel.add(filesListText, BorderLayout.CENTER);
+		this.mainWindow.add(this.windowPanel, BorderLayout.CENTER);
+		this.windowPanel.add(projectFilesPanel);
+		this.windowPanel.add(this.fileInfo);
+	}
+
+	/**
+	 * Assigns ActionListener to the Main-Menu parts
+	 */
+	private void assignMainMenuListener() {
 		// -- File
 		this.mainMenu.exit.addActionListener(GUI_ActionListener.closeMenu());
 		// -- Options
@@ -94,69 +133,11 @@ class GUI {
 		this.mainMenu.loadInvalidRPGDirs.addActionListener(GUI_ActionListener.switchSetting(Preferences.loadInvalidRPGDirs));
 		this.mainMenu.clearOutputDir.addActionListener(GUI_ActionListener.switchSetting(Preferences.clearOutputDirBeforeDecrypt));
 		this.mainMenu.clearOutputDir.addActionListener(
-			e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
+				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
 		);
 		this.mainMenu.overwriteExistingFiles.addActionListener(GUI_ActionListener.switchSetting(Preferences.overwriteFiles));
 		// -- Decrypt
-		// -- Tools
 		// -- Info
 		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.projectBugReportURL));
-	}
-
-	/**
-	 * Shows an Error/Info Window and may Exit the Program
-	 *
-	 * @param message - Message to Display
-	 * @param errorLevel - Error-Level
-	 * @param stopProgram - true if Program should exit on this Error else false
-	 * @param e - Error-Exception
-	 */
-	void showError(@NotNull String message, int errorLevel, boolean stopProgram, @Nullable Exception e) {
-		String msg = message;
-		String title;
-		int type;
-
-		if(e != null) {
-			StringWriter stringWriter = new StringWriter();
-			e.printStackTrace(new PrintWriter(stringWriter));
-			msg = msg + " | Exception-Trace: " + stringWriter.toString();
-		}
-
-		switch(errorLevel) {
-			case Const.errorLevel_fatal:
-				title = "Fatal-Error";
-				type = JOptionPane.ERROR_MESSAGE;
-				break;
-			case Const.errorLevel_error:
-				title = "Error";
-				type = JOptionPane.ERROR_MESSAGE;
-				break;
-			case Const.errorLevel_warning:
-				title = "Warning";
-				type = JOptionPane.WARNING_MESSAGE;
-				break;
-			case Const.errorLevel_notice:
-				title = "Notice";
-				type = JOptionPane.INFORMATION_MESSAGE;
-				break;
-			case Const.errorLevel_info:
-			default:
-				title = "Info";
-				type = JOptionPane.INFORMATION_MESSAGE;
-		}
-
-		JOptionPane.showConfirmDialog(null, msg, title, JOptionPane.DEFAULT_OPTION, type);
-
-		if(stopProgram)
-			System.exit(type);
-	}
-
-	/**
-	 * Shows an Info-Window
-	 *
-	 * @param message - Info-Message
-	 */
-	void showInfo(@NotNull String message) {
-		this.showError(message, Const.errorLevel_info, false, null);
 	}
 }
