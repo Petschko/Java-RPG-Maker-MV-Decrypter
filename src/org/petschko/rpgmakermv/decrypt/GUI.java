@@ -1,19 +1,14 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.JLabelWrap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]

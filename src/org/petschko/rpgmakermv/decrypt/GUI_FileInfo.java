@@ -4,7 +4,6 @@ import org.petschko.lib.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 /**

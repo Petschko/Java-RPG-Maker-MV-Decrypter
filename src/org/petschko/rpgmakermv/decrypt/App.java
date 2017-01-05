@@ -2,7 +2,6 @@ package org.petschko.rpgmakermv.decrypt;
 
 import org.petschko.lib.Const;
 import org.petschko.lib.gui.notification.ErrorWindow;
-import org.petschko.lib.gui.notification.InfoWindow;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
