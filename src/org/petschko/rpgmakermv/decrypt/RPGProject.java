@@ -31,13 +31,20 @@ class RPGProject {
 	 * RPGProject Constructor
 	 *
 	 * @param path - Path to the RPG-Maker-Project
+	 * @param verifyRPGDir - true if the RPG-Maker-Directory should verified
 	 * @throws PathException - Path doesn't exists exception
 	 */
-	RPGProject(@NotNull String path) throws PathException {
+	RPGProject(@NotNull String path, boolean verifyRPGDir) throws PathException {
 		if(! File.existsDir(path))
 			throw new PathException("Project-Path doesn't exists!");
 
 		this.setPath(path);
+
+		// Check if Path is a Valid-RPG-Maker-Dir
+		if(verifyRPGDir)
+			if(! this.verifyDir())
+				throw new PathException("Directory is not a Valid RPG-Maker-MV Directory");
+
 		this.loadFiles();
 		this.findSystemFile();
 		this.checkIfEncrypted();
@@ -295,5 +302,16 @@ class RPGProject {
 
 		// Clean up Memory
 		file.unloadContent();
+	}
+
+	/**
+	 * Verify if the Directory IS a RPG-Directory
+	 *
+	 * @return - true if the Directory is a RPG-Maker-Project else false
+	 */
+	private boolean verifyDir() {
+		//todo implement
+
+		return true;
 	}
 }

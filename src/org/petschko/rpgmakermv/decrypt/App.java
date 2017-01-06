@@ -16,8 +16,8 @@ import org.petschko.lib.gui.notification.ErrorWindow;
 public class App {
 	private static Boolean useGUI = true;
 	private static GUI gui;
-	private static String pathToProject;
-	private static String outputDir;
+	static String pathToProject;
+	static String outputDir;
 	static Preferences preferences;
 
 	/**
@@ -37,7 +37,7 @@ public class App {
 		} else {
 			// Use Command-Line Version
 			try {
-				RPGProject rpgProject = new RPGProject(App.pathToProject);
+				RPGProject rpgProject = new RPGProject(App.pathToProject, false);
 				rpgProject.setOutputPath(App.outputDir);
 				rpgProject.decryptFiles(false);
 			} catch(Exception e) {
