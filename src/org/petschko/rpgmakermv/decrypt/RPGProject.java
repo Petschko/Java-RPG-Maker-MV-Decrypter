@@ -14,8 +14,6 @@ import java.util.ArrayList;
  * Update: -
  * Version: 0.1.0
  *
- * todo check if its a real rpg maker dir not more above
- *
  * Notes: RPG-Project-Class
  */
 class RPGProject {
@@ -32,7 +30,7 @@ class RPGProject {
 	 *
 	 * @param path - Path to the RPG-Maker-Project
 	 * @param verifyRPGDir - true if the RPG-Maker-Directory should verified
-	 * @throws PathException - Path doesn't exists exception
+	 * @throws PathException - Path doesn't exists/Not Valid-Dir exception
 	 */
 	RPGProject(@NotNull String path, boolean verifyRPGDir) throws PathException {
 		if(! File.existsDir(path))
@@ -43,7 +41,7 @@ class RPGProject {
 		// Check if Path is a Valid-RPG-Maker-Dir
 		if(verifyRPGDir)
 			if(! this.verifyDir())
-				throw new PathException("Directory is not a Valid RPG-Maker-MV Directory");
+				throw new PathException("Directory is not a Valid RPG-Maker-MV Directory!");
 
 		this.loadFiles();
 		this.findSystemFile();
