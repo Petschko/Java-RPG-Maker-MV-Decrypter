@@ -45,7 +45,9 @@ class RPGProject {
 
 		this.loadFiles();
 		this.findSystemFile();
-		this.checkIfEncrypted();
+
+		if(this.getSystem() != null)
+			this.checkIfEncrypted();
 
 		if(this.isEncrypted())
 			this.findEncryptedFiles();
