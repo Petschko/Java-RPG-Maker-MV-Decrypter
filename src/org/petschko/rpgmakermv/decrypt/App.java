@@ -33,6 +33,7 @@ public class App {
 		if(App.useGUI) {
 			// Use GUI
 			App.preferences = new Preferences(Config.preferencesFile);
+			App.outputDir = App.preferences.getConfig(Preferences.lastOutputDir);
 			App.gui = new GUI();
 		} else {
 			// Use Command-Line Version

@@ -20,6 +20,8 @@ class Preferences extends UserPref {
 	static final String loadInvalidRPGDirs = "loadInvalidRPGDirs";
 	static final String overwriteFiles = "overwriteFiles";
 	static final String clearOutputDirBeforeDecrypt = "clearOutputDirBeforeDecrypt";
+	static final String lastOutputDir = "lastOutputDir";
+	static final String lastRPGDir = "lastRPGDir";
 
 
 	/**
@@ -44,6 +46,8 @@ class Preferences extends UserPref {
 		p.setProperty(Preferences.overwriteFiles, "false");
 		p.setProperty(Preferences.loadInvalidRPGDirs, "false");
 		p.setProperty(Preferences.clearOutputDirBeforeDecrypt, "true");
+		p.setProperty(Preferences.lastOutputDir, Config.defaultOutputDir);
+		p.getProperty(Preferences.lastRPGDir, ".");
 
 		this.setProperties(p);
 
