@@ -155,6 +155,10 @@ public abstract class UserPref {
 		if(fallbackValue == null)
 			return this.getProperties().getProperty(configKey);
 
+		// Try to add the Property if not exists
+		if(this.getProperties().getProperty(configKey) == null)
+			this.setConfig(configKey, fallbackValue);
+
 		return this.getProperties().getProperty(configKey, fallbackValue);
 	}
 
