@@ -235,20 +235,18 @@ class RPGProject {
 	/**
 	 * Decrypts all Encrypted Files of the Project
 	 *
-	 * @param ignoreFakeHeader - On true Ignore Header of the Encrypted files else check it too
+	 * @param decrypter - Decrypter Object
 	 * @throws JSONException - Key not Found Exception
 	 */
-	void decryptFiles(boolean ignoreFakeHeader) throws JSONException {
+	void decryptFiles(Decrypter decrypter) throws JSONException {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
 			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!");
 			return;
 		}
 
-		Decrypter decrypter = new Decrypter();
-
-		decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
-		decrypter.setIgnoreFakeHeader(ignoreFakeHeader);
+		if(decrypter.getDecryptCode() == null)
+			decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
 
 		for(int i = 0; i < this.getEncryptedFiles().size(); i++) {
 			File currentFile = this.getEncryptedFiles().get(i);

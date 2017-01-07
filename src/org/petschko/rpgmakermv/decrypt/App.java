@@ -33,14 +33,17 @@ public class App {
 		if(App.useGUI) {
 			// Use GUI
 			App.preferences = new Preferences(Config.preferencesFile);
-			App.outputDir = App.preferences.getConfig(Preferences.lastOutputDir);
+			App.outputDir = App.preferences.getConfig(Preferences.lastOutputDir, Config.defaultOutputDir);
 			App.gui = new GUI();
 		} else {
 			// Use Command-Line Version
 			try {
 				RPGProject rpgProject = new RPGProject(App.pathToProject, false);
+				Decrypter decrypter = new Decrypter();
+
 				rpgProject.setOutputPath(App.outputDir);
-				rpgProject.decryptFiles(false);
+				decrypter.setIgnoreFakeHeader(true);
+				rpgProject.decryptFiles(decrypter);
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
