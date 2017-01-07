@@ -286,20 +286,30 @@ class RPGProject {
 	 * Saves a File
 	 *
 	 * @param file - File to save to the Output Directory
+	 * @param overwriteExisting - Overwrite existing Files
 	 */
-	private void saveFile(File file) {
+	void saveFile(File file, boolean overwriteExisting) {
 		String newPath = this.projectPathToOutputPath(file.getFileDirectoryPath());
 
 		// Check if dir exists if not create it
 		if(File.existsDir(newPath, true)) {
 			file.changePathToFile(newPath);
 			App.showMessage("Save File to: " + file.getFilePath());
-			file.save();
+			file.save(overwriteExisting);
 		} else
 			App.showMessage("Can't create Directory for File: " + newPath + file.getFullFileName());
 
 		// Clean up Memory
 		file.unloadContent();
+	}
+
+	/**
+	 * Saves a File but doesn't overwrite existing
+	 *
+	 * @param file - File to save to the Output Directory
+	 */
+	void saveFile(File file) {
+		saveFile(file, false);
 	}
 
 	/**
