@@ -18,6 +18,10 @@ import java.util.ArrayList;
  * Notes: Decrypter class
  */
 class Decrypter {
+	static final String defaultSignature = "5250474d56000000";
+	static final String defaultVersion = "000301";
+	static final String defaultRemain = "0000000000";
+	
 	private String decryptCode = null;
 	private String[] realDecryptCode = null;
 	private int headerLen = 16;
