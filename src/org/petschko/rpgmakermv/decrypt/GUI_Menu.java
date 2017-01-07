@@ -40,6 +40,7 @@ class GUI_Menu extends JMenuBar {
 	JMenuItem selectedFiles;
 	JMenuItem allFiles;
 	JMenuItem setEncryptionKey;
+	JMenuItem setEncryptionFile;
 	JMenuItem changeDecrypterSignature;
 
 	// Tool-Menu-Sub
@@ -61,6 +62,8 @@ class GUI_Menu extends JMenuBar {
 		this.constructToolsMenu();
 		this.constructInfoMenu();
 		this.addAllMenus();
+
+		this.disableUnimplemented();
 	}
 
 	/**
@@ -100,6 +103,7 @@ class GUI_Menu extends JMenuBar {
 		this.selectedFiles = new JMenuItem("Selected Files");
 		this.allFiles = new JMenuItem("All Files");
 		this.setEncryptionKey = new JMenuItem("Set Encryption-Key...");
+		this.setEncryptionFile = new JMenuItem("Select Encryption-File...");
 		this.changeDecrypterSignature = new JMenuItem("Change Decrypter Signature...");
 	}
 
@@ -149,6 +153,7 @@ class GUI_Menu extends JMenuBar {
 		this.decrypt.add(this.allFiles);
 		this.decrypt.addSeparator();
 		this.decrypt.add(this.setEncryptionKey);
+		this.decrypt.add(this.setEncryptionFile);
 		this.decrypt.add(this.changeDecrypterSignature);
 
 		this.add(this.tools);
@@ -169,9 +174,25 @@ class GUI_Menu extends JMenuBar {
 	 */
 	void enableOnRPGProject(boolean enable) {
 		this.openRPGDirExplorer.setEnabled(enable);
-		this.selectedFiles.setEnabled(enable);
+		//this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
-		this.setEncryptionKey.setEnabled(enable);
-		this.restoreProject.setEnabled(enable);
+		//this.setEncryptionKey.setEnabled(enable);
+		//this.setEncryptionFile.setEnabled(enable);
+		//this.restoreProject.setEnabled(enable);
+	}
+
+	/**
+	 * Disable currently unimplemented Menus
+	 */
+	private void disableUnimplemented() {
+		this.loadInvalidRPGDirs.setState(true);
+		this.loadInvalidRPGDirs.setEnabled(false);
+		this.selectedFiles.setEnabled(false);
+		this.setEncryptionKey.setEnabled(false);
+		this.setEncryptionFile.setEnabled(false);
+		this.changeDecrypterSignature.setEnabled(false);
+		this.restoreProject.setEnabled(false);
+		this.help.setEnabled(false);
+		this.about.setEnabled(false);
 	}
 }
