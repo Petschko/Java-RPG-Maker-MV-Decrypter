@@ -3,7 +3,9 @@ package org.petschko.lib;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
+import javax.swing.AbstractButton;
 import java.awt.Desktop;
+import java.awt.event.ActionListener;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -76,6 +78,14 @@ public class Functions {
 			Functions.openWebsite(new URI(url));
 		} catch(URISyntaxException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void buttonRemoveAllActionListeners(AbstractButton abstractButton) {
+		ActionListener[] actionListeners = abstractButton.getActionListeners();
+
+		for(ActionListener al : actionListeners) {
+			abstractButton.removeActionListener(al);
 		}
 	}
 }
