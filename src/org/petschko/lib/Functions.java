@@ -81,6 +81,11 @@ public class Functions {
 		}
 	}
 
+	/**
+	 * Removes all Action-Listeners from Buttons
+	 *
+	 * @param abstractButton - Button where to remove all ActionListeners
+	 */
 	public static void buttonRemoveAllActionListeners(AbstractButton abstractButton) {
 		ActionListener[] actionListeners = abstractButton.getActionListeners();
 
