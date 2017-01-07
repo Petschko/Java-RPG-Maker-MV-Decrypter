@@ -21,7 +21,11 @@ class Preferences extends UserPref {
 	static final String overwriteFiles = "overwriteFiles";
 	static final String clearOutputDirBeforeDecrypt = "clearOutputDirBeforeDecrypt";
 	static final String lastOutputDir = "lastOutputDir";
-	static final String lastRPGDir = "lastRPGDir";
+	static final String lastOutputParentDir = "lastOutputParentDir";
+	static final String lastRPGDir = "lastRPGParentDir";
+	static final String decrypterVersion = "decrypterVersion";
+	static final String decrypterRemain = "decrypterRemain";
+	static final String decrypterSignature = "decrypterSignature";
 
 
 	/**
@@ -47,7 +51,11 @@ class Preferences extends UserPref {
 		p.setProperty(Preferences.loadInvalidRPGDirs, "false");
 		p.setProperty(Preferences.clearOutputDirBeforeDecrypt, "true");
 		p.setProperty(Preferences.lastOutputDir, Config.defaultOutputDir);
-		p.getProperty(Preferences.lastRPGDir, ".");
+		p.setProperty(Preferences.lastOutputParentDir, ".");
+		p.setProperty(Preferences.lastRPGDir, ".");
+		p.setProperty(Preferences.decrypterVersion, Decrypter.defaultVersion);
+		p.setProperty(Preferences.decrypterRemain, Decrypter.defaultRemain);
+		p.setProperty(Preferences.decrypterSignature, Decrypter.defaultSignature);
 
 		this.setProperties(p);
 
