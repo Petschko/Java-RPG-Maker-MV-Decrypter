@@ -26,6 +26,8 @@ class GUI_Menu extends JMenuBar {
 	// File-Menu-Sub
 	JMenuItem open;
 	JMenuItem changeOutputDir;
+	JMenuItem openRPGDirExplorer;
+	JMenuItem openOutputDirExplorer;
 	JMenuItem exit;
 
 	// Options-Menu-Sub
@@ -70,6 +72,8 @@ class GUI_Menu extends JMenuBar {
 		// Sub-Items
 		this.open = new JMenuItem("Select RPG MV Project...");
 		this.changeOutputDir = new JMenuItem("Change Output-Directory...");
+		this.openRPGDirExplorer = new JMenuItem("Show RPG-Dir in Explorer");
+		this.openOutputDirExplorer = new JMenuItem("Show Output-Dir in Explorer");
 		this.exit = new JMenuItem("Exit");
 	}
 
@@ -128,6 +132,9 @@ class GUI_Menu extends JMenuBar {
 		this.file.add(this.open);
 		this.file.add(this.changeOutputDir);
 		this.file.addSeparator();
+		this.file.add(this.openRPGDirExplorer);
+		this.file.add(this.openOutputDirExplorer);
+		this.file.addSeparator();
 		this.file.add(this.exit);
 
 		this.add(this.options);
@@ -161,10 +168,10 @@ class GUI_Menu extends JMenuBar {
 	 * @param enable - enable or disable Menu-Items
 	 */
 	void enableOnRPGProject(boolean enable) {
+		this.openRPGDirExplorer.setEnabled(enable);
 		this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
+		this.setEncryptionKey.setEnabled(enable);
 		this.restoreProject.setEnabled(enable);
-		this.doClearOutputDir.setEnabled(enable);
-		this.tools.setEnabled(enable);
 	}
 }
