@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.notification.ErrorWindow;
-import org.petschko.lib.gui.notification.InfoWindow;
 
 import java.awt.Desktop;
 import java.awt.event.ActionListener;
@@ -89,20 +88,6 @@ class GUI_ActionListener {
 				);
 
 				errorWindow.show();
-			}
-		};
-	}
-	/**
-	 * Clear the given Directory
-	 *
-	 * @param outputDir - Directory to clear
-	 * @return - Clear-Directory ActionListener
-	 */
-	static ActionListener clearDir(String outputDir) {
-		return e -> {
-			if(File.clearDirectory(outputDir)) {
-				InfoWindow infoWindow = new InfoWindow("Output-Directory cleared!");
-				infoWindow.show();
 			}
 		};
 	}
