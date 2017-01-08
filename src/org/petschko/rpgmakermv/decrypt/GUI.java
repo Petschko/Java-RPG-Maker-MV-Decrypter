@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -148,6 +149,7 @@ class GUI {
 					if(! File.existsDir(openDir))
 						openDir = ".";
 
+					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
 					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
 					dirChooser.showDialog(this.mainWindow, null);
 
@@ -164,6 +166,7 @@ class GUI {
 					if(! File.existsDir(openDir))
 						openDir = ".";
 
+					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
 					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
 					dirChooser.showDialog(this.mainWindow, null);
 
