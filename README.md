@@ -10,7 +10,7 @@ This Project is also able to decrypt whole RPG-Directories. It's similar to [my 
 - Any OS (Linux, Windows, IOS etc)
 
 ## Installation
-- [Download this ZIP](http://todo/upload_as_ZIP) or Clone/Download the Project and make yourself a JAR-File
+- [Download this ZIP (!!Alpha!!)](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/download/v0.1-alpha/RPG_Maker_MV_Decrypter_jar.zip) or Clone/Download the Project and make yourself a JAR-File
 - Put it where ever you want (Don't forget to extract, if you downloaded the ZIP xP)
 
 ## How to use
@@ -92,4 +92,4 @@ You can save them for **Personal-Use only**. If the origin Licence allow use you
 ## Contact
 - E-Mail me if you have questions (no bug reporting please): peter-91@hotmail.de
   - You can also tell me you like it or not >.< Of course you can make improvement suggestions if you want
-- Please report Bugs here on github.com use the "[Issue](http://project_issue_url)"-Section on this Project
+- Please report Bugs here on github.com use the "[Issue](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues)"-Section on this Project
