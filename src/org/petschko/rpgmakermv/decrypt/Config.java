@@ -14,8 +14,8 @@ class Config {
 	// Program Info
 	static final String version = "v0.1 Alpha";
 	static final String programName = "RPG-Maker MV Decrypter";
-	static final String projectPageURL = "http://petschko.org";
-	static final String projectBugReportURL = "http://petschko.org/issues/";
+	static final String projectPageURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter";
+	static final String projectBugReportURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues";
 
 	// File-Path-Settings
 	static final String defaultOutputDir = "output";
