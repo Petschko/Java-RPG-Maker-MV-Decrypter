@@ -114,7 +114,7 @@ class GUI {
 	private void createWindowGUI() {
 		JPanel middleFileContainer = new JPanel(new GridLayout(1, 2));
 		JPanel footContainer = new JPanel(new GridLayout(1, 3));
-		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (File -> Open)");
+		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (\"File\" -> \"Select RPG MV Project\")");
 		filesListText.setColumns(20);
 
 		/*JScrollPane scrollPane = new JScrollPane(
@@ -151,11 +151,16 @@ class GUI {
 
 					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
 					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					dirChooser.showDialog(this.mainWindow, null);
+					int choose = dirChooser.showDialog(this.mainWindow, null);
 
-					if(dirChooser.getSelectedFile() != null) {
+					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastRPGDir, dirChooser.getCurrentDirectory().getPath());
-						this.openRPGProject(dirChooser.getSelectedFile().getPath());
+
+						if(this.openRPGProject(dirChooser.getSelectedFile().getPath())) {
+							InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
+									"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
+							infoWindow.show(this.mainWindow);
+						}
 					}
 				}
 		);
@@ -168,9 +173,9 @@ class GUI {
 
 					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
 					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					dirChooser.showDialog(this.mainWindow, null);
+					int choose = dirChooser.showDialog(this.mainWindow, null);
 
-					if(dirChooser.getSelectedFile() != null) {
+					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastOutputParentDir, dirChooser.getCurrentDirectory().getPath());
 						this.setNewOutputDir(dirChooser.getSelectedFile().getPath());
 					}
@@ -208,9 +213,9 @@ class GUI {
 	/**
 	 * Opens the RPG-MV-Project
 	 *
-	 * @param currentDirectory -
+	 * @param currentDirectory - Current RPG-Maker Directory
 	 */
-	private void openRPGProject(@NotNull String currentDirectory) {
+	private boolean openRPGProject(@NotNull String currentDirectory) {
 		try {
 			this.rpgProject = new RPGProject(
 					File.ensureDSonEndOfPath(currentDirectory),
@@ -220,18 +225,20 @@ class GUI {
 			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_WARNING, false);
 			errorWindow.show(this.mainWindow);
 
-			return;
+			return false;
 		} catch(Exception e) {
 			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
 			errorWindow.show(this.mainWindow);
 
-			return;
+			return false;
 		}
 
 		this.decrypter = new Decrypter();
 		this.rpgProject.setOutputPath(App.outputDir);
 		this.mainMenu.enableOnRPGProject(true);
 		this.assignRPGActionListener();
+
+		return true;
 	}
 
 	/**
