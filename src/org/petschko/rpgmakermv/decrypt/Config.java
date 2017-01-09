@@ -12,7 +12,7 @@ package org.petschko.rpgmakermv.decrypt;
  */
 class Config {
 	// Program Info
-	static final String version = "v0.1 Alpha";
+	static final String version = "v0.1.1 Alpha";
 	static final String programName = "RPG-Maker MV Decrypter";
 	static final String projectPageURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter";
 	static final String projectBugReportURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues";

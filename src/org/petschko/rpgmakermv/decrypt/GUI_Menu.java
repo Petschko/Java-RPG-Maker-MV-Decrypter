@@ -87,7 +87,7 @@ class GUI_Menu extends JMenuBar {
 		this.options = new JMenu("Options");
 
 		// Sub-Items
-		this.ignoreFakeHeader = new JCheckBoxMenuItem("Ignore Fake-Header");
+		this.ignoreFakeHeader = new JCheckBoxMenuItem("Ignore Fake-Header (Faster)");
 		this.loadInvalidRPGDirs = new JCheckBoxMenuItem("Load invalid RPG-MV-Dirs anyway");
 		this.clearOutputDir = new JCheckBoxMenuItem("Clear output Dir before Decrypt");
 		this.overwriteExistingFiles = new JCheckBoxMenuItem("Overwrite existing Files");

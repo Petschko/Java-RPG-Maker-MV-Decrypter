@@ -47,7 +47,7 @@ class Preferences extends UserPref {
 	public boolean loadDefaults() {
 		Properties p = new Properties();
 
-		p.setProperty(Preferences.ignoreFakeHeader, "false");
+		p.setProperty(Preferences.ignoreFakeHeader, "true");
 		p.setProperty(Preferences.overwriteFiles, "false");
 		p.setProperty(Preferences.loadInvalidRPGDirs, "false");
 		p.setProperty(Preferences.clearOutputDirBeforeDecrypt, "true");

@@ -91,7 +91,7 @@ class GUI {
 		this.mainWindow.add(this.mainMenu, BorderLayout.NORTH);
 
 		// Set Menu-Settings
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "false")))
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "true")))
 			this.mainMenu.ignoreFakeHeader.setState(true);
 
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false")))
@@ -289,7 +289,7 @@ class GUI {
 			// Setup Decrypter
 			this.progressMonitor.setNote("Configuring Decrypter...");
 			decrypter.setIgnoreFakeHeader(
-					Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "false"))
+					Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "true"))
 			);
 			decrypter.setRemain(App.preferences.getConfig(Preferences.decrypterRemain, Decrypter.defaultRemain));
 			decrypter.setSignature(App.preferences.getConfig(Preferences.decrypterSignature, Decrypter.defaultSignature));
