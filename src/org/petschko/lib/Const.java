@@ -16,6 +16,7 @@ public class Const {
 
 	// System Constance's
 	public static final String ds = System.getProperty("file.separator");
+	public static final String newLine = System.getProperty("line.separator");
 
 	/**
 	 * Constructor
