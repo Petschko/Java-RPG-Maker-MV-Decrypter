@@ -313,12 +313,23 @@ public class File {
 	}
 
 	/**
-	 * Reads all Files (Recursive) of a Directory to an Array
+	 * Reads all Files Recursive of a Directory to an Array
 	 *
 	 * @param dir - Directory to read
 	 * @return - File-Array
 	 */
 	public static ArrayList<java.io.File> readDirFiles(java.io.File dir) {
+		return readDirFiles(dir, true);
+	}
+
+	/**
+	 * Reads all Files (Recursive) of a Directory to an Array
+	 *
+	 * @param dir - Directory to read
+	 * @param recursive - Read Files in Sub-Directories
+	 * @return - File-Array
+	 */
+	public static ArrayList<java.io.File> readDirFiles(java.io.File dir, boolean recursive) {
 		java.io.File[] files = dir.listFiles();
 		ArrayList<java.io.File> fileList = new ArrayList<>();
 
@@ -327,11 +338,13 @@ public class File {
 
 		for(java.io.File file : files) {
 			if(file.isDirectory()) {
-				ArrayList<java.io.File> dirContent = readDirFiles(file);
+				if(recursive) {
+					ArrayList<java.io.File> dirContent = readDirFiles(file);
 
-				// Process Directory-Content
-				for(java.io.File aDirContent : dirContent)
-					fileList.add(aDirContent);
+					// Process Directory-Content
+					for(java.io.File aDirContent : dirContent)
+						fileList.add(aDirContent);
+				}
 			} else
 				fileList.add(file);
 		}
