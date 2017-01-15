@@ -24,7 +24,7 @@ import java.awt.event.WindowEvent;
  * Notes: GUI_About Class
  */
 public abstract class GUI_About extends JFrame {
-	protected JImagePanel imagePanel;
+	protected JImageLabel imagePanel;
 	protected Component parent;
 	protected JButton closeButton;
 
@@ -72,9 +72,9 @@ public abstract class GUI_About extends JFrame {
 	/**
 	 * Creates the About-Icon
 	 *
-	 * @return - JImagePanel or null if not set
+	 * @return - JImageLabel or null if not set
 	 */
-	protected abstract JImagePanel aboutIcon();
+	protected abstract JImageLabel aboutIcon();
 
 	/**
 	 * Window Close Operation

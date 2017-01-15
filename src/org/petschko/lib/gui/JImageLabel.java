@@ -17,9 +17,9 @@ import java.net.URL;
  * Update: -
  * Version: 0.0.1
  *
- * Notes: JImagePanel Class
+ * Notes: JImageLabel Class
  */
-public class JImagePanel extends JLabel {
+public class JImageLabel extends JLabel {
 	private BufferedImage image = null;
 
 	/**
@@ -28,7 +28,7 @@ public class JImagePanel extends JLabel {
 	 *
 	 * @param imagePath - Path of the Image
 	 */
-	public JImagePanel(@NotNull String imagePath) {
+	public JImageLabel(@NotNull String imagePath) {
 		this.setImage(imagePath, false);
 	}
 
@@ -38,7 +38,7 @@ public class JImagePanel extends JLabel {
 	 *
 	 * @param image - File Pointing to the Image
 	 */
-	public JImagePanel(java.io.File image) {
+	public JImageLabel(java.io.File image) {
 		this.setImage(image);
 	}
 
@@ -49,7 +49,7 @@ public class JImagePanel extends JLabel {
 	 * @param imagePath - Path or ClassPath to the Image
 	 * @param useURL - true if use class path else false
 	 */
-	public JImagePanel(@NotNull String imagePath, boolean useURL) {
+	public JImageLabel(@NotNull String imagePath, boolean useURL) {
 		this.setImage(imagePath, useURL);
 	}
 
