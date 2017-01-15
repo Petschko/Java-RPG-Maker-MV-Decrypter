@@ -5,6 +5,7 @@ import com.sun.istack.internal.Nullable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -23,7 +24,7 @@ import java.awt.event.WindowEvent;
  *
  * Notes: GUI_About Class
  */
-public abstract class GUI_About extends JFrame {
+public abstract class GUI_About extends JDialog {
 	protected JImageLabel imagePanel;
 	protected Component parent;
 	protected JButton closeButton;
@@ -44,8 +45,8 @@ public abstract class GUI_About extends JFrame {
 	 * @see Component#setVisible
 	 * @see JComponent#getDefaultLocale
 	 */
-	public GUI_About(@NotNull String title, @Nullable Component relativeTo) throws HeadlessException {
-		super(title);
+	public GUI_About(@NotNull String title, @Nullable JFrame relativeTo) throws HeadlessException {
+		super(relativeTo, title, JDialog.DEFAULT_MODALITY_TYPE);
 		this.parent = relativeTo;
 		this.imagePanel = this.aboutIcon();
 
