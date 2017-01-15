@@ -1,9 +1,12 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
+
+import java.util.ArrayList;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -98,5 +101,39 @@ class Finder {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Checks if there is a RPG-Maker file within the Directory
+	 *
+	 * @param dir - Path to the Directory
+	 * @return - true if a File was found else false
+	 */
+	static boolean verifyRPGDir(@NotNull String dir) {
+		ArrayList<java.io.File> mainDirFiles = File.readDirFiles(new java.io.File(dir), false);
+		String[] rpgGameCommonFiles = new String[] {
+				"Game.exe", // Mostly with an other name...
+				"Game.rpgproject", // Mostly not in the Directory
+				"d3dcompiler_47.dll",
+				"ffmpegsumo.dll",
+				"icudtl.dat",
+				"libEGL.dll",
+				"libGLESv2.dll",
+				"nw.pak",
+				"package.json",
+				"pdf.dll"
+		};
+
+		// Check if a File is in there
+		for(java.io.File currentFile : mainDirFiles) {
+			for(String rpgFile : rpgGameCommonFiles) {
+				if(rpgFile.equals(currentFile.getName()))
+					return true;
+				else if(rpgFile.toLowerCase().equals(currentFile.getName().toLowerCase()))
+					return true;
+			}
+		}
+
+		return false;
 	}
 }
