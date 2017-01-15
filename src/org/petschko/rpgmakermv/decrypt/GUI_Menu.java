@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
  * Date: 29.12.2016
  * Time: 17:07
  * Update: -
- * Version: 1.0.0
+ * Version: 1.0.2
  *
  * Notes: GUI_Menu Class
  */
@@ -191,6 +191,5 @@ class GUI_Menu extends JMenuBar {
 		this.changeDecrypterSignature.setEnabled(false);
 		this.restoreProject.setEnabled(false);
 		this.help.setEnabled(false);
-		this.about.setEnabled(false);
 	}
 }

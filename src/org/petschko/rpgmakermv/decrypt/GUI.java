@@ -5,8 +5,7 @@ import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
-import org.petschko.lib.gui.JDirectoryChooser;
-import org.petschko.lib.gui.JLabelWrap;
+import org.petschko.lib.gui.*;
 import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
 import sun.dc.path.PathException;
@@ -31,7 +30,7 @@ import java.util.ArrayList;
  * Date: 28.12.2016
  * Time: 19:14
  * Update: -
- * Version: 0.0.1
+ * Version: 0.1.0
  *
  * Notes: GUI Class
  */
@@ -41,6 +40,7 @@ class GUI {
 	private JPanel windowPanel = new JPanel(new BorderLayout());
 	private JPanel projectFilesPanel = new JPanel();
 	private JPanel fileList = new JPanel();
+	private GUI_About guiAbout;
 	private GUI_FileInfo fileInfo = new GUI_FileInfo();
 	private RPGProject rpgProject;
 	private Decrypter decrypter;
@@ -52,6 +52,7 @@ class GUI {
 		// Create and Setup components
 		this.createMainWindow();
 		this.createMainMenu();
+		this.guiAbout = new GUI_About("About " + Config.programName, this.mainWindow);
 		this.createWindowGUI();
 
 		// Center Window and Display it
@@ -69,7 +70,8 @@ class GUI {
 	 * Dispose the GUI
 	 */
 	void dispose() {
-		mainWindow.dispose();
+		this.guiAbout.dispose();
+		this.mainWindow.dispose();
 	}
 
 	/**
@@ -194,6 +196,9 @@ class GUI {
 		// -- Tools
 		// -- Info
 		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.projectBugReportURL));
+		this.mainMenu.about.addActionListener(
+				e -> this.guiAbout.showWindow()
+		);
 	}
 
 	/**
