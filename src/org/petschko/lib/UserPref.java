@@ -15,7 +15,7 @@ import java.util.Properties;
  * Date: 23.12.2016
  * Time: 04:44
  * Update: -
- * Version: 0.0.1
+ * Version: 0.1.0
  *
  * Notes: UserPref Class
  */
@@ -173,5 +173,27 @@ public abstract class UserPref {
 			this.load();
 
 		this.getProperties().setProperty(configKey, newValue);
+	}
+
+	/**
+	 * Switches a Boolean "String" value to the opposite Boolean "String" Value if the value is not a Boolean String it doesn't change anything
+	 *
+	 * @param configKey - Config Key of the Value to switch
+	 */
+	public void switchBoolConfig(@NotNull String configKey) {
+		String config = this.getConfig(configKey);
+
+		// Config doesn't exists
+		if(config == null)
+			config = "false";
+
+		config = config.toLowerCase();
+
+		// Only switch on boolean values
+		if(config.equals("true") || config.equals("false") || config.equals("1") || config.equals("0")) {
+			boolean newValue = ! Functions.strToBool(config);
+
+			this.setConfig(configKey, Boolean.toString(newValue));
+		}
 	}
 }

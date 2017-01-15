@@ -16,7 +16,7 @@ import java.awt.event.WindowEvent;
  * Date: 29.12.2016
  * Time: 17:59
  * Update: -
- * Version: 0.0.1
+ * Version: 0.0.2
  *
  * Notes: GUI_ActionListener Class
  */
@@ -52,9 +52,7 @@ class GUI_ActionListener {
 	 * @return - Switch-Setting ActionListener
 	 */
 	static ActionListener switchSetting(@NotNull String configName) {
-		boolean newValue = ! Functions.strToBool(App.preferences.getConfig(configName));
-
-		return e -> App.preferences.setConfig(configName, Boolean.toString(newValue));
+		return e -> App.preferences.switchBoolConfig(configName);
 	}
 
 	/**
