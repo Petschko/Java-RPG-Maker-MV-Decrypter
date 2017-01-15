@@ -318,8 +318,6 @@ class RPGProject {
 	 * @return - true if the Directory is a RPG-Maker-Project else false
 	 */
 	private boolean verifyDir() {
-		//todo implement
-
-		return true;
+		return Finder.verifyRPGDir(File.ensureDSonEndOfPath(this.getPath()));
 	}
 }

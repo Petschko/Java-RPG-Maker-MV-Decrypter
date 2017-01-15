@@ -184,7 +184,7 @@ class GUI {
 		this.mainMenu.exit.addActionListener(GUI_ActionListener.closeMenu());
 		// -- Options
 		this.mainMenu.ignoreFakeHeader.addActionListener(GUI_ActionListener.switchSetting(Preferences.ignoreFakeHeader));
-		//this.mainMenu.loadInvalidRPGDirs.addActionListener(GUI_ActionListener.switchSetting(Preferences.loadInvalidRPGDirs));
+		this.mainMenu.loadInvalidRPGDirs.addActionListener(GUI_ActionListener.switchSetting(Preferences.loadInvalidRPGDirs));
 		this.mainMenu.clearOutputDir.addActionListener(GUI_ActionListener.switchSetting(Preferences.clearOutputDirBeforeDecrypt));
 		this.mainMenu.clearOutputDir.addActionListener(
 				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
@@ -222,7 +222,13 @@ class GUI {
 					! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
 			);
 		} catch(PathException e) {
-			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_WARNING, false);
+			ErrorWindow errorWindow = new ErrorWindow(
+					e.getMessage() + Const.newLine +
+							"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
+							"Warning: Turning on the Option may cause incorrect results.",
+					ErrorWindow.ERROR_LEVEL_WARNING,
+					false
+			);
 			errorWindow.show(this.mainWindow);
 
 			return false;

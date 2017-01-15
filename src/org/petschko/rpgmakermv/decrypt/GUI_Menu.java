@@ -185,8 +185,6 @@ class GUI_Menu extends JMenuBar {
 	 * Disable currently unimplemented Menus
 	 */
 	private void disableUnimplemented() {
-		this.loadInvalidRPGDirs.setState(true);
-		this.loadInvalidRPGDirs.setEnabled(false);
 		this.selectedFiles.setEnabled(false);
 		this.setEncryptionKey.setEnabled(false);
 		this.setEncryptionFile.setEnabled(false);
