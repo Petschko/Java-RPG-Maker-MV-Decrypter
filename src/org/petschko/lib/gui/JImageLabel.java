@@ -1,6 +1,7 @@
 package org.petschko.lib.gui;
 
 import com.sun.istack.internal.NotNull;
+import org.petschko.lib.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -156,5 +157,25 @@ public class JImageLabel extends JLabel {
 	private void createImagePanel() {
 		if(this.image != null)
 			this.setIcon(new ImageIcon(this.image));
+	}
+
+	/**
+	 * Resize the Element
+	 *
+	 * @param width - New Width
+	 * @param height - New Height
+	 */
+	public void setImageSize(int width, int height) {
+		Image img = new Image(this.image);
+
+		try {
+			img.resize(width, height);
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		this.setImage(img.getBufferedImage());
 	}
 }

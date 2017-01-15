@@ -63,7 +63,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 
 		// Set Borders
 		borderFrame.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
+//todo add info and design
 		// Add stuff
 		logoPanel.add(this.imagePanel);
 		okButton.add(this.closeButton);
@@ -72,6 +72,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		borderFrame.add(okButton, BorderLayout.SOUTH);
 
 		this.add(borderFrame);
+		this.setResizable(false);
 		this.pack();
 	}
 
@@ -92,9 +93,9 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	 */
 	@Override
 	protected JImageLabel aboutIcon() {
-		JImageLabel imagePanel = new JImageLabel("/org/petschko/icons/petschko_icon.png", true);
+		JImageLabel imagePanel = new JImageLabel(Config.authorImage, true);
 
-		// todo resize
+		imagePanel.setImageSize(333, 250);
 
 		return imagePanel;
 	}
