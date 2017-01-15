@@ -261,7 +261,7 @@ class GUI {
 	/**
 	 * Class GUI_Decryption
 	 */
-	protected class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
+	private class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 		private ArrayList<File> files;
 		private ProgressMonitor progressMonitor;
 
@@ -409,7 +409,7 @@ class GUI {
 	/**
 	 * Class GUI_DirectoryClearing
 	 */
-	protected class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
+	private class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
 		private String directoryPath;
 		private JDialog jDialog;
 
