@@ -48,14 +48,13 @@ public abstract class GUI_About extends JFrame {
 		super(title);
 		this.parent = relativeTo;
 		this.imagePanel = this.aboutIcon();
-		this.setLocationRelativeTo(this.parent);
 
 		this.setVisible(false);
 		this.createCloseButton();
-		this.add(this.imagePanel);
 		this.constructAbout();
-		//this.add(this.closeButton);
 		this.windowCloseOperation();
+
+		this.setLocationRelativeTo(this.parent);
 	}
 
 	/**
