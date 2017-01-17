@@ -1,9 +1,11 @@
 package org.petschko.lib.gui;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Component;
+import java.awt.Dimension;
 
 /**
  * Author: Peter Dragicevic [peter-91@hotmail.de]
@@ -30,5 +32,14 @@ public class JPanelLine extends JPanel {
 	 */
 	public void addSpaceLabel() {
 		this.add(new JLabel(" "));
+	}
+
+	/**
+	 * Adds a Space-Dimension
+	 *
+	 * @param len - Length of the Dimension
+	 */
+	public void addSpaceDimension(int len) {
+		this.add(Box.createRigidArea(new Dimension(len, 0)));
 	}
 }
