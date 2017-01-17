@@ -5,6 +5,9 @@ This Project is used to decrypt RPG-Maker-MV-Resource-Files that are encrypted w
 
 This Project is also able to decrypt whole RPG-Directories. It's similar to [my previous Project](https://github.com/Petschko/RPG-Maker-MV-Decrypter) but more comfortable.
 
+### Which Files can be decrypted with this Program?
+You can decrypt the Build-In-Encrypted Files from the RPG Maker MV. They usually have the extension `.rpgmvp`, `.rpgmvm` or `.rpgmvo`
+
 ## Requirements
 - Java 8 or higher
 - Any OS (Linux, Windows, IOS etc)
@@ -88,9 +91,6 @@ Please **don't steal, reuse or share stuff in Public**! That's not the idea of t
 You can save them for **Personal-Use only**. If the origin Licence allow use you can use them of course, but please follow the Licences!
 
 **If that's your Project** and you simply lost your Origin-Files, **you have the same rights**, to do stuff with them, **as before** =)
-
-## Which Files can be decrypted with this Program?
-You can decrypt the Build-In-Encrypted Files from the RPG Maker MV. They usually have the extension `.rpgmvp`, `.rpgmvm` or `.rpgmvo`
 
 ## Contact
 - E-Mail me if you have questions (no bug reporting please): peter-91@hotmail.de
