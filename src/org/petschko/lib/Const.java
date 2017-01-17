@@ -12,7 +12,7 @@ package org.petschko.lib;
  */
 public class Const {
 	public static final String creator = "Petschko";
-	private static final String creatorURL = "http://petschko.org/";
+	public static final String creatorURL = "http://petschko.org/";
 
 	// System Constance's
 	public static final String ds = System.getProperty("file.separator");
