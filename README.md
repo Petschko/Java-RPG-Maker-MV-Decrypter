@@ -89,6 +89,9 @@ You can save them for **Personal-Use only**. If the origin Licence allow use you
 
 **If that's your Project** and you simply lost your Origin-Files, **you have the same rights**, to do stuff with them, **as before** =)
 
+## Which Files can be decrypted with this Program?
+You can decrypt the Build-In-Encrypted Files from the RPG Maker MV. They usually have the extension `.rpgmvp`, `.rpgmvm` or `.rpgmvo`
+
 ## Contact
 - E-Mail me if you have questions (no bug reporting please): peter-91@hotmail.de
   - You can also tell me you like it or not >.< Of course you can make improvement suggestions if you want
