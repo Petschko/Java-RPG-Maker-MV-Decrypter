@@ -2,14 +2,21 @@ package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
+import org.petschko.lib.Const;
 import org.petschko.lib.gui.JImageLabel;
+import org.petschko.lib.gui.JLabelExtra;
+import org.petschko.lib.gui.JPanelLine;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
@@ -49,6 +56,8 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	 */
 	@Override
 	protected void constructAbout() {
+		int lineSpace = 4;
+
 		// Initial Comps - Panels
 		JPanel borderFrame = new JPanel();
 		JPanel descriptionContainer = new JPanel();
@@ -56,19 +65,67 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		JPanel okButton = new JPanel();
 
 		// Initial Comps - Labels
+		JPanelLine versionLine = new JPanelLine();
+		JLabelExtra versionHeading = new JLabelExtra("Version:");
+		JLabel version = new JLabel(Config.version);
+
+		JPanelLine licenceLine = new JPanelLine();
+		JLabelExtra licenceHeading = new JLabelExtra("Licence:");
+		JLabelExtra licence = new JLabelExtra("MIT-Licence");
+		licence.setURL(Config.projectLicenceURL, true);
+
+		JPanelLine projectLine = new JPanelLine();
+		JLabelExtra projectHpHeading = new JLabelExtra("Project-HP:");
+		JLabelExtra projectHp = new JLabelExtra("Visit the Project-Page on Github");
+		projectHp.setURL(Config.projectPageURL, true);
+
+		JPanelLine creditLine = new JPanelLine();
+		JLabelExtra creditHeading = new JLabelExtra("Credits:");
+		JPanelLine creatorLine = new JPanelLine();
+		JLabel programmedBy = new JLabel(Const.creator + " (Programmer) - ");
+		JLabelExtra programmedByURL = new JLabelExtra("Website");
+		programmedByURL.setURL(Const.creatorURL, true);
 
 		// Set Layouts
 		borderFrame.setLayout(new BorderLayout());
-		descriptionContainer.setLayout(new BorderLayout());
+		descriptionContainer.setLayout(new BoxLayout(descriptionContainer, BoxLayout.Y_AXIS));
 
-		// Set Borders
+		// Style
+		versionHeading.setUnderline(true);
+		licenceHeading.setUnderline(true);
+		projectHpHeading.setUnderline(true);
+		creditHeading.setUnderline(true);
 		borderFrame.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-//todo add info and design
+		descriptionContainer.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+
 		// Add stuff
 		logoPanel.add(this.imagePanel);
 		okButton.add(this.closeButton);
 
+		versionLine.add(versionHeading);
+		versionLine.addSpaceDimension(10);
+		versionLine.add(version);
+		licenceLine.add(licenceHeading);
+		licenceLine.addSpaceDimension(10);
+		licenceLine.add(licence);
+		projectLine.add(projectHpHeading);
+		projectLine.addSpaceDimension(10);
+		projectLine.add(projectHp);
+		creditLine.add(creditHeading);
+		creatorLine.add(programmedBy);
+		creatorLine.add(programmedByURL);
+
+		descriptionContainer.add(versionLine);
+		descriptionContainer.add(Box.createRigidArea(new Dimension(0, lineSpace)));
+		descriptionContainer.add(licenceLine);
+		descriptionContainer.add(Box.createRigidArea(new Dimension(0, lineSpace)));
+		descriptionContainer.add(projectLine);
+		descriptionContainer.add(Box.createRigidArea(new Dimension(0, lineSpace)));
+		descriptionContainer.add(creditLine);
+		descriptionContainer.add(creatorLine);
+
 		borderFrame.add(logoPanel, BorderLayout.NORTH);
+		borderFrame.add(descriptionContainer, BorderLayout.CENTER);
 		borderFrame.add(okButton, BorderLayout.SOUTH);
 
 		this.add(borderFrame);
@@ -95,7 +152,8 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	protected JImageLabel aboutIcon() {
 		JImageLabel imagePanel = new JImageLabel(Config.authorImage, true);
 
-		imagePanel.setImageSize(333, 250);
+		// Ensure this size
+		imagePanel.setImageSize(200, 150);
 
 		return imagePanel;
 	}

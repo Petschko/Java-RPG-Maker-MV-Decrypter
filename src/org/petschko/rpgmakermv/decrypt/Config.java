@@ -16,6 +16,7 @@ class Config {
 	static final String programName = "RPG-Maker MV Decrypter";
 	static final String projectPageURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter";
 	static final String projectBugReportURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues";
+	static final String projectLicenceURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/blob/master/LICENCE";
 	static final String authorImage = "/org/petschko/icons/petschko_icon.png";
 
 	// File-Path-Settings
