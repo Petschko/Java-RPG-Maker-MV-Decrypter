@@ -221,35 +221,10 @@ class GUI {
 	 * @param currentDirectory - Current RPG-Maker Directory
 	 */
 	private boolean openRPGProject(@NotNull String currentDirectory) {
-		try {
-			this.rpgProject = new RPGProject(
-					File.ensureDSonEndOfPath(currentDirectory),
-					! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
-			);
-		} catch(PathException e) {
-			ErrorWindow errorWindow = new ErrorWindow(
-					e.getMessage() + Const.newLine +
-							"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
-							"Warning: Turning on the Option may cause incorrect results.",
-					ErrorWindow.ERROR_LEVEL_WARNING,
-					false
-			);
-			errorWindow.show(this.mainWindow);
+		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory);
+		openRPG.execute();
 
-			return false;
-		} catch(Exception e) {
-			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
-			errorWindow.show(this.mainWindow);
-
-			return false;
-		}
-
-		this.decrypter = new Decrypter();
-		this.rpgProject.setOutputPath(App.outputDir);
-		this.mainMenu.enableOnRPGProject(true);
-		this.assignRPGActionListener();
-
-		return true;
+		return ! openRPG.isCancelled();
 	}
 
 	/**
@@ -384,7 +359,6 @@ class GUI {
 		 */
 		@Override
 		protected void done() {
-			super.done();
 			this.progressMonitor.close();
 
 			// Reset Files/ActionListener
@@ -475,8 +449,6 @@ class GUI {
 		 */
 		@Override
 		protected void done() {
-			super.done();
-
 			this.jDialog.dispose();
 
 			// Reset this ActionListener
@@ -501,6 +473,85 @@ class GUI {
 			this.jDialog.setVisible(true);
 
 			this.execute();
+		}
+	}
+
+	/**
+	 * Class GUI_OpenRPGDir
+	 */
+	private class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
+		private String directoryPath;
+
+		/**
+		 * GUI_OpenRPGDir constructor
+		 *
+		 * @param directoryPath - Path of the Directory
+		 */
+		public GUI_OpenRPGDir(String directoryPath) {
+			this.directoryPath = directoryPath;
+		}
+
+		/**
+		 * Computes a result, or throws an exception if unable to do so.
+		 *
+		 * Note that this method is executed only once.
+		 *
+		 * Note: this method is executed in a background thread.
+		 *
+		 * @return the computed result
+		 *
+		 * @throws Exception if unable to compute a result
+		 */
+		@Override
+		protected Void doInBackground() throws Exception {
+			try {
+				rpgProject = new RPGProject(
+						File.ensureDSonEndOfPath(this.directoryPath),
+						! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
+				);
+			} catch(PathException e) {
+				ErrorWindow errorWindow = new ErrorWindow(
+						e.getMessage() + Const.newLine +
+								"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
+								"Warning: Turning on the Option may cause incorrect results.",
+						ErrorWindow.ERROR_LEVEL_WARNING,
+						false
+				);
+				errorWindow.show(mainWindow);
+
+				this.cancel(true);
+				return null;
+			} catch(Exception e) {
+				ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
+				errorWindow.show(mainWindow);
+
+				this.cancel(true);
+				return null;
+			}
+
+			return null;
+		}
+
+		/**
+		 * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
+		 * method is finished. The default
+		 * implementation does nothing. Subclasses may override this method to
+		 * perform completion actions on the <i>Event Dispatch Thread</i>. Note
+		 * that you can query status inside the implementation of this method to
+		 * determine the result of this task or whether this task has been cancelled.
+		 *
+		 * @see #doInBackground
+		 * @see #isCancelled()
+		 * @see #get
+		 */
+		@Override
+		protected void done() {
+			if(! this.isCancelled()) {
+				decrypter = new Decrypter();
+				rpgProject.setOutputPath(App.outputDir);
+				mainMenu.enableOnRPGProject(true);
+				assignRPGActionListener();
+			}
 		}
 	}
 }
