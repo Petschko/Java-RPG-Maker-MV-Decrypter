@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Date: 28.12.2016
  * Time: 19:14
  * Update: 03.02.2017
- * Version: 0.1.1
+ * Version: 0.1.2
  *
  * Notes: GUI Class
  */
@@ -159,7 +159,7 @@ class GUI {
 					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastRPGDir, dirChooser.getCurrentDirectory().getPath());
 
-						this.openRPGProject(dirChooser.getSelectedFile().getPath());
+						this.openRPGProject(dirChooser.getSelectedFile().getPath(), true);
 					}
 				}
 		);
@@ -216,9 +216,10 @@ class GUI {
 	 * Opens the RPG-MV-Project
 	 *
 	 * @param currentDirectory - Current RPG-Maker Directory
+	 * @param showInfoWindow - Show Info-Window if done
 	 */
-	private void openRPGProject(@NotNull String currentDirectory) {
-		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory);
+	private void openRPGProject(@NotNull String currentDirectory, boolean showInfoWindow) {
+		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory, showInfoWindow);
 		openRPG.execute();
 	}
 
@@ -387,7 +388,7 @@ class GUI {
 			this.progressMonitor.close();
 
 			// Reset Files/ActionListener
-			openRPGProject(rpgProject.getPath());
+			openRPGProject(rpgProject.getPath(), false);
 
 			if(this.isCancelled()) {
 				System.out.println("Cancelled...");
@@ -506,6 +507,7 @@ class GUI {
 	 */
 	private class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
 		private String directoryPath;
+		private boolean showInfoWindow;
 
 		/**
 		 * GUI_OpenRPGDir constructor
@@ -514,6 +516,18 @@ class GUI {
 		 */
 		GUI_OpenRPGDir(String directoryPath) {
 			this.directoryPath = directoryPath;
+			this.showInfoWindow = false;
+		}
+
+		/**
+		 * GUI_OpenRPGDir constructor
+		 *
+		 * @param directoryPath - Path of the Directory
+		 * @param showInfoWindow - Show success Window after the Action
+		 */
+		GUI_OpenRPGDir(String directoryPath, boolean showInfoWindow) {
+			this.directoryPath = directoryPath;
+			this.showInfoWindow = showInfoWindow;
 		}
 
 		/**
@@ -581,9 +595,11 @@ class GUI {
 				// todo (re)load file list
 
 				// Done
-				InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
-						"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
-				infoWindow.show(mainWindow);
+				if(this.showInfoWindow) {
+					InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
+							"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
+					infoWindow.show(mainWindow);
+				}
 			}
 		}
 	}
