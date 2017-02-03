@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 23.12.2016
  * Time: 11:19
- * Update: -
- * Version: 0.1.0
+ * Update: 03.02.2017
+ * Version: 0.1.1
  *
  * Notes: RPG-Project-Class
  */
@@ -194,6 +194,8 @@ class RPGProject {
 			d.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
 		} catch(JSONException e) {
 			this.setEncrypted(false);
+		} catch(Exception ex) {
+			// VOID
 		}
 
 		if(d.getDecryptCode() != null)
@@ -236,17 +238,22 @@ class RPGProject {
 	 * Decrypts all Encrypted Files of the Project
 	 *
 	 * @param decrypter - Decrypter Object
-	 * @throws JSONException - Key not Found Exception
+	 * @throws Exception - Key not Found Exception
 	 */
-	void decryptFiles(Decrypter decrypter) throws JSONException {
+	void decryptFiles(Decrypter decrypter) throws Exception {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
 			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!");
 			return;
 		}
 
-		if(decrypter.getDecryptCode() == null)
-			decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
+		if(decrypter.getDecryptCode() == null) {
+			try {
+				decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
+			} catch(Exception e) {
+				throw new Exception(e);
+			}
+		}
 
 		for(int i = 0; i < this.getEncryptedFiles().size(); i++) {
 			File currentFile = this.getEncryptedFiles().get(i);

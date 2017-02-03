@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 /**
@@ -29,8 +30,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 28.12.2016
  * Time: 19:14
- * Update: -
- * Version: 0.1.0
+ * Update: 03.02.2017
+ * Version: 0.1.1
  *
  * Notes: GUI Class
  */
@@ -158,11 +159,7 @@ class GUI {
 					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastRPGDir, dirChooser.getCurrentDirectory().getPath());
 
-						if(this.openRPGProject(dirChooser.getSelectedFile().getPath())) {
-							InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
-									"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
-							infoWindow.show(this.mainWindow);
-						}
+						this.openRPGProject(dirChooser.getSelectedFile().getPath());
 					}
 				}
 		);
@@ -220,11 +217,9 @@ class GUI {
 	 *
 	 * @param currentDirectory - Current RPG-Maker Directory
 	 */
-	private boolean openRPGProject(@NotNull String currentDirectory) {
+	private void openRPGProject(@NotNull String currentDirectory) {
 		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory);
 		openRPG.execute();
-
-		return ! openRPG.isCancelled();
 	}
 
 	/**
@@ -309,8 +304,38 @@ class GUI {
 				this.progressMonitor.setNote("Try to detect Encryption-Key...");
 				try {
 					decrypter.detectEncryptionKey(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
+				} catch(FileSystemException fileSysEx) {
+					// Can't load File
+					fileSysEx.printStackTrace();
+					ErrorWindow errorWindow = new ErrorWindow(
+							"Can't load/read Decryption-Key-File..." + Const.newLine +
+							"File: " + fileSysEx.getFile() + Const.newLine +
+							"See Console for more Details...",
+							ErrorWindow.ERROR_LEVEL_WARNING,
+							false
+					);
+
+					errorWindow.show(mainWindow);
+
+					this.cancel(true);
+					return null;
+				} catch(NullPointerException decryNullEx) {
+					// File-Null-Pointer
+					ErrorWindow errorWindow = new ErrorWindow(
+							"Can't find Decryption-Key-File!" + Const.newLine +
+									"Make sure that the File is in the RPG-Directory..." + Const.newLine +
+									"Or set the Key by yourself (Decrypter -> Set Encryption-Key)",
+							ErrorWindow.ERROR_LEVEL_WARNING,
+							false
+					);
+					errorWindow.show(mainWindow);
+
+					// Halt task
+					this.cancel(true);
+					return null;
 				} catch(JSONException e1) {
-					ErrorWindow errorWindow = new ErrorWindow("Can't find Decryption-Key", ErrorWindow.ERROR_LEVEL_WARNING, false);
+					// JSON-NotFound
+					ErrorWindow errorWindow = new ErrorWindow("Can't find Decryption-Key in File!", ErrorWindow.ERROR_LEVEL_WARNING, false);
 					errorWindow.show(mainWindow);
 
 					// Halt task
@@ -487,7 +512,7 @@ class GUI {
 		 *
 		 * @param directoryPath - Path of the Directory
 		 */
-		public GUI_OpenRPGDir(String directoryPath) {
+		GUI_OpenRPGDir(String directoryPath) {
 			this.directoryPath = directoryPath;
 		}
 
@@ -551,6 +576,14 @@ class GUI {
 				rpgProject.setOutputPath(App.outputDir);
 				mainMenu.enableOnRPGProject(true);
 				assignRPGActionListener();
+
+				// Refresh Project-Files
+				// todo (re)load file list
+
+				// Done
+				InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
+						"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
+				infoWindow.show(mainWindow);
 			}
 		}
 	}

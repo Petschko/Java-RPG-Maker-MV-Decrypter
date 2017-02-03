@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 21.12.2016
  * Time: 15:12
- * Update: -
- * Version: 0.1.1
+ * Update: 03.02.2017
+ * Version: 0.1.2
  *
  * Notes: Decrypter class
  */
@@ -275,11 +275,15 @@ class Decrypter {
 	 * @param file - JSON-File with Decryption-Key
 	 * @param keyName - Key-Name of the Decryption-Key
 	 * @throws JSONException - Key not Found Exception
+	 * @throws NullPointerException - System-File is null
+	 * @throws FileSystemException - Can't load File
 	 */
-	void detectEncryptionKey(File file, String keyName) throws JSONException {
+	void detectEncryptionKey(File file, String keyName) throws JSONException, NullPointerException, FileSystemException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
+		} catch(NullPointerException nullEx) {
+			throw new NullPointerException("System-File is not set!");
 		} catch(Exception e) {
 			e.printStackTrace();
 
