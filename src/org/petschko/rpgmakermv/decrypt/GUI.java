@@ -22,6 +22,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 /**
@@ -29,8 +30,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 28.12.2016
  * Time: 19:14
- * Update: -
- * Version: 0.1.0
+ * Update: 03.02.2017
+ * Version: 0.1.2
  *
  * Notes: GUI Class
  */
@@ -158,11 +159,7 @@ class GUI {
 					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastRPGDir, dirChooser.getCurrentDirectory().getPath());
 
-						if(this.openRPGProject(dirChooser.getSelectedFile().getPath())) {
-							InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
-									"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
-							infoWindow.show(this.mainWindow);
-						}
+						this.openRPGProject(dirChooser.getSelectedFile().getPath(), true);
 					}
 				}
 		);
@@ -219,37 +216,11 @@ class GUI {
 	 * Opens the RPG-MV-Project
 	 *
 	 * @param currentDirectory - Current RPG-Maker Directory
+	 * @param showInfoWindow - Show Info-Window if done
 	 */
-	private boolean openRPGProject(@NotNull String currentDirectory) {
-		try {
-			this.rpgProject = new RPGProject(
-					File.ensureDSonEndOfPath(currentDirectory),
-					! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
-			);
-		} catch(PathException e) {
-			ErrorWindow errorWindow = new ErrorWindow(
-					e.getMessage() + Const.newLine +
-							"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
-							"Warning: Turning on the Option may cause incorrect results.",
-					ErrorWindow.ERROR_LEVEL_WARNING,
-					false
-			);
-			errorWindow.show(this.mainWindow);
-
-			return false;
-		} catch(Exception e) {
-			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
-			errorWindow.show(this.mainWindow);
-
-			return false;
-		}
-
-		this.decrypter = new Decrypter();
-		this.rpgProject.setOutputPath(App.outputDir);
-		this.mainMenu.enableOnRPGProject(true);
-		this.assignRPGActionListener();
-
-		return true;
+	private void openRPGProject(@NotNull String currentDirectory, boolean showInfoWindow) {
+		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory, showInfoWindow);
+		openRPG.execute();
 	}
 
 	/**
@@ -334,8 +305,38 @@ class GUI {
 				this.progressMonitor.setNote("Try to detect Encryption-Key...");
 				try {
 					decrypter.detectEncryptionKey(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
+				} catch(FileSystemException fileSysEx) {
+					// Can't load File
+					fileSysEx.printStackTrace();
+					ErrorWindow errorWindow = new ErrorWindow(
+							"Can't load/read Decryption-Key-File..." + Const.newLine +
+							"File: " + fileSysEx.getFile() + Const.newLine +
+							"See Console for more Details...",
+							ErrorWindow.ERROR_LEVEL_WARNING,
+							false
+					);
+
+					errorWindow.show(mainWindow);
+
+					this.cancel(true);
+					return null;
+				} catch(NullPointerException decryNullEx) {
+					// File-Null-Pointer
+					ErrorWindow errorWindow = new ErrorWindow(
+							"Can't find Decryption-Key-File!" + Const.newLine +
+									"Make sure that the File is in the RPG-Directory..." + Const.newLine +
+									"Or set the Key by yourself (Decrypter -> Set Encryption-Key)",
+							ErrorWindow.ERROR_LEVEL_WARNING,
+							false
+					);
+					errorWindow.show(mainWindow);
+
+					// Halt task
+					this.cancel(true);
+					return null;
 				} catch(JSONException e1) {
-					ErrorWindow errorWindow = new ErrorWindow("Can't find Decryption-Key", ErrorWindow.ERROR_LEVEL_WARNING, false);
+					// JSON-NotFound
+					ErrorWindow errorWindow = new ErrorWindow("Can't find Decryption-Key in File!", ErrorWindow.ERROR_LEVEL_WARNING, false);
 					errorWindow.show(mainWindow);
 
 					// Halt task
@@ -384,11 +385,10 @@ class GUI {
 		 */
 		@Override
 		protected void done() {
-			super.done();
 			this.progressMonitor.close();
 
 			// Reset Files/ActionListener
-			openRPGProject(rpgProject.getPath());
+			openRPGProject(rpgProject.getPath(), false);
 
 			if(this.isCancelled()) {
 				System.out.println("Cancelled...");
@@ -475,8 +475,6 @@ class GUI {
 		 */
 		@Override
 		protected void done() {
-			super.done();
-
 			this.jDialog.dispose();
 
 			// Reset this ActionListener
@@ -501,6 +499,108 @@ class GUI {
 			this.jDialog.setVisible(true);
 
 			this.execute();
+		}
+	}
+
+	/**
+	 * Class GUI_OpenRPGDir
+	 */
+	private class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
+		private String directoryPath;
+		private boolean showInfoWindow;
+
+		/**
+		 * GUI_OpenRPGDir constructor
+		 *
+		 * @param directoryPath - Path of the Directory
+		 */
+		GUI_OpenRPGDir(String directoryPath) {
+			this.directoryPath = directoryPath;
+			this.showInfoWindow = false;
+		}
+
+		/**
+		 * GUI_OpenRPGDir constructor
+		 *
+		 * @param directoryPath - Path of the Directory
+		 * @param showInfoWindow - Show success Window after the Action
+		 */
+		GUI_OpenRPGDir(String directoryPath, boolean showInfoWindow) {
+			this.directoryPath = directoryPath;
+			this.showInfoWindow = showInfoWindow;
+		}
+
+		/**
+		 * Computes a result, or throws an exception if unable to do so.
+		 *
+		 * Note that this method is executed only once.
+		 *
+		 * Note: this method is executed in a background thread.
+		 *
+		 * @return the computed result
+		 *
+		 * @throws Exception if unable to compute a result
+		 */
+		@Override
+		protected Void doInBackground() throws Exception {
+			try {
+				rpgProject = new RPGProject(
+						File.ensureDSonEndOfPath(this.directoryPath),
+						! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
+				);
+			} catch(PathException e) {
+				ErrorWindow errorWindow = new ErrorWindow(
+						e.getMessage() + Const.newLine +
+								"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
+								"Warning: Turning on the Option may cause incorrect results.",
+						ErrorWindow.ERROR_LEVEL_WARNING,
+						false
+				);
+				errorWindow.show(mainWindow);
+
+				this.cancel(true);
+				return null;
+			} catch(Exception e) {
+				ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
+				errorWindow.show(mainWindow);
+
+				this.cancel(true);
+				return null;
+			}
+
+			return null;
+		}
+
+		/**
+		 * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
+		 * method is finished. The default
+		 * implementation does nothing. Subclasses may override this method to
+		 * perform completion actions on the <i>Event Dispatch Thread</i>. Note
+		 * that you can query status inside the implementation of this method to
+		 * determine the result of this task or whether this task has been cancelled.
+		 *
+		 * @see #doInBackground
+		 * @see #isCancelled()
+		 * @see #get
+		 */
+		@Override
+		protected void done() {
+			if(! this.isCancelled()) {
+				decrypter = new Decrypter();
+				rpgProject.setOutputPath(App.outputDir);
+				mainMenu.enableOnRPGProject(true);
+				assignRPGActionListener();
+
+				// Refresh Project-Files
+				// todo (re)load file list
+
+				// Done
+				if(this.showInfoWindow) {
+					InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
+							"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
+					infoWindow.show(mainWindow);
+				}
+			}
 		}
 	}
 }

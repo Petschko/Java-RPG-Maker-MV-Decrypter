@@ -2,7 +2,6 @@ package org.petschko.rpgmakermv.decrypt;
 
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
-import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 
@@ -13,8 +12,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 26.12.2016
  * Time: 00:02
- * Update: -
- * Version: 0.0.1
+ * Update: 03.02.2017
+ * Version: 0.0.2
  *
  * Notes: Finder Class
  */
@@ -95,7 +94,7 @@ class Finder {
 					result = keyName;
 					break;
 				}
-			} catch(JSONException e) {
+			} catch(Exception e) {
 				// Void
 			}
 		}
