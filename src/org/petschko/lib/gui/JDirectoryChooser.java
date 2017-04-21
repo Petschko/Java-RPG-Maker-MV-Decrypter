@@ -4,7 +4,7 @@ import javax.swing.JFileChooser;
 import java.io.File;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 06.01.2017
  * Time: 22:18

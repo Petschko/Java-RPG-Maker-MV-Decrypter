@@ -21,7 +21,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 15.01.2017
  * Time: 19:42

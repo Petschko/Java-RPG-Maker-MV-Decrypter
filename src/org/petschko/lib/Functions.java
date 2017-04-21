@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 04.01.2017
  * Time: 14:28
