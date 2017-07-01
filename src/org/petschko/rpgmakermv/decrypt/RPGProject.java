@@ -7,7 +7,7 @@ import sun.dc.path.PathException;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 23.12.2016
  * Time: 11:19

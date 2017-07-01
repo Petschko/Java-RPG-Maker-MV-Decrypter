@@ -17,3 +17,6 @@ hs_err_pid*
 
 #Output
 out/
+
+#Other
+config.pref

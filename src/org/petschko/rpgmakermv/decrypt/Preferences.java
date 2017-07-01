@@ -6,7 +6,7 @@ import org.petschko.lib.UserPref;
 import java.util.Properties;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 30.12.2016
  * Time: 22:32

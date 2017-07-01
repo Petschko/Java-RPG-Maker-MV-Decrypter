@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * Author: Peter Dragicevic [peter-91@hotmail.de]
+ * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
  * Date: 15.01.2017
  * Time: 21:52

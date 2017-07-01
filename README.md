@@ -93,6 +93,6 @@ You can save them for **Personal-Use only**. If the origin Licence allow use you
 **If that's your Project** and you simply lost your Origin-Files, **you have the same rights**, to do stuff with them, **as before** =)
 
 ## Contact
-- E-Mail me if you have questions (no bug reporting please): peter-91@hotmail.de
+- E-Mail me if you have questions (no bug reporting please): peter@petschko.org
   - You can also tell me you like it or not >.< Of course you can make improvement suggestions if you want
 - Please report Bugs here on github.com use the "[Issue](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues)"-Section on this Project
