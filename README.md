@@ -13,7 +13,7 @@ You can decrypt the Build-In-Encrypted Files from the RPG Maker MV. They usually
 - Any OS (Linux, Windows, IOS etc)
 
 ## Installation
-- [Download this ZIP (!!Alpha!!) - Version: 0.1.3](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/download/v0.1.3-alpha/RPG_Maker_MV_Decrypter_jar_0.1.3.zip) or Clone/Download the Project and make yourself a JAR-File
+- [Download this ZIP (!!Alpha!!) - Version: 0.1.3](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/download/v0.1.3.1-alpha/RPG_Maker_MV_Decrypter_jar_0.1.3.1_hotfix.zip) or Clone/Download the Project and make yourself a JAR-File
 - Put it where ever you want (Don't forget to extract, if you downloaded the ZIP xP)
 
 ## How to use
