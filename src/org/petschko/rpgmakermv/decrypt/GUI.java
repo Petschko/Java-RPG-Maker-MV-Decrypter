@@ -165,6 +165,10 @@ class GUI {
 		);
 		this.mainMenu.changeOutputDir.addActionListener(
 				e -> {
+					// Warn the user that the selected directory will be cleared
+					if(Boolean.parseBoolean(App.preferences.getConfig(Preferences.clearOutputDirBeforeDecrypt, "true")))
+						new InfoWindow("You have chosen, that the selected Directory will be cleared.\nBeware that this Program clear the selected Directory (Deletes all Files within)! Don't select directories where you have important Files or Sub-Directories in!\n\n(Or turn off the clearing under Options)", "Important Info about your Files").show(this.mainWindow);
+
 					String openDir = App.preferences.getConfig(Preferences.lastOutputParentDir, ".");
 
 					if(! File.existsDir(openDir))

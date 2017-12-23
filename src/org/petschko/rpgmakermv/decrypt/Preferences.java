@@ -50,7 +50,7 @@ class Preferences extends UserPref {
 		p.setProperty(Preferences.ignoreFakeHeader, "true");
 		p.setProperty(Preferences.overwriteFiles, "false");
 		p.setProperty(Preferences.loadInvalidRPGDirs, "false");
-		p.setProperty(Preferences.clearOutputDirBeforeDecrypt, "true");
+		p.setProperty(Preferences.clearOutputDirBeforeDecrypt, "false");
 		p.setProperty(Preferences.lastOutputDir, Config.defaultOutputDir);
 		p.setProperty(Preferences.lastOutputParentDir, ".");
 		p.setProperty(Preferences.lastRPGDir, ".");
