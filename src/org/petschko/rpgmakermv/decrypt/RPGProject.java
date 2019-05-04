@@ -3,7 +3,7 @@ package org.petschko.rpgmakermv.decrypt;
 import com.sun.istack.internal.NotNull;
 import org.json.JSONException;
 import org.petschko.lib.File;
-import sun.dc.path.PathException;
+import org.petschko.lib.exceptions.PathException;
 import java.util.ArrayList;
 
 /**
@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * Authors-Website: http://petschko.org/
  * Date: 23.12.2016
  * Time: 11:19
- * Update: 03.02.2017
- * Version: 0.1.1
+ * Update: 04.05.2019
+ * Version: 0.1.2
  *
  * Notes: RPG-Project-Class
  */
@@ -34,14 +34,14 @@ class RPGProject {
 	 */
 	RPGProject(@NotNull String path, boolean verifyRPGDir) throws PathException {
 		if(! File.existsDir(path))
-			throw new PathException("Project-Path doesn't exists!");
+			throw new PathException("Project-Path doesn't exists!", path);
 
 		this.setPath(path);
 
 		// Check if Path is a Valid-RPG-Maker-Dir
 		if(verifyRPGDir)
 			if(! this.verifyDir())
-				throw new PathException("Directory is not a Valid RPG-Maker-MV Directory!");
+				throw new PathException("Directory is not a Valid RPG-Maker-MV Directory!", path);
 
 		this.loadFiles();
 		this.findSystemFile();
