@@ -214,6 +214,7 @@ class GUI {
 		this.mainMenu.openRPGDirExplorer.addActionListener(GUI_ActionListener.openExplorer(this.rpgProject.getPath()));
 		//this.mainMenu.allFiles.addActionListener(this.decrypt(this.rpgProject.getEncryptedFiles()));
 		this.mainMenu.allFiles.addActionListener(new GUI_Decryption(this.rpgProject.getEncryptedFiles()));
+		this.mainMenu.restoreImages.addActionListener(new GUI_Decryption(this.rpgProject.getEncryptedFiles(), true));
 	}
 
 	/**
@@ -250,6 +251,7 @@ class GUI {
 	private class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 		private ArrayList<File> files;
 		private ProgressMonitor progressMonitor;
+		private boolean restoreImages = false;
 
 		/**
 		 * GUI_Decryption constructor
@@ -258,6 +260,17 @@ class GUI {
 		 */
 		GUI_Decryption(ArrayList<File> files) {
 			this.files = files;
+		}
+
+		/**
+		 * GUI_Decryption constructor
+		 *
+		 * @param files - Files to Decrypt
+		 * @param restoreImages - Restores Images without key
+		 */
+		GUI_Decryption(ArrayList<File> files, boolean restoreImages) {
+			this.files = files;
+			this.restoreImages = restoreImages;
 		}
 
 		/**
@@ -361,11 +374,12 @@ class GUI {
 				this.progressMonitor.setNote("File: " + file.getFilePath());
 				try {
 					System.out.println("Decrypt: " + file.getFilePath());
-					decrypter.decryptFile(file);
+					decrypter.decryptFile(file, this.restoreImages);
 				} catch(Exception e1) {
 					e1.printStackTrace();
 				} finally {
-					rpgProject.saveFile(file, Functions.strToBool(App.preferences.getConfig(Preferences.overwriteFiles, "false")));
+					if(! this.restoreImages || file.isImage())
+						rpgProject.saveFile(file, Functions.strToBool(App.preferences.getConfig(Preferences.overwriteFiles, "false")));
 				}
 				// Add Progress to Progress-Monitor
 				i++;
@@ -402,7 +416,12 @@ class GUI {
 			} else {
 				System.out.println("Done.");
 
-				InfoWindow infoWindow = new InfoWindow("Decryption complete! =)");
+				InfoWindow infoWindow;
+				if(this.restoreImages)
+					infoWindow = new InfoWindow("Images are restored! ^-^");
+				else
+					infoWindow = new InfoWindow("Decryption complete! =)");
+
 				infoWindow.show(mainWindow);
 			}
 		}

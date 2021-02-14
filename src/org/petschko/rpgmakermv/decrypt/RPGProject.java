@@ -219,7 +219,7 @@ class RPGProject {
 			return;
 
 		for(File file : this.getFiles()) {
-			if(Finder.isFileEncryptedExt(file.getExtension()))
+			if(file.isFileEncryptedExt())
 				this.getEncryptedFiles().add(file);
 		}
 	}

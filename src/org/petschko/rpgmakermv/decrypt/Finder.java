@@ -56,29 +56,6 @@ class Finder {
 	}
 
 	/**
-	 * Check if the given Extension is an Encrypted Extension
-	 *
-	 * @param extension - File-Extension to check
-	 * @return - true if the Extension is an encrypted File-extension else false
-	 */
-	static boolean isFileEncryptedExt(@Nullable String extension) {
-		if(extension == null)
-			extension = "";
-
-		switch(extension.toLowerCase()) {
-			case "rpgmvp":
-			case "rpgmvm":
-			case "rpgmvo":
-			case "png_":
-			case "m4a_":
-			case "ogg_":
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	/**
 	 * Check if Encryption-Key name is may different from given - Tests all know Encryption-Key Names
 	 *
 	 * @param systemFile - System.json File
