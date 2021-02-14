@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
+
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
@@ -294,7 +296,7 @@ class Decrypter {
 		String key;
 
 		try {
-			String fileContentAsString = new String(file.getContent(), "UTF-8");
+			String fileContentAsString = new String(file.getContent(), StandardCharsets.UTF_8);
 			jsonObj = new JSONObject(fileContentAsString);
 		} catch(Exception e) {
 			e.printStackTrace();
