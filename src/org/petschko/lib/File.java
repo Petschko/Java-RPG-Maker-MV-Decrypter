@@ -83,8 +83,10 @@ public class File {
 	 * @param extension - New Extension of the File
 	 */
 	private void setExtension(@Nullable String extension) {
-		if(extension.equals(""))
-			extension = null;
+		if(extension != null) {
+			if (extension.equals(""))
+				extension = null;
+		}
 
 		this.extension = extension;
 	}
@@ -95,8 +97,10 @@ public class File {
 	 * @param newExtension - New Extension for the File
 	 */
 	public void changeExtension(@Nullable String newExtension) {
-		if(newExtension.equals(""))
-			newExtension = null;
+		if(newExtension != null) {
+			if (newExtension.equals(""))
+				newExtension = null;
+		}
 
 		this.setFilePath(this.getFileDirectoryPath() + this.getName() +
 				((newExtension != null) ? "." + newExtension : ""));
@@ -342,8 +346,7 @@ public class File {
 					ArrayList<java.io.File> dirContent = readDirFiles(file);
 
 					// Process Directory-Content
-					for(java.io.File aDirContent : dirContent)
-						fileList.add(aDirContent);
+					fileList.addAll(dirContent);
 				}
 			} else
 				fileList.add(file);
@@ -387,8 +390,7 @@ public class File {
 
 		if(! dir.exists()) {
 			if(createMissing)
-				if(dir.mkdirs())
-					return true;
+				return dir.mkdirs();
 
 			return false;
 		} else
