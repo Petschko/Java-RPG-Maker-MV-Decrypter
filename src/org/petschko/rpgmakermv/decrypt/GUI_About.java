@@ -1,7 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.gui.JImageLabel;
 import org.petschko.lib.gui.JLabelExtra;

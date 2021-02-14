@@ -1,6 +1,6 @@
 package org.petschko.lib.gui;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.petschko.lib.Image;
 
 import javax.imageio.ImageIO;

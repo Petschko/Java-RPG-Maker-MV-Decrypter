@@ -1,7 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 
@@ -69,6 +69,9 @@ class Finder {
 			case "rpgmvp":
 			case "rpgmvm":
 			case "rpgmvo":
+			case "png_":
+			case "m4a_":
+			case "ogg_":
 				return true;
 			default:
 				return false;

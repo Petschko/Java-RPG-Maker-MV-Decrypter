@@ -5,14 +5,15 @@ package org.petschko.rpgmakermv.decrypt;
  * Authors-Website: http://petschko.org/
  * Date: 11.12.2016
  * Time: 21:24
- * Update: -
- * Version: 0.1.0
+ * Update: 04.05.2019
+ * Version: 0.1.1
  *
  * Notes: Config class
  */
 class Config {
 	// Program Info
-	static final String version = "v0.1.3.1 (Hotfix) Alpha";
+	static final String versionNumber = "0.1.4.0";
+	static final String version = "v" + versionNumber + " Alpha";
 	static final String programName = "RPG-Maker MV Decrypter";
 	static final String projectPageURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter";
 	static final String projectBugReportURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues";

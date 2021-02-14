@@ -1,6 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.UserPref;
 
 import java.util.Properties;

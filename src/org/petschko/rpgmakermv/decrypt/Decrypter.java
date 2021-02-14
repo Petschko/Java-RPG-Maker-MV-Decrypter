@@ -1,9 +1,11 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
+
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
@@ -99,7 +101,7 @@ class Decrypter {
 	 *
 	 * @param headerLen - File-Header Length in Bytes
 	 */
-	void setHeaderLen(@NotNull int headerLen) {
+	void setHeaderLen(int headerLen) {
 		this.headerLen = headerLen;
 	}
 
@@ -193,7 +195,7 @@ class Decrypter {
 				verifiedDecryptArray.add(aDecryptArray);
 		}
 
-		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[verifiedDecryptArray.size()]));
+		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[0]));
 	}
 
 	/**
@@ -294,7 +296,7 @@ class Decrypter {
 		String key;
 
 		try {
-			String fileContentAsString = new String(file.getContent(), "UTF-8");
+			String fileContentAsString = new String(file.getContent(), StandardCharsets.UTF_8);
 			jsonObj = new JSONObject(fileContentAsString);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -359,10 +361,13 @@ class Decrypter {
 	private static String realExtByFakeExt(@NotNull String fakeExt) {
 		switch(fakeExt.toLowerCase()) {
 			case "rpgmvp":
+			case "png_":
 				return "png";
 			case "rpgmvm":
+			case "m4a_":
 				return "m4a";
 			case "rpgmvo":
+			case "ogg_":
 				return "ogg";
 			default:
 				return "unknown";
