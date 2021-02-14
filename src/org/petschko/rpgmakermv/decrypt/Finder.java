@@ -69,6 +69,9 @@ class Finder {
 			case "rpgmvp":
 			case "rpgmvm":
 			case "rpgmvo":
+			case "png_":
+			case "m4a_":
+			case "ogg_":
 				return true;
 			default:
 				return false;
