@@ -1,6 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
@@ -359,10 +359,13 @@ class Decrypter {
 	private static String realExtByFakeExt(@NotNull String fakeExt) {
 		switch(fakeExt.toLowerCase()) {
 			case "rpgmvp":
+			case "png_":
 				return "png";
 			case "rpgmvm":
+			case "m4a_":
 				return "m4a";
 			case "rpgmvo":
+			case "ogg_":
 				return "ogg";
 			default:
 				return "unknown";

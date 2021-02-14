@@ -1,6 +1,6 @@
 package org.petschko.lib.gui;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JLabel;
 import java.awt.Color;

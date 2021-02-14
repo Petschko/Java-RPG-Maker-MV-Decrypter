@@ -1,6 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.notification.ErrorWindow;

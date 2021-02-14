@@ -1,7 +1,7 @@
 package org.petschko.lib.gui;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;

@@ -1,6 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
