@@ -39,6 +39,7 @@ class GUI_Menu extends JMenuBar {
 	// Decrypt-Menu-Sub
 	JMenuItem selectedFiles;
 	JMenuItem allFiles;
+	JMenuItem restoreImages;
 	JMenuItem setEncryptionKey;
 	JMenuItem setEncryptionFile;
 	JMenuItem changeDecrypterSignature;
@@ -49,6 +50,7 @@ class GUI_Menu extends JMenuBar {
 
 	// Info-Menu-Sub
 	JMenuItem help;
+	JMenuItem updateProgram;
 	JMenuItem reportABug;
 	JMenuItem about;
 
@@ -102,6 +104,7 @@ class GUI_Menu extends JMenuBar {
 		// Sub-Items
 		this.selectedFiles = new JMenuItem("Selected Files");
 		this.allFiles = new JMenuItem("All Files");
+		this.restoreImages = new JMenuItem("Restore Images (No Key)");
 		this.setEncryptionKey = new JMenuItem("Set Encryption-Key...");
 		this.setEncryptionFile = new JMenuItem("Select Encryption-File...");
 		this.changeDecrypterSignature = new JMenuItem("Change Decrypter Signature...");
@@ -124,6 +127,7 @@ class GUI_Menu extends JMenuBar {
 		this.info = new JMenu("Info");
 
 		this.help = new JMenuItem("Help");
+		this.updateProgram = new JMenuItem("Check for Updates");
 		this.reportABug = new JMenuItem("Report a Bug...");
 		this.about = new JMenuItem("About");
 	}
@@ -151,6 +155,7 @@ class GUI_Menu extends JMenuBar {
 		this.add(this.decrypt);
 		this.decrypt.add(this.selectedFiles);
 		this.decrypt.add(this.allFiles);
+		this.decrypt.add(this.restoreImages);
 		this.decrypt.addSeparator();
 		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.setEncryptionFile);
@@ -162,6 +167,7 @@ class GUI_Menu extends JMenuBar {
 
 		this.add(this.info);
 		this.info.add(this.help);
+		this.info.add(this.updateProgram);
 		this.info.add(this.reportABug);
 		this.info.addSeparator();
 		this.info.add(this.about);
@@ -176,6 +182,7 @@ class GUI_Menu extends JMenuBar {
 		this.openRPGDirExplorer.setEnabled(enable);
 		//this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
+		this.restoreImages.setEnabled(enable);
 		//this.setEncryptionKey.setEnabled(enable);
 		//this.setEncryptionFile.setEnabled(enable);
 		//this.restoreProject.setEnabled(enable);
@@ -191,5 +198,6 @@ class GUI_Menu extends JMenuBar {
 		this.changeDecrypterSignature.setEnabled(false);
 		this.restoreProject.setEnabled(false);
 		this.help.setEnabled(false);
+		this.updateProgram.setEnabled(false);
 	}
 }

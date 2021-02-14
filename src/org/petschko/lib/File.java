@@ -86,6 +86,8 @@ public class File {
 		if(extension != null) {
 			if (extension.equals(""))
 				extension = null;
+			else
+				extension = extension.toLowerCase();
 		}
 
 		this.extension = extension;
@@ -513,5 +515,69 @@ public class File {
 	 */
 	public static boolean clearDirectory(@NotNull String directoryPath) {
 		return File.deleteDirectoryOperation(directoryPath, true, false);
+	}
+
+	/**
+	 * Returns the real Extension of the current fake extension
+	 *
+	 * @return - Real File-Extension
+	 */
+	public String realExtByFakeExt() {
+		switch(this.extension) {
+			case "rpgmvp":
+			case "png_":
+				return "png";
+			case "rpgmvm":
+			case "m4a_":
+				return "m4a";
+			case "rpgmvo":
+			case "ogg_":
+				return "ogg";
+			default:
+				return "unknown";
+		}
+	}
+
+	/**
+	 * Shows if this file is an Image
+	 *
+	 * @return - true if the file is an image
+	 */
+	public boolean isImage() {
+		switch(this.extension) {
+			case "rpgmvp":
+			case "png_":
+			case "jpg":
+			case "jpeg":
+			case "png":
+			case "gif":
+			case "bmp":
+			case "ico":
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Check if the given Extension is an Encrypted Extension
+	 *
+	 * @return - true if the Extension is an encrypted File-extension else false
+	 */
+	public boolean isFileEncryptedExt() {
+		if(this.extension == null)
+			return false;
+
+		switch(this.extension) {
+			case "rpgmvp":
+			case "rpgmvm":
+			case "rpgmvo":
+			case "png_":
+			case "m4a_":
+			case "ogg_":
+				return true;
+			default:
+				return false;
+		}
 	}
 }

@@ -20,6 +20,9 @@ import java.util.ArrayList;
  * Notes: Decrypter class
  */
 class Decrypter {
+	static final String pngHeader = "89504E470D0A1A0A0000000D49484452";
+	static byte[] pngHeaderBytes = null;
+
 	static final int defaultHeaderLen = 16;
 	static final String defaultSignature = "5250474d56000000";
 	static final String defaultVersion = "000301";
@@ -205,6 +208,20 @@ class Decrypter {
 	 * @throws Exception - Various Exceptions
 	 */
 	void decryptFile(File file) throws Exception {
+		decryptFile(file, false);
+	}
+
+	/**
+	 * Decrypts the File (Header) and removes the Encryption-Header
+	 *
+	 * @param file - Encrypted File
+	 * @param restorePictures - Restore Pictures without the Key
+	 * @throws Exception - Various Exceptions
+	 */
+	void decryptFile(File file, boolean restorePictures) throws Exception {
+		if(restorePictures && (! file.isImage() || ! file.isFileEncryptedExt()))
+			return;
+
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -215,7 +232,7 @@ class Decrypter {
 		}
 
 		// Check if all required external stuff is here
-		if(this.getDecryptCode() == null)
+		if(this.getDecryptCode() == null && ! restorePictures)
 			throw new NullPointerException("Decryption-Code is not set!");
 		if(file.getContent() == null)
 			throw new NullPointerException("File-Content is not loaded!");
@@ -233,16 +250,19 @@ class Decrypter {
 		// Remove Fake-Header from rest
 		content = Decrypter.getByteArray(content, this.getHeaderLen());
 
-		// Decrypt Real-Header & First part of the Content
+
 		if(content.length > 0) {
 			for(int i = 0; i < this.getHeaderLen(); i++) {
-				content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
+				if(restorePictures) // Restore Pictures
+					content[i] = getPNGHeaderByteArray()[i];
+				else // Decrypt Real-Header & First part of the Content
+					content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
 			}
 		}
 
 		// Update File-Content
 		file.setContent(content);
-		file.changeExtension(Decrypter.realExtByFakeExt(file.getExtension()));
+		file.changeExtension(file.realExtByFakeExt());
 	}
 
 	/**
@@ -310,6 +330,26 @@ class Decrypter {
 	}
 
 	/**
+	 * Returns the PNG-Header Byte Array
+	 *
+	 * @return PNG-Header Byte Array
+	 */
+	private byte[] getPNGHeaderByteArray() {
+		if(pngHeaderBytes != null)
+			return pngHeaderBytes;
+
+		String[] pngHeaderArr = pngHeader.split("(?<=\\G.{2})");
+		byte[] pngHeaderBytesArray = new byte[this.getHeaderLen()];
+
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			pngHeaderBytesArray[i] = (byte) Integer.parseInt(pngHeaderArr[i], 16);
+		}
+		pngHeaderBytes = pngHeaderBytesArray;
+
+		return pngHeaderBytes;
+	}
+
+	/**
 	 * Get a new Byte-Array with given start pos and length
 	 *
 	 * @param byteArray - Byte-Array where to extract a new Byte-Array
@@ -350,27 +390,5 @@ class Decrypter {
 	 */
 	private static byte[] getByteArray(byte[] byteArray, int startPos) {
 		return getByteArray(byteArray, startPos, -1);
-	}
-
-	/**
-	 * Returns the real Extension of the current fake extension
-	 *
-	 * @param fakeExt - Fake Extension where you want to get the real Extension
-	 * @return - Real File-Extension
-	 */
-	private static String realExtByFakeExt(@NotNull String fakeExt) {
-		switch(fakeExt.toLowerCase()) {
-			case "rpgmvp":
-			case "png_":
-				return "png";
-			case "rpgmvm":
-			case "m4a_":
-				return "m4a";
-			case "rpgmvo":
-			case "ogg_":
-				return "ogg";
-			default:
-				return "unknown";
-		}
 	}
 }
