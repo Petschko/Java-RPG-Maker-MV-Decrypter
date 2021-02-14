@@ -101,7 +101,7 @@ class Decrypter {
 	 *
 	 * @param headerLen - File-Header Length in Bytes
 	 */
-	void setHeaderLen(@NotNull int headerLen) {
+	void setHeaderLen(int headerLen) {
 		this.headerLen = headerLen;
 	}
 
@@ -195,7 +195,7 @@ class Decrypter {
 				verifiedDecryptArray.add(aDecryptArray);
 		}
 
-		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[verifiedDecryptArray.size()]));
+		this.setRealDecryptCode(verifiedDecryptArray.toArray(new String[0]));
 	}
 
 	/**
