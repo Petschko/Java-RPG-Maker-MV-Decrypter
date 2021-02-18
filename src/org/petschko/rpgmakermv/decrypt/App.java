@@ -16,7 +16,7 @@ import org.petschko.lib.gui.notification.ErrorWindow;
 public class App {
 	private static Boolean useGUI = true;
 	private static GUI gui;
-	static String pathToProject;
+	private static CMD cmd;
 	static String outputDir;
 	static Preferences preferences;
 
@@ -27,78 +27,47 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		// Check whats given from CMD
-		if(args.length > 0)
-			App.processArgs(args);
+		if(args.length > 0) {
+			useGUI = false;
+			cmd = new CMD(args);
+		}
 
-		if(App.useGUI) {
+		if(useGUI) {
 			// Use GUI
-			App.preferences = new Preferences(Config.preferencesFile);
-			App.outputDir = App.preferences.getConfig(Preferences.lastOutputDir, Config.defaultOutputDir);
-			App.gui = new GUI();
+			preferences = new Preferences(Config.preferencesFile);
+			outputDir = App.preferences.getConfig(Preferences.lastOutputDir, Config.defaultOutputDir);
+			gui = new GUI();
 		} else {
 			// Use Command-Line Version
-			try {
-				RPGProject rpgProject = new RPGProject(App.pathToProject, false);
-				Decrypter decrypter = new Decrypter();
-
-				rpgProject.setOutputPath(App.outputDir);
-				decrypter.setIgnoreFakeHeader(true);
-				rpgProject.decryptFiles(decrypter);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-
-			App.exitCMD(0);
+			cmd.runCMD();
 		}
 	}
 
 	/**
-	 * Process Command-Line Arguments
+	 * Shows the given message if no GUI is enabled
 	 *
-	 * @param args - Optional Arguments from Command-Line
+	 * @param msg - Message to display
+	 * @param messageStatus - Status of the Message
 	 */
-	private static void processArgs(String[] args) {
-		// Don't use GUI if using Command-Line
-		App.useGUI = false;
+	static void showMessage(String msg, int messageStatus) {
+		String status;
 
-		// Show Welcome-Message
-		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
-
-		// Check if help is needed
-		if(args[0].equals("help") || args[0].equals("/?") || args[0].equals("--help")) {
-			App.printHelp();
-			App.exitCMD(0);
+		switch(messageStatus) {
+			case CMD.STATUS_ERROR:
+				status = "[ERROR]: ";
+				break;
+			case CMD.STATUS_WARNING:
+				status = "[WARN]: ";
+				break;
+			case CMD.STATUS_OK:
+				status = "[SUCCESS]: ";
+				break;
+			default:
+				status = "[INFO]: ";
 		}
 
-		// Set Path to Project
-		App.pathToProject = args[0];
-		App.showMessage("Set Project-Dir to: \"" + App.pathToProject + "\"");
-
-		// Set Output-Dir
-		try {
-			App.outputDir = args[1];
-		} catch(ArrayIndexOutOfBoundsException arEx) {
-			App.outputDir = Config.defaultOutputDir;
-		}
-
-		App.showMessage("Set Output-Dir to: \"" + App.outputDir + "\"");
-	}
-
-	/**
-	 * Prints help for Command-Line usage
-	 */
-	private static void printHelp() {
-		System.out.println("Usage: java -jar \"RPG Maker MV Decrypter.jar\" [path to decrypt project] [(optional) output path]");
-	}
-
-	/**
-	 * Exit the Program with a Message
-	 *
-	 * @param status - Exit-Status-Code
-	 */
-	private static void exitCMD(int status) {
-		System.out.println("Done.");
-		System.exit(status);
+		if(! App.useGUI)
+			System.out.println(status + msg);
 	}
 
 	/**
@@ -107,8 +76,7 @@ public class App {
 	 * @param msg - Message to display
 	 */
 	static void showMessage(String msg) {
-		if(! App.useGUI)
-			System.out.println(msg);
+		showMessage(msg, CMD.STATUS_INFO);
 	}
 
 	/**

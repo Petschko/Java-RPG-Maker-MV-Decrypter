@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import java.util.ArrayList;
  * Notes: Decrypter class
  */
 class Decrypter {
-	static final String pngHeader = "89504E470D0A1A0A0000000D49484452";
-	static byte[] pngHeaderBytes = null;
+	private static final String pngHeader = "89504E470D0A1A0A0000000D49484452";
+	private static byte[] pngHeaderBytes = null;
 
 	static final int defaultHeaderLen = 16;
 	static final String defaultSignature = "5250474d56000000";
@@ -30,6 +31,7 @@ class Decrypter {
 
 	private String decryptCode = null;
 	private String[] realDecryptCode = null;
+	private byte[] rpgHeaderBytes = null;
 	private int headerLen = 16;
 	private String signature = "5250474d56000000";
 	private String version = "000301";
@@ -88,6 +90,22 @@ class Decrypter {
 	 */
 	private void setRealDecryptCode(@NotNull String[] realDecryptCode) {
 		this.realDecryptCode = realDecryptCode;
+	}
+
+	/**
+	 * Returns the RPG-Header-Bytes (aka fake header)
+	 *
+	 * @return - RPG-Header-Bytes
+	 */
+	private byte[] getRpgHeaderBytes() {
+		if(this.rpgHeaderBytes == null)
+			this.generateRpgHeaderBytes();
+
+		return rpgHeaderBytes;
+	}
+
+	private void setRpgHeaderBytes(byte[] rpgHeaderBytes) {
+		this.rpgHeaderBytes = rpgHeaderBytes;
 	}
 
 	/**
@@ -202,13 +220,59 @@ class Decrypter {
 	}
 
 	/**
-	 * Decrypts the File (Header) and removes the Encryption-Header
+	 * (Re-)Encrypts the File and adds the File-Header
 	 *
-	 * @param file - Encrypted File
+	 * @param file - File which should be encrypted
+	 * @param rpgMakerMv - Encrypt as RPG-Maker-MV File
 	 * @throws Exception - Various Exceptions
 	 */
-	void decryptFile(File file) throws Exception {
-		decryptFile(file, false);
+	void encryptFile(File file, boolean rpgMakerMv) throws Exception {
+		try {
+			if(! file.load())
+				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		// Check if all required external stuff is here
+		if(this.getDecryptCode() == null)
+			throw new NullPointerException("Encryption-Code is not set!");
+		if(file.getContent() == null)
+			throw new NullPointerException("File-Content is not loaded!");
+		if(file.getContent().length < (this.getHeaderLen()))
+			throw new Exception("File is to short (<" + (this.getHeaderLen()) + " Bytes)");
+
+		// Get Content
+		byte[] content = file.getContent();
+
+		// Encrypt
+		if(content.length > 0) {
+			for(int i = 0; i < this.getHeaderLen(); i++) {
+				content[i] = (byte) (content[i] ^ (byte) Integer.parseInt(this.getRealDecryptCode()[i], 16));
+			}
+		}
+
+		// Add header and update File-Content
+		file.setContent(this.addFileHeader(content));
+		file.changeExtension(file.fakeExtByRealExt(rpgMakerMv));
+	}
+
+	/**
+	 * Adds the RPG-MV/MZ File-Header to the content
+	 *
+	 * @param content - Content where the header should be added
+	 * @return - Header before content
+	 */
+	private byte[] addFileHeader(byte[] content) {
+		byte[] header = this.getRpgHeaderBytes();
+
+		ByteBuffer buffer = ByteBuffer.wrap(new byte[header.length + content.length]);
+		buffer.put(header);
+		buffer.put(content);
+
+		return buffer.array();
 	}
 
 	/**
@@ -250,7 +314,6 @@ class Decrypter {
 		// Remove Fake-Header from rest
 		content = Decrypter.getByteArray(content, this.getHeaderLen());
 
-
 		if(content.length > 0) {
 			for(int i = 0; i < this.getHeaderLen(); i++) {
 				if(restorePictures) // Restore Pictures
@@ -273,14 +336,7 @@ class Decrypter {
 	 */
 	boolean checkFakeHeader(byte[] content) {
 		byte[] header = Decrypter.getByteArray(content, 0, this.getHeaderLen());
-		byte[] refBytes = new byte[this.getHeaderLen()];
-		String refStr = this.getSignature() + this.getVersion() + this.getRemain();
-
-		// Generate reference bytes
-		for(int i = 0; i < this.getHeaderLen(); i++) {
-			int subStrStart = i * 2;
-			refBytes[i] = (byte) Integer.parseInt(refStr.substring(subStrStart, subStrStart + 2), 16);
-		}
+		byte[] refBytes = this.getRpgHeaderBytes();
 
 		// Verify header (Check if its an encrypted file)
 		for(int i = 0; i < this.getHeaderLen(); i++) {
@@ -292,7 +348,7 @@ class Decrypter {
 	}
 
 	/**
-	 * Detect the Decryption-Code from the given File
+	 * Detect the Decryption-Code from the given Json-File
 	 *
 	 * @param file - JSON-File with Decryption-Key
 	 * @param keyName - Key-Name of the Decryption-Key
@@ -300,7 +356,7 @@ class Decrypter {
 	 * @throws NullPointerException - System-File is null
 	 * @throws FileSystemException - Can't load File
 	 */
-	void detectEncryptionKey(File file, String keyName) throws JSONException, NullPointerException, FileSystemException {
+	void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException, FileSystemException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -326,7 +382,55 @@ class Decrypter {
 
 		key = jsonObj.getString(keyName);
 
+		App.showMessage("Key found :)!", CMD.STATUS_OK);
 		this.setDecryptCode(key);
+	}
+
+	/**
+	 * Detects the Key from the given Encrypted-Image-File
+	 *
+	 * @param file - Encrypted-Image-File
+	 */
+	void detectEncryptionKeyFromImage(File file) throws Exception {
+		// Only encrypted images
+		if(! file.isImage() || ! file.isFileEncryptedExt())
+			return;
+
+		try {
+			if(! file.load())
+				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return;
+		}
+
+		// Check if all required external stuff is here
+		if(file.getContent() == null)
+			throw new NullPointerException("File-Content is not loaded!");
+		if(file.getContent().length < (this.getHeaderLen() * 2))
+			throw new Exception("File is to short (<" + (this.getHeaderLen() * 2) + " Bytes)");
+
+		// Get Content
+		byte[] content = file.getContent();
+		byte[] keyBytes = new byte[this.getHeaderLen()];
+
+		// Check Header
+		if(! this.isIgnoreFakeHeader())
+			if(! this.checkFakeHeader(content))
+				throw new Exception("Header is Invalid!");
+
+		// Remove Fake-Header from rest
+		content = Decrypter.getByteArray(content, this.getHeaderLen());
+
+		if(content.length > 0) {
+			for(int i = 0; i < this.getHeaderLen(); i++) {
+				keyBytes[i] = (byte) (content[i] ^ this.getPNGHeaderByteArray()[i]);
+			}
+		}
+
+		App.showMessage("Key found :) - Inside Image!", CMD.STATUS_OK);
+		this.setDecryptCode(bytesToHex(keyBytes));
 	}
 
 	/**
@@ -347,6 +451,22 @@ class Decrypter {
 		pngHeaderBytes = pngHeaderBytesArray;
 
 		return pngHeaderBytes;
+	}
+
+	/**
+	 * Generates the RPG-Header byte-array (aka fake-Header)
+	 */
+	private void generateRpgHeaderBytes() {
+		byte[] refBytes = new byte[this.getHeaderLen()];
+		String refStr = this.getSignature() + this.getVersion() + this.getRemain();
+
+		// Generate reference bytes
+		for(int i = 0; i < this.getHeaderLen(); i++) {
+			int subStrStart = i * 2;
+			refBytes[i] = (byte) Integer.parseInt(refStr.substring(subStrStart, subStrStart + 2), 16);
+		}
+
+		this.rpgHeaderBytes = refBytes;
 	}
 
 	/**
@@ -390,5 +510,20 @@ class Decrypter {
 	 */
 	private static byte[] getByteArray(byte[] byteArray, int startPos) {
 		return getByteArray(byteArray, startPos, -1);
+	}
+
+	/**
+	 * Converts bytes arrays to a hex string
+	 *
+	 * @param bytes - Byte-Array
+	 * @return - Hex-String
+	 */
+	private static String bytesToHex(byte[] bytes) {
+		StringBuilder sb = new StringBuilder();
+
+		for(byte b : bytes)
+			sb.append(String.format("%02x", b));
+
+		return sb.toString();
 	}
 }

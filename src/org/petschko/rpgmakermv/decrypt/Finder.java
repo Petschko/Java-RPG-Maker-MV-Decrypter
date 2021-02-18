@@ -68,7 +68,7 @@ class Finder {
 
 		for(String keyName : keyNames) {
 			try {
-				d.detectEncryptionKey(systemFile, keyName);
+				d.detectEncryptionKeyFromJson(systemFile, keyName);
 
 				if(d.getDecryptCode() != null) {
 					result = keyName;

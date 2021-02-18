@@ -20,10 +20,13 @@ class RPGProject {
 	private String path;
 	private String outputPath = Config.defaultOutputDir;
 	private File system = null;
+	private File encryptedImgFile = null;
 	private String encryptionKeyName = "encryptionKey";
 	private boolean isEncrypted = true;
+	private boolean isMV = true;
 	private ArrayList<File> files = new ArrayList<>();
 	private ArrayList<File> encryptedFiles = new ArrayList<>();
+	private ArrayList<File> resourceFiles = new ArrayList<>();
 
 	/**
 	 * RPGProject Constructor
@@ -51,6 +54,8 @@ class RPGProject {
 
 		if(this.isEncrypted())
 			this.findEncryptedFiles();
+		else
+			this.findResourceFiles();
 	}
 
 	/**
@@ -108,6 +113,24 @@ class RPGProject {
 	}
 
 	/**
+	 * Returns the encrypted image file
+	 *
+	 * @return - encrypted image file or null if none found
+	 */
+	File getEncryptedImgFile() {
+		return encryptedImgFile;
+	}
+
+	/**
+	 * Sets the encrypted image file
+	 *
+	 * @param encryptedImgFile - encrypted image file
+	 */
+	private void setEncryptedImgFile(File encryptedImgFile) {
+		this.encryptedImgFile = encryptedImgFile;
+	}
+
+	/**
 	 * Returns the EncryptionKeyName
 	 *
 	 * @return - EncryptionKeyName
@@ -151,6 +174,24 @@ class RPGProject {
 	}
 
 	/**
+	 * Returns if the Project is a MV Project
+	 *
+	 * @return - Is MV-Project
+	 */
+	boolean isMV() {
+		return isMV;
+	}
+
+	/**
+	 * Sets if the Project is an MV-Project
+	 *
+	 * @param isMV - Is MV-Project
+	 */
+	void setMV(boolean isMV) {
+		this.isMV = isMV;
+	}
+
+	/**
 	 * Returns the File List of the Project
 	 *
 	 * @return - File List
@@ -166,6 +207,15 @@ class RPGProject {
 	 */
 	ArrayList<File> getEncryptedFiles() {
 		return encryptedFiles;
+	}
+
+	/**
+	 * Returns the Resource-File List
+	 *
+	 * @return - Resource-File List
+	 */
+	public ArrayList<File> getResourceFiles() {
+		return resourceFiles;
 	}
 
 	/**
@@ -191,7 +241,7 @@ class RPGProject {
 		Decrypter d = new Decrypter();
 
 		try {
-			d.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
+			d.detectEncryptionKeyFromJson(this.getSystem(), this.getEncryptionKeyName());
 		} catch(JSONException e) {
 			this.setEncrypted(false);
 		} catch(Exception ex) {
@@ -212,15 +262,41 @@ class RPGProject {
 	}
 
 	/**
-	 * Find all Encrypted-Files of the Project and save them into an ArrayList
+	 * Finds an Encrypted image and assigns it to the class
 	 */
-	private void findEncryptedFiles() {
-		if(! this.isEncrypted())
+	public void findEncryptedImg() {
+		if(this.getEncryptedImgFile() != null)
 			return;
 
 		for(File file : this.getFiles()) {
-			if(file.isFileEncryptedExt())
+			if(file.isFileEncryptedExt() && file.isImage()) {
+				this.setEncryptedImgFile(file);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Find all Encrypted-Files of the Project and save them into an ArrayList
+	 */
+	private void findEncryptedFiles() {
+		for(File file : this.getFiles()) {
+			if(file.isFileEncryptedExt()) {
 				this.getEncryptedFiles().add(file);
+
+				if(this.getEncryptedImgFile() == null && file.isImage())
+					this.setEncryptedImgFile(file);
+			}
+		}
+	}
+
+	/**
+	 * Find all Resource-Files of the Project and save them into an ArrayList
+	 */
+	private void findResourceFiles() {
+		for(File file : this.getFiles()) {
+			if(file.canBeEncrypted())
+				this.getResourceFiles().add(file);
 		}
 	}
 
@@ -235,31 +311,95 @@ class RPGProject {
 	}
 
 	/**
-	 * Decrypts all Encrypted Files of the Project
+	 * Encrypts all Resource-Files
 	 *
-	 * @param decrypter - Decrypter Object
+	 * @param encrypter - Decrypter (aka Encrypter) Object
 	 * @throws Exception - Key not Found Exception
 	 */
-	void decryptFiles(Decrypter decrypter) throws Exception {
+	void encryptFilesCmd(Decrypter encrypter) throws Exception {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
-			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!");
+			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!", CMD.STATUS_ERROR);
 			return;
 		}
 
-		if(decrypter.getDecryptCode() == null) {
+		if(encrypter.getDecryptCode() == null) {
 			try {
-				decrypter.detectEncryptionKey(this.getSystem(), this.getEncryptionKeyName());
+				encrypter.detectEncryptionKeyFromJson(this.getSystem(), this.getEncryptionKeyName());
 			} catch(Exception e) {
 				throw new Exception(e);
 			}
 		}
 
+		// Load resource files anyway
+		if(this.isEncrypted())
+			this.findResourceFiles();
+
+		for(int i = 0; i < this.getResourceFiles().size(); i++) {
+			File currentFile = this.getResourceFiles().get(i);
+
+			try {
+				App.showMessage("Encrypting: " + currentFile.getFilePath());
+
+				encrypter.encryptFile(currentFile, this.isMV());
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				this.saveFile(currentFile);
+			}
+		}
+	}
+
+	/**
+	 * Decrypts all Encrypted Files of the Project
+	 *
+	 * @param decrypter - Decrypter Object
+	 * @throws Exception - Key not Found Exception
+	 */
+	void decryptFilesCmd(Decrypter decrypter) throws Exception {
+		decryptFilesCmd(decrypter, false);
+	}
+
+	/**
+	 * Decrypts all Encrypted Files of the Project
+	 *
+	 * @param decrypter - Decrypter Object
+	 * @param restoreImages - Restores images instead of decrypting
+	 * @throws Exception - Key not Found Exception
+	 */
+	void decryptFilesCmd(Decrypter decrypter, boolean restoreImages) throws Exception {
+		// Check if Output-Dir exists
+		if(! File.existsDir(this.getOutputPath())) {
+			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!", CMD.STATUS_ERROR);
+			return;
+		}
+
+		if(decrypter.getDecryptCode() == null) {
+			try {
+				decrypter.detectEncryptionKeyFromJson(this.getSystem(), this.getEncryptionKeyName());
+			} catch(Exception e) {
+				throw new Exception(e);
+			}
+		}
+
+		// Ensure files are loaded
+		if(! this.isEncrypted())
+			this.findEncryptedFiles();
+
 		for(int i = 0; i < this.getEncryptedFiles().size(); i++) {
 			File currentFile = this.getEncryptedFiles().get(i);
 
+			// Only images if restore images
+			if(restoreImages && (! currentFile.isImage() || ! currentFile.isFileEncryptedExt()))
+				continue;
+
 			try {
-				decrypter.decryptFile(currentFile);
+				if(restoreImages)
+					App.showMessage("Restoring Image" + currentFile.getFilePath());
+				else
+					App.showMessage("Decrypting: " + currentFile.getFilePath());
+
+				decrypter.decryptFile(currentFile, restoreImages);
 			} catch(Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -301,10 +441,10 @@ class RPGProject {
 		// Check if dir exists if not create it
 		if(File.existsDir(newPath, true)) {
 			file.changePathToFile(newPath);
-			App.showMessage("Save File to: " + file.getFilePath());
+			App.showMessage("Save File to: " + file.getFilePath(), CMD.STATUS_OK);
 			file.save(overwriteExisting);
 		} else
-			App.showMessage("Can't create Directory for File: " + newPath + file.getFullFileName());
+			App.showMessage("Can't create Directory for File: " + newPath + file.getFullFileName(), CMD.STATUS_ERROR);
 
 		// Clean up Memory
 		file.unloadContent();

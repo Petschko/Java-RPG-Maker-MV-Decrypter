@@ -321,7 +321,7 @@ class GUI {
 			if(decrypter.getDecryptCode() == null) {
 				this.progressMonitor.setNote("Try to detect Encryption-Key...");
 				try {
-					decrypter.detectEncryptionKey(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
+					decrypter.detectEncryptionKeyFromJson(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
 				} catch(FileSystemException fileSysEx) {
 					// Can't load File
 					fileSysEx.printStackTrace();
