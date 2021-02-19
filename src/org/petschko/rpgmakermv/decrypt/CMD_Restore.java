@@ -83,14 +83,16 @@ class CMD_Restore implements CMD_Command {
 	 */
 	@Override
 	public void printHelp() {
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true]");
-		App.showMessage(CMD.HELP_INDENT + "     [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
+		App.showMessage("Restores images without needing the Key");
+		App.showMessage("");
+		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
-		App.showMessage(CMD.HELP_INDENT + "  [path to project] - Path to the RPG-MV/MZ Project were you want to restore images");
+		App.showMessage(CMD.HELP_INDENT + "  [path to project]        - Path to the RPG-MV/MZ Project were you want to restore images");
 		App.showMessage(CMD.HELP_INDENT + "  (optional) [output path] - Path where the restored files go | Default: \"output\" (out dir in program dir)");
-		App.showMessage(CMD.HELP_INDENT + "  (optional) [verifyRpgDir (false|true)] - Verifies if its a RPG-MV/MZ dir | Default: false");
+		App.showMessage(CMD.HELP_INDENT + "  (optional) [verifyRpgDir (false|true)]     - Verifies if its a RPG-MV/MZ dir | Default: false");
 		App.showMessage(CMD.HELP_INDENT + "  (optional) [ignoreFakeHeader (true|false)] - Ignored the Files MV/MZ-Header | Default: true");
+		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Header-Values: (usually REALLY not needed)");
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [headerLen] - Byte length of the Header | Default: " + this.headerLen);
 		App.showMessage("");
@@ -99,9 +101,11 @@ class CMD_Restore implements CMD_Command {
 		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false");
 		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false 14");
 		App.showMessage("");
-		App.showMessage(CMD.HELP_INDENT + "The first command restores all files inside this programs output dir, dont check if its a RPG-MV/MZ dir and ignores if the header of the files is the RPG-MV/MZ header");
-		App.showMessage(CMD.HELP_INDENT + "The second command restores all files inside the game directory, it checks if RPG-MV/MZ dir and if Header is valid");
-		App.showMessage(CMD.HELP_INDENT + "The third command does the same as the 2nd, just shows how you can modify the header length");
+		App.showMessage(CMD.HELP_INDENT + "- The first command restores all files inside this programs output dir, dont check if its a");
+		App.showMessage(CMD.HELP_INDENT + "  RPG-MV/MZ dir and ignores if the header of the files is the RPG-MV/MZ header");
+		App.showMessage(CMD.HELP_INDENT + "- The second command restores all files inside the game directory, it checks if RPG-MV/MZ dir and");
+		App.showMessage(CMD.HELP_INDENT + "  if Header is valid");
+		App.showMessage(CMD.HELP_INDENT + "- The third command does the same as the 2nd, just shows how you can modify the header length");
 		App.showMessage("");
 	}
 }

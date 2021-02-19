@@ -125,12 +125,14 @@ class CMD_DetectKey implements CMD_Command {
 	 */
 	@Override
 	public void printHelp() {
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" key [path to project]");
-		App.showMessage(CMD.HELP_INDENT + "     [(optional) ask before image keysearch (true|false)] [(optional) headerLen]");
+		App.showMessage("Detects the En-/Decryption-Key");
+		App.showMessage("");
+		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" key [path to project] [(optional) ask before image keysearch (true|false)] [(optional) headerLen]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to project] - Path to the RPG-MV/MZ Project were you want to get the key from");
 		App.showMessage(CMD.HELP_INDENT + "  (optional) [ask before image keysearch (true|false)] - Ask before search key in images | Default: true");
+		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Header-Values: (usually REALLY not needed)");
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [headerLen] - Byte length of the Header | Default: " + this.headerLen);
 		App.showMessage("");
@@ -139,9 +141,9 @@ class CMD_DetectKey implements CMD_Command {
 		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" key \"C:\\my rpg mv game\\\" false");
 		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" key \"C:\\my rpg mv game\\\" false 14");
 		App.showMessage("");
-		App.showMessage(CMD.HELP_INDENT + "The first command returns the key of the Project if found also asks before searching in images");
-		App.showMessage(CMD.HELP_INDENT + "The second command returns the key of the Project if found but skips the image question");
-		App.showMessage(CMD.HELP_INDENT + "The third command does the same as the 2nd, just shows how you can modify the header length");
+		App.showMessage(CMD.HELP_INDENT + "- The first command returns the key of the Project if found also asks before searching in images");
+		App.showMessage(CMD.HELP_INDENT + "- The second command returns the key of the Project if found but skips the image question");
+		App.showMessage(CMD.HELP_INDENT + "- The third command does the same as the 2nd, just shows how you can modify the header length");
 		App.showMessage("");
 	}
 }
