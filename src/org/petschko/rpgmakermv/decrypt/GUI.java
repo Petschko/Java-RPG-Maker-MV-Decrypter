@@ -433,7 +433,7 @@ class GUI {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			this.progressMonitor = new ProgressMonitor(mainWindow, "Decrypting...", "Preparing...", 0, this.files.size());
+			this.progressMonitor = new ProgressMonitor(mainWindow, this.restoreImages ? "Restoring..." : "Decrypting...", "Preparing...", 0, this.files.size());
 			this.progressMonitor.setProgress(0);
 
 			this.execute();
