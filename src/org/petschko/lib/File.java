@@ -518,6 +518,22 @@ public class File {
 	}
 
 	/**
+	 * Shows if this file can be encrypted
+	 *
+	 * @return - Can file be encrypted
+	 */
+	public boolean canBeEncrypted() {
+		switch(this.extension) {
+			case "png":
+			case "m4a":
+			case "ogg":
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
 	 * Returns the real Extension of the current fake extension
 	 *
 	 * @return - Real File-Extension
@@ -535,6 +551,24 @@ public class File {
 				return "ogg";
 			default:
 				return "unknown";
+		}
+	}
+
+	/**
+	 * Returns the RPG-MV/MZ Extension of the current extension
+	 *
+	 * @return - Fake File-Extension
+	 */
+	public String fakeExtByRealExt(boolean isMV) {
+		switch(this.extension) {
+			case "png":
+				return isMV ? "rpgmvp" : "png_";
+			case "m4a":
+				return isMV ? "rpgmvm" : "m4a_";
+			case "ogg":
+				return isMV ? "rpgmvo" : "ogg_";
+			default:
+				return this.extension;
 		}
 	}
 
