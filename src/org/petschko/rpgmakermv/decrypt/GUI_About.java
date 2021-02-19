@@ -153,7 +153,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		JImageLabel imagePanel = new JImageLabel(Config.authorImage, true);
 
 		// Ensure this size
-		imagePanel.setImageSize(200, 150);
+		imagePanel.setImageSize(200, 200);
 
 		return imagePanel;
 	}
