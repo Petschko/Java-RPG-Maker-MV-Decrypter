@@ -85,6 +85,8 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		JLabel programmedBy = new JLabel(Const.creator + " (Programmer) - ");
 		JLabelExtra programmedByURL = new JLabelExtra("Website");
 		programmedByURL.setURL(Const.creatorURL, true);
+		JLabelExtra programmedByDonate = new JLabelExtra("Donate");
+		programmedByDonate.setURL(Const.creatorDonationUrl, true);
 
 		// Set Layouts
 		borderFrame.setLayout(new BorderLayout());
@@ -114,6 +116,8 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		creditLine.add(creditHeading);
 		creatorLine.add(programmedBy);
 		creatorLine.add(programmedByURL);
+		creatorLine.add(new JLabel(" | "));
+		creatorLine.add(programmedByDonate);
 
 		descriptionContainer.add(versionLine);
 		descriptionContainer.add(Box.createRigidArea(new Dimension(0, lineSpace)));
