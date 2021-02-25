@@ -60,7 +60,10 @@ class GUI_Update {
 	 */
 	private void init() {
 		try {
-			update = new Update(Config.updateUrl, Config.versionNumber);
+			if(this.ranAutomatically)
+				update = new Update(Config.updateUrl, Config.versionNumber, Config.updateCheckEverySecs);
+			else
+				update = new Update(Config.updateUrl, Config.versionNumber, true);
 		} catch (IOException e) {
 			ErrorWindow ew = new ErrorWindow("Can't check for Updates...", ErrorWindow.ERROR_LEVEL_WARNING, false);
 

@@ -28,7 +28,7 @@ public class CMD_Update implements CMD_Command {
 	 */
 	@Override
 	public void run(String[] args) {
-		this.update = checkForUpdates(false);
+		this.update = checkForUpdates(false, true);
 
 		if(this.update != null) {
 			if(args.length >= 2) {
@@ -121,20 +121,24 @@ public class CMD_Update implements CMD_Command {
 	 * Check if there is an update and displays it
 	 */
 	static void checkForUpdates() {
-		checkForUpdates(true);
+		checkForUpdates(true, false);
 	}
 
 	/**
 	 * Check if there is an update and may displays it
 	 *
 	 * @param output - Shows console output
+	 * @param ignoreUpdateCache - Ignored the Update-Cache
 	 * @return - Update Object
 	 */
-	private static Update checkForUpdates(boolean output) {
+	private static Update checkForUpdates(boolean output, boolean ignoreUpdateCache) {
 		Update update = null;
 
 		try {
-			update = new Update(Config.updateUrl, Config.versionNumber);
+			if(ignoreUpdateCache)
+				update = new Update(Config.updateUrl, Config.versionNumber, true);
+			else
+				update = new Update(Config.updateUrl, Config.versionNumber, Config.updateCheckEverySecs);
 		} catch(IOException e) {
 			System.out.println("Update: Can't check for Updates...");
 			System.out.println(CMD.LINE_CMD);

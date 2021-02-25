@@ -17,12 +17,14 @@ import java.net.URL;
  * Notes: Update Class
  */
 public class Update {
+	private UpdateCache updateCache;
 	private URL checkVersionUrl;
 	private URL whatsNewUrl = null;
 	private URL downloadURL = null;
 	private Version currentVersion;
 	private Version newestVersion = null;
 	private boolean hasNewVersion = false;
+	private boolean ignoreCache = false;
 
 	/**
 	 * Update Constructor
@@ -32,8 +34,42 @@ public class Update {
 	 * @throws IOException - IO-Exception
 	 */
 	public Update(String checkVersionUrl, String currentVersion) throws IOException {
+		this.updateCache = new UpdateCache();
 		this.checkVersionUrl = new URL(checkVersionUrl);
 		this.currentVersion = new Version(currentVersion);
+
+		this.init();
+	}
+
+	/**
+	 * Update Constructor
+	 *
+	 * @param checkVersionUrl - URL to get the newest Version-Number
+	 * @param currentVersion - Current Version
+	 * @param cacheTime - Cache-Time in Sec
+	 * @throws IOException - IO-Exception
+	 */
+	public Update(String checkVersionUrl, String currentVersion, long cacheTime) throws IOException {
+		this.updateCache = new UpdateCache(cacheTime);
+		this.checkVersionUrl = new URL(checkVersionUrl);
+		this.currentVersion = new Version(currentVersion);
+
+		this.init();
+	}
+
+	/**
+	 * Update Constructor
+	 *
+	 * @param checkVersionUrl - URL to get the newest Version-Number
+	 * @param currentVersion - Current Version
+	 * @param ignoreCache - Should the Cache be ignored?
+	 * @throws IOException - IO-Exception
+	 */
+	public Update(String checkVersionUrl, String currentVersion, boolean ignoreCache) throws IOException {
+		this.updateCache = new UpdateCache();
+		this.checkVersionUrl = new URL(checkVersionUrl);
+		this.currentVersion = new Version(currentVersion);
+		this.ignoreCache = ignoreCache;
 
 		this.init();
 	}
@@ -48,10 +84,21 @@ public class Update {
 	}
 
 	/**
-	 * Initiates this instance
+	 * Initiates this instance (may loads cache)
 	 */
 	private void init() throws IOException {
-		this.getUpdateInfo();
+		if(this.ignoreCache) {
+			this.getUpdateInfo();
+		} else {
+			if(this.updateCache.loadCache()) {
+				this.newestVersion = this.updateCache.newestVersionCache;
+				this.downloadURL = this.updateCache.cachedDownloadUrl;
+				this.whatsNewUrl = this.updateCache.cachedWhatsNewUrl;
+			} else {
+				this.getUpdateInfo();
+			}
+		}
+
 		this.checkVersion();
 	}
 
@@ -108,6 +155,19 @@ public class Update {
 		} catch(MalformedURLException e) {
 			e.printStackTrace();
 		}
+
+		this.savesCache();
+	}
+
+	/**
+	 * Saves new Data to the Cache
+	 */
+	private void savesCache() {
+		this.updateCache.newestVersionCache = this.newestVersion;
+		this.updateCache.cachedDownloadUrl = this.downloadURL;
+		this.updateCache.cachedWhatsNewUrl = this.whatsNewUrl;
+
+		this.updateCache.saveCache();
 	}
 
 	/**

@@ -25,6 +25,9 @@ class Config {
 	static final String defaultOutputDir = "output";
 	static final String preferencesFile = "config.pref";
 
+	// Misc Settings
+	static final long updateCheckEverySecs = 172800;
+
 	/**
 	 * Constructor
 	 */
