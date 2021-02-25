@@ -64,7 +64,28 @@ class GUI {
 		// Assign Listener
 		this.assignMainMenuListener();
 		this.setNewOutputDir(App.outputDir);
-		// todo implement
+
+		// Add Update-Check
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.autoCheckForUpdates, "true")))
+			new GUI_Update(this);
+	}
+
+	/**
+	 * Returns the Main-Window
+	 *
+	 * @return - Main-Window
+	 */
+	JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	/**
+	 * Returns the Main-Menu
+	 *
+	 * @return - Main-Menu
+	 */
+	GUI_Menu getMainMenu() {
+		return mainMenu;
 	}
 
 	/**
@@ -108,6 +129,10 @@ class GUI {
 				this.mainMenu.overwriteExistingFiles.setState(true);
 		} else
 			this.mainMenu.overwriteExistingFiles.setEnabled(false);
+
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.autoCheckForUpdates, "true")))
+			this.mainMenu.checkForUpdates.setState(true);
+
 		this.mainMenu.enableOnRPGProject(false);
 	}
 
@@ -193,9 +218,13 @@ class GUI {
 				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
 		);
 		this.mainMenu.overwriteExistingFiles.addActionListener(GUI_ActionListener.switchSetting(Preferences.overwriteFiles));
+		this.mainMenu.checkForUpdates.addActionListener(GUI_ActionListener.switchSetting(Preferences.autoCheckForUpdates));
 		// -- Decrypt
 		// -- Tools
 		// -- Info
+		this.mainMenu.updateProgram.addActionListener(
+				e -> new GUI_Update(this)
+		);
 		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.projectBugReportURL));
 		this.mainMenu.about.addActionListener(
 				e -> this.guiAbout.showWindow()
