@@ -67,7 +67,7 @@ class GUI {
 
 		// Add Update-Check
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.autoCheckForUpdates, "true")))
-			new GUI_Update(this);
+			new GUI_Update(this, true);
 	}
 
 	/**

@@ -26,6 +26,7 @@ class GUI_Update {
 	private Update update = null;
 	private String[] options;
 	private boolean autoOptionExists = false;
+	private boolean ranAutomatically = false;
 
 	/**
 	 * GUI_Update constructor
@@ -49,6 +50,7 @@ class GUI_Update {
 		this.gui = gui;
 		this.options = new String[] {"Update", "Show whats new", "Disable update check", "Cancel"};
 		this.autoOptionExists = true;
+		this.ranAutomatically = auto;
 
 		this.init();
 	}
@@ -97,7 +99,7 @@ class GUI_Update {
 					App.preferences.switchBoolConfig(Preferences.autoCheckForUpdates);
 					gui.getMainMenu().checkForUpdates.setState(false);
 				}
-			} else {
+			} else if(! this.ranAutomatically) {
 				InfoWindow infoWindow = new InfoWindow("You're using the newest Version!", "No update found");
 				infoWindow.show(this.gui.getMainWindow());
 			}
