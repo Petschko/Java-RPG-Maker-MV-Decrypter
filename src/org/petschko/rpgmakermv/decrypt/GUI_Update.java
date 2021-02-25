@@ -65,9 +65,10 @@ class GUI_Update {
 			else
 				update = new Update(Config.updateUrl, Config.versionNumber, true);
 		} catch (IOException e) {
-			ErrorWindow ew = new ErrorWindow("Can't check for Updates...", ErrorWindow.ERROR_LEVEL_WARNING, false);
-
-			ew.show(this.gui.getMainWindow());
+			if(! this.ranAutomatically) {
+				ErrorWindow ew = new ErrorWindow("Can't check for Updates...", ErrorWindow.ERROR_LEVEL_WARNING, false);
+				ew.show(this.gui.getMainWindow());
+			}
 		}
 
 		this.checkIfUpdate();
@@ -114,7 +115,7 @@ class GUI_Update {
 	 */
 	private void runUpdate() {
 		try {
-			update.runUpdate();
+			update.runUpdate(Config.jarFileUpdate, true);
 		} catch(UpdateException e) {
 			ErrorWindow errorWindow = new ErrorWindow("Update Failed!", ErrorWindow.ERROR_LEVEL_ERROR, false, e);
 			errorWindow.show(this.gui.getMainWindow());
