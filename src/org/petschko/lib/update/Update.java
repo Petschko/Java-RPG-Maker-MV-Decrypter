@@ -179,7 +179,8 @@ public class Update {
 		if(this.newestVersion == null)
 			return;
 
-		this.hasNewVersion = ! this.currentVersion.versionsEqual(this.newestVersion);
+		if(! this.currentVersion.versionsEqual(this.newestVersion))
+			this.hasNewVersion = this.currentVersion.thisIsLowerThan(this.newestVersion);
 	}
 
 	/**
