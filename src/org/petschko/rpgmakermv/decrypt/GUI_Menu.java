@@ -35,6 +35,7 @@ class GUI_Menu extends JMenuBar {
 	JCheckBoxMenuItem loadInvalidRPGDirs;
 	JCheckBoxMenuItem clearOutputDir;
 	JCheckBoxMenuItem overwriteExistingFiles;
+	JCheckBoxMenuItem checkForUpdates;
 
 	// Decrypt-Menu-Sub
 	JMenuItem selectedFiles;
@@ -93,6 +94,7 @@ class GUI_Menu extends JMenuBar {
 		this.loadInvalidRPGDirs = new JCheckBoxMenuItem("Load invalid RPG-MV-Dirs anyway");
 		this.clearOutputDir = new JCheckBoxMenuItem("Clear output Dir before Decrypt");
 		this.overwriteExistingFiles = new JCheckBoxMenuItem("Overwrite existing Files");
+		this.checkForUpdates = new JCheckBoxMenuItem("Auto check for Updates");
 	}
 
 	/**
@@ -151,6 +153,8 @@ class GUI_Menu extends JMenuBar {
 		this.options.addSeparator();
 		this.options.add(this.clearOutputDir);
 		this.options.add(this.overwriteExistingFiles);
+		this.options.addSeparator();
+		this.options.add(this.checkForUpdates);
 
 		this.add(this.decrypt);
 		this.decrypt.add(this.selectedFiles);
@@ -198,6 +202,6 @@ class GUI_Menu extends JMenuBar {
 		this.changeDecrypterSignature.setEnabled(false);
 		this.restoreProject.setEnabled(false);
 		this.help.setEnabled(false);
-		this.updateProgram.setEnabled(false);
+		//this.updateProgram.setEnabled(false);
 	}
 }

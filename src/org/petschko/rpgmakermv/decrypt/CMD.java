@@ -16,6 +16,7 @@ class CMD {
 	static final int STATUS_WARNING = 1;
 	static final int STATUS_ERROR = -1;
 	static final String HELP_INDENT = "  ";
+	static final String LINE_CMD = "------------------------------------------------------------------------------";
 	private static final String CMD_HELP = "help";
 	private static final String CMD_HELP_2 = "-help";
 	private static final String CMD_HELP_3 = "--help";
@@ -30,6 +31,7 @@ class CMD {
 	private static final String CMD_GET_KEY_3 = "getkey";
 	private static final String CMD_GET_KEY_4 = "detectkey";
 	private static final String CMD_GET_KEY_5 = "keydetect";
+	private static final String UPDATE = "update";
 
 	private final String[] args;
 
@@ -47,9 +49,11 @@ class CMD {
 	 */
 	void runCMD() {
 		// Show Welcome-Message
-		System.out.println("------------------------------------------------------------------------------");
+		System.out.println(LINE_CMD);
 		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
-		System.out.println("------------------------------------------------------------------------------");
+		System.out.println(LINE_CMD);
+
+		CMD_Update.checkForUpdates();
 
 		sanitizeArgs();
 		processArgs();
@@ -66,7 +70,8 @@ class CMD {
 		args[0] = args[0].replaceAll("/", "");
 
 		if(args.length >= 2) {
-			if(isHelpCmd(args[1].toLowerCase().trim()))
+			// Lowercase everything for help & update
+			if(isHelpCmd(args[0].toLowerCase().trim()) || isHelpCmd(args[1].toLowerCase().trim()) || args[0].toLowerCase().equals(UPDATE))
 				args[1] = args[1].toLowerCase().trim();
 		}
 	}
@@ -107,6 +112,9 @@ class CMD {
 			case CMD_GET_KEY_4:
 			case CMD_GET_KEY_5:
 				cmdHandler = new CMD_DetectKey();
+				break;
+			case UPDATE:
+				cmdHandler = new CMD_Update();
 				break;
 			default:
 				boolean invalidCommand = false;

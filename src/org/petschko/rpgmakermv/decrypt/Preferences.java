@@ -27,7 +27,7 @@ class Preferences extends UserPref {
 	static final String decrypterRemain = "decrypterRemain";
 	static final String decrypterSignature = "decrypterSignature";
 	static final String decrypterHeaderLen = "decrypterHeaderLen";
-
+	static final String autoCheckForUpdates = "autoCheckForUpdates";
 
 	/**
 	 * UserPrefs Constructor
@@ -58,6 +58,7 @@ class Preferences extends UserPref {
 		p.setProperty(Preferences.decrypterRemain, Decrypter.defaultRemain);
 		p.setProperty(Preferences.decrypterSignature, Decrypter.defaultSignature);
 		p.setProperty(Preferences.decrypterHeaderLen, Integer.toString(Decrypter.defaultHeaderLen));
+		p.setProperty(Preferences.autoCheckForUpdates, "true");
 
 		this.setProperties(p);
 

@@ -38,6 +38,7 @@ class CMD_Help implements CMD_Command {
 		//App.showMessage(CMD.HELP_INDENT + "  restoreproject - Restores a RPG-MV/MZ Project (Makes it editable again)");
 		App.showMessage(CMD.HELP_INDENT + "  key     - Detects the Key and Displays it");
 		//App.showMessage(CMD.HELP_INDENT + "  open - Opens an encrypted Image");
+		App.showMessage(CMD.HELP_INDENT + "  update - Updates this Program");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Display detailed help for each command:");
 		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" [command] help");

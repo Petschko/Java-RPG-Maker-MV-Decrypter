@@ -22,7 +22,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +63,28 @@ class GUI {
 		// Assign Listener
 		this.assignMainMenuListener();
 		this.setNewOutputDir(App.outputDir);
-		// todo implement
+
+		// Add Update-Check
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.autoCheckForUpdates, "true")))
+			new GUI_Update(this, true);
+	}
+
+	/**
+	 * Returns the Main-Window
+	 *
+	 * @return - Main-Window
+	 */
+	JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	/**
+	 * Returns the Main-Menu
+	 *
+	 * @return - Main-Menu
+	 */
+	GUI_Menu getMainMenu() {
+		return mainMenu;
 	}
 
 	/**
@@ -108,6 +128,10 @@ class GUI {
 				this.mainMenu.overwriteExistingFiles.setState(true);
 		} else
 			this.mainMenu.overwriteExistingFiles.setEnabled(false);
+
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.autoCheckForUpdates, "true")))
+			this.mainMenu.checkForUpdates.setState(true);
+
 		this.mainMenu.enableOnRPGProject(false);
 	}
 
@@ -193,9 +217,13 @@ class GUI {
 				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
 		);
 		this.mainMenu.overwriteExistingFiles.addActionListener(GUI_ActionListener.switchSetting(Preferences.overwriteFiles));
+		this.mainMenu.checkForUpdates.addActionListener(GUI_ActionListener.switchSetting(Preferences.autoCheckForUpdates));
 		// -- Decrypt
 		// -- Tools
 		// -- Info
+		this.mainMenu.updateProgram.addActionListener(
+				e -> new GUI_Update(this)
+		);
 		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.projectBugReportURL));
 		this.mainMenu.about.addActionListener(
 				e -> this.guiAbout.showWindow()
@@ -281,11 +309,9 @@ class GUI {
 		 * Note: this method is executed in a background thread.
 		 *
 		 * @return the computed result
-		 *
-		 * @throws Exception if unable to compute a result
 		 */
 		@Override
-		protected Void doInBackground() throws Exception {
+		protected Void doInBackground() {
 			// Clear Output-Dir if checked
 			if(Functions.strToBool(App.preferences.getConfig(Preferences.clearOutputDirBeforeDecrypt, "true"))) {
 				this.progressMonitor.setNote("Clearing Output-Directory...");
@@ -322,21 +348,6 @@ class GUI {
 				this.progressMonitor.setNote("Try to detect Encryption-Key...");
 				try {
 					decrypter.detectEncryptionKeyFromJson(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
-				} catch(FileSystemException fileSysEx) {
-					// Can't load File
-					fileSysEx.printStackTrace();
-					ErrorWindow errorWindow = new ErrorWindow(
-							"Can't load/read Decryption-Key-File..." + Const.newLine +
-							"File: " + fileSysEx.getFile() + Const.newLine +
-							"See Console for more Details...",
-							ErrorWindow.ERROR_LEVEL_WARNING,
-							false
-					);
-
-					errorWindow.show(mainWindow);
-
-					this.cancel(true);
-					return null;
 				} catch(NullPointerException decryNullEx) {
 					// File-Null-Pointer
 					ErrorWindow errorWindow = new ErrorWindow(
@@ -433,7 +444,7 @@ class GUI {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			this.progressMonitor = new ProgressMonitor(mainWindow, "Decrypting...", "Preparing...", 0, this.files.size());
+			this.progressMonitor = new ProgressMonitor(mainWindow, this.restoreImages ? "Restoring..." : "Decrypting...", "Preparing...", 0, this.files.size());
 			this.progressMonitor.setProgress(0);
 
 			this.execute();
@@ -464,11 +475,9 @@ class GUI {
 		 * Note: this method is executed in a background thread.
 		 *
 		 * @return the computed result
-		 *
-		 * @throws Exception if unable to compute a result
 		 */
 		@Override
-		protected Void doInBackground() throws Exception {
+		protected Void doInBackground() {
 			if(File.clearDirectory(this.directoryPath)) {
 				InfoWindow infoWindow = new InfoWindow("Output-Directory cleared!");
 				infoWindow.show(mainWindow);
@@ -561,11 +570,9 @@ class GUI {
 		 * Note: this method is executed in a background thread.
 		 *
 		 * @return the computed result
-		 *
-		 * @throws Exception if unable to compute a result
 		 */
 		@Override
-		protected Void doInBackground() throws Exception {
+		protected Void doInBackground() {
 			try {
 				rpgProject = new RPGProject(
 						File.ensureDSonEndOfPath(this.directoryPath),

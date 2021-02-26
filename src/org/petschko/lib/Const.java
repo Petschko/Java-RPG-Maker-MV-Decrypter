@@ -13,6 +13,7 @@ package org.petschko.lib;
 public class Const {
 	public static final String creator = "Petschko";
 	public static final String creatorURL = "https://petschko.org/";
+	public static final String creatorDonationUrl = "https://www.paypal.me/petschko";
 
 	// System Constance's
 	public static final String ds = System.getProperty("file.separator");

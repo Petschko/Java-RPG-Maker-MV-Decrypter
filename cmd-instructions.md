@@ -54,3 +54,8 @@ There exists commands you can use, these are explained here:
     - Will do a Key-Search in `C:\my rpg mv game\` and shows the Key if found, if not found it will ask if you want to generate it out of encrypted images
   - Example 2: `java -jar "RPG Maker MV Decrypter.jar" key "C:\my rpg mv game\" false`
     - Same as Example 1, just don't ask if search on images, it will always do automatically
+- __update__ - Updates the Program (Help: `java -jar "RPG Maker MV Decrypter.jar" update help`)
+  - This Script updates the Program
+  - Syntax: `java -jar "RPG Maker MV Decrypter.jar" update [(Optional) Sub-Command]`
+  - Program Update Command: `java -jar "RPG Maker MV Decrypter.jar" update`
+  - Open "What's new" in your Default-Browser: `java -jar "RPG Maker MV Decrypter.jar" update whatsnew` 

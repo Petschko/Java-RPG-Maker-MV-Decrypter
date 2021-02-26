@@ -1,0 +1,1 @@
+0.2.0;https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/download/v.0.2.0-alpha/RPG_Maker_MV_Decrypter_0.2.0.jar;https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/tag/v.0.2.0-alpha

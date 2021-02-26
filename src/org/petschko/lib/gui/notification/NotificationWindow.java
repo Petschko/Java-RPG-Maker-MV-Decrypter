@@ -211,14 +211,12 @@ abstract class NotificationWindow {
 	 */
 	protected int getJOptionType() {
 		switch(this.errorLevel) {
-			case ERROR_LEVEL_NOTICE:
-				return JOptionPane.INFORMATION_MESSAGE;
 			case ERROR_LEVEL_WARNING:
 				return JOptionPane.WARNING_MESSAGE;
 			case ERROR_LEVEL_ERROR:
-				return JOptionPane.ERROR_MESSAGE;
 			case ERROR_LEVEL_FATAL:
 				return JOptionPane.ERROR_MESSAGE;
+			case ERROR_LEVEL_NOTICE:
 			case ERROR_LEVEL_INFO:
 			default:
 				return JOptionPane.INFORMATION_MESSAGE;
