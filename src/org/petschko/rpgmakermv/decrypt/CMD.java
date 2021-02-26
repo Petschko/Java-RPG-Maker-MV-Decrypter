@@ -1,10 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
 import org.petschko.lib.Const;
-import org.petschko.lib.gui.notification.ErrorWindow;
-import org.petschko.lib.update.Update;
-
-import java.io.IOException;
 
 /**
  * Author: Peter Dragicevic
