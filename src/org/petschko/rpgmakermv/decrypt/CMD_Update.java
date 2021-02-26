@@ -37,14 +37,13 @@ public class CMD_Update implements CMD_Command {
 				// Handle sub CMDs
 				if(subCmd.equals(SUB_CMD_WHATS_NEW)) {
 					this.showWhatsNew();
-					return;
 				} else {
 					App.showMessage("Sub-Command \"" + subCmd + "\" doesnt exists! See help", CMD.STATUS_WARNING);
 					App.showMessage("");
 					this.printHelp();
 					CMD.exitCMD(CMD.STATUS_WARNING);
-					return;
 				}
+				return;
 			}
 
 			this.runUpdate();

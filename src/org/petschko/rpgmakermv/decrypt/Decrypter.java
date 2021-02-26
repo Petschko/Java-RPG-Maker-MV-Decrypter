@@ -104,6 +104,11 @@ class Decrypter {
 		return rpgHeaderBytes;
 	}
 
+	/**
+	 * Sets RPG-Header Bytes
+	 *
+	 * @param rpgHeaderBytes - RPG-Header Bytes
+	 */
 	private void setRpgHeaderBytes(byte[] rpgHeaderBytes) {
 		this.rpgHeaderBytes = rpgHeaderBytes;
 	}
@@ -354,9 +359,8 @@ class Decrypter {
 	 * @param keyName - Key-Name of the Decryption-Key
 	 * @throws JSONException - Key not Found Exception
 	 * @throws NullPointerException - System-File is null
-	 * @throws FileSystemException - Can't load File
 	 */
-	void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException, FileSystemException {
+	void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
