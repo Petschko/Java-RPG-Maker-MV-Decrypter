@@ -63,7 +63,7 @@ public class CMD_Update implements CMD_Command {
 
 		App.showMessage("Starting update...");
 		try {
-			update.runUpdate();
+			update.runUpdate(Config.jarFileUpdate, false);
 		} catch(UpdateException e) {
 			App.showMessage("Update Failed... Cause: " + e.getMessage());
 		}

@@ -27,6 +27,7 @@ class Config {
 
 	// Misc Settings
 	static final long updateCheckEverySecs = 172800;
+	static final String jarFileUpdate = "RPG Maker MV Decrypter.jar";
 
 	/**
 	 * Constructor

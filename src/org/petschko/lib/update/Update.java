@@ -1,5 +1,7 @@
 package org.petschko.lib.update;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -208,10 +210,27 @@ public class Update {
 	}
 
 	/**
-	 * Starts the updater
+	 * Starts the updater but not relaunch after update
+	 *
+	 * @param targetJar - Target jar which should be updated
+	 * @param gui - Should the Updater show a GUI window
 	 */
-	public void runUpdate() throws UpdateException {
+	public void runUpdate(String targetJar, boolean gui) throws UpdateException {
+		this.runUpdate(targetJar, gui, false, null);
+	}
+
+
+	/**
+	 * Starts the updater
+	 *
+	 * @param targetJar - Target jar which should be updated
+	 * @param gui - Should the Updater show a GUI window
+	 * @param relaunch - Relaunch this Program after Update
+	 * @param relaunchArgs - Args for relaunch, can be null if none
+	 */
+	public void runUpdate(String targetJar, boolean gui, boolean relaunch, @Nullable String[] relaunchArgs) throws UpdateException {
 		File updaterFile = new File("update.jar");
+		File targetJarFile = new File(targetJar);
 
 		if(this.newestVersion == null)
 			throw new UpdateException("Newest Version is not set!", this.currentVersion);
@@ -222,14 +241,35 @@ public class Update {
 		if(this.newestVersion.versionsEqual(this.currentVersion))
 			throw new UpdateException("This Program is already up to date!", this.currentVersion, this.newestVersion);
 
+		if(! targetJarFile.exists() || targetJarFile.isDirectory())
+			throw new UpdateException("Can not find the Target-Jar", this.currentVersion);
+
 		if(! updaterFile.exists() || updaterFile.isDirectory())
 			throw new UpdateException("Updater not found!", this.currentVersion);
 
 		String[] run = {
-				"java",
-				"-jar",
-				"update.jar"
+			"java",
+			"-jar",
+			"update.jar",
+			"\"" + targetJar + "\"",
+			"\"" + this.downloadURL.toString() + "\"",
+			gui ? "true" : "false",
+			relaunch ? "true" : "false"
 		};
+
+		// Add args
+		if(relaunchArgs != null) {
+			String[] tmp = new String[run.length + relaunchArgs.length];
+			int i;
+			for(i = 0; i < run.length; i++)
+				tmp[i] = run[i];
+
+			int n = i;
+			for(; i < tmp.length; i++)
+				tmp[i] = relaunchArgs[i - n];
+
+			run = tmp;
+		}
 
 		try {
 			Runtime.getRuntime().exec(run);
