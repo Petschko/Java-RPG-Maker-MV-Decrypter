@@ -203,6 +203,7 @@ class GUI {
 
 					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.lastOutputParentDir, dirChooser.getCurrentDirectory().getPath());
+						App.preferences.setConfig(Preferences.lastOutputDir, dirChooser.getSelectedFile().getPath());
 						this.setNewOutputDir(dirChooser.getSelectedFile().getPath());
 					}
 				}
