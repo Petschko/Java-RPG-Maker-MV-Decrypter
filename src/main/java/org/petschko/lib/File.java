@@ -1,6 +1,5 @@
 package org.petschko.lib;
 
-import com.sun.istack.internal.NotNull;
 import org.petschko.lib.exceptions.PathException;
 
 import java.io.FileInputStream;
@@ -59,7 +58,7 @@ public class File {
 	 *
 	 * @param name - New Name for the File without ext
 	 */
-	private void setName(@NotNull String name) {
+	private void setName(String name) {
 		this.name = name;
 	}
 
@@ -68,7 +67,13 @@ public class File {
 	 *
 	 * @param newName - New Name for the File (without ext)
 	 */
-	public void changeName(@NotNull String newName) {
+	public void changeName(String newName) {
+		if(newName == null) {
+			Exception e = new Exception("newName can't be null!");
+			e.printStackTrace();
+			return;
+		}
+
 		this.setFilePath(this.getFileDirectoryPath() + newName +
 				((this.getExtension() != null) ? "." + this.getExtension() : ""));
 		this.setName(newName);
@@ -147,7 +152,13 @@ public class File {
 	 *
 	 * @param filePath - New path of the File
 	 */
-	public void setFilePath(@NotNull String filePath) {
+	public void setFilePath(String filePath) {
+		if(filePath == null) {
+			PathException pe = new PathException("filePath can't be null!", (String) null);
+			pe.printStackTrace();
+			return;
+		}
+
 		this.filePath = filePath;
 	}
 
@@ -369,7 +380,13 @@ public class File {
 	 * @param path - Unchecked Path-String
 	 * @return - Checked and may corrected Path-String
 	 */
-	public static String ensureDSonEndOfPath(@NotNull String path) {
+	public static String ensureDSonEndOfPath(String path) {
+		if(path == null) {
+			PathException pe = new PathException("path can't be null!", (String) null);
+			pe.printStackTrace();
+			return null;
+		}
+
 		if(! path.substring(path.length() - 1).equals(Const.ds))
 			path = path + Const.ds;
 
@@ -382,7 +399,13 @@ public class File {
 	 * @param path - Path of the Directory
 	 * @return - true if Directory exists else false
 	 */
-	public static boolean existsDir(@NotNull String path) {
+	public static boolean existsDir(String path) {
+		if(path == null) {
+			PathException pe = new PathException("path can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		return existsDir(path, false);
 	}
 
@@ -393,7 +416,13 @@ public class File {
 	 * @param createMissing - true if the function should create missing Directories
 	 * @return - true if the Directory exists (or was successfully created) else false
 	 */
-	public static boolean existsDir(@NotNull String path, boolean createMissing) {
+	public static boolean existsDir(String path, boolean createMissing) {
+		if(path == null) {
+			PathException pe = new PathException("path can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		java.io.File dir = new java.io.File(path);
 
 		if(! dir.exists()) {
@@ -411,7 +440,13 @@ public class File {
 	 * @param filePath - Path of the File
 	 * @return - true if File exists else false
 	 */
-	public static boolean existsFile(@NotNull String filePath) {
+	public static boolean existsFile(String filePath) {
+		if(filePath == null) {
+			PathException pe = new PathException("filePath can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		return existsFile(filePath, false);
 	}
 
@@ -422,7 +457,13 @@ public class File {
 	 * @param createMissing - true if the function should create missing Files
 	 * @return - true if the File exists (or was successfully created) else false
 	 */
-	public static boolean existsFile(@NotNull String filePath, boolean createMissing) {
+	public static boolean existsFile(String filePath, boolean createMissing) {
+		if(filePath == null) {
+			PathException pe = new PathException("filePath can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		java.io.File file = new java.io.File(filePath);
 
 		if(! file.exists()) {
@@ -453,7 +494,13 @@ public class File {
 	 * @param deleteOwn - Specify if it should delete itself too or just clearing
 	 * @return - true on success else false
 	 */
-	private static boolean deleteDirectoryOperation(@NotNull String directoryPath, boolean recursive, boolean deleteOwn) {
+	private static boolean deleteDirectoryOperation(String directoryPath, boolean recursive, boolean deleteOwn) {
+		if(directoryPath == null) {
+			PathException pe = new PathException("directoryPath can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		java.io.File dir = new java.io.File(directoryPath);
 		java.io.File[] dirContent;
 
@@ -487,7 +534,7 @@ public class File {
 	 * @param directoryPath - Path to the Directory
 	 * @return - true on success else false
 	 */
-	public static boolean deleteDirectory(@NotNull String directoryPath) {
+	public static boolean deleteDirectory(String directoryPath) {
 		return File.deleteDirectoryOperation(directoryPath, true, true);
 	}
 
@@ -497,7 +544,7 @@ public class File {
 	 * @param directoryPath - Path to the Directory
 	 * @return - true on success else false
 	 */
-	public static boolean deleteFilesInDir(@NotNull String directoryPath) {
+	public static boolean deleteFilesInDir(String directoryPath) {
 		return File.deleteDirectoryOperation(directoryPath, false, false);
 	}
 
@@ -507,7 +554,13 @@ public class File {
 	 * @param directoryPath - Path of the new Directory
 	 * @return - true if a Directory was created else false
 	 */
-	public static boolean createDirectory(@NotNull String directoryPath) {
+	public static boolean createDirectory(String directoryPath) {
+		if(directoryPath == null) {
+			PathException pe = new PathException("directoryPath can't be null!", (String) null);
+			pe.printStackTrace();
+			return false;
+		}
+
 		java.io.File dir = new java.io.File(directoryPath);
 
 		return ! dir.exists() && dir.mkdirs();
@@ -519,7 +572,7 @@ public class File {
 	 * @param directoryPath - Path to the Directory
 	 * @return - true if Directory was cleared else false
 	 */
-	public static boolean clearDirectory(@NotNull String directoryPath) {
+	public static boolean clearDirectory(String directoryPath) {
 		return File.deleteDirectoryOperation(directoryPath, true, false);
 	}
 
