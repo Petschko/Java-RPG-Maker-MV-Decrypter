@@ -16,6 +16,7 @@ hs_err_pid*
 .idea/
 
 #Output
+output/
 out/
 
 #Other
