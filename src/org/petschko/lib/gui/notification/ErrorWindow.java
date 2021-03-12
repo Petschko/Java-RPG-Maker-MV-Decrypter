@@ -1,8 +1,5 @@
 package org.petschko.lib.gui.notification;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
@@ -21,7 +18,7 @@ public class ErrorWindow extends NotificationWindow {
 	 * @param errorLevel - Error-Level of this Notification
 	 * @param stopProgram - Stop Program when Displaying this
 	 */
-	public ErrorWindow(@NotNull String message, int errorLevel, boolean stopProgram) {
+	public ErrorWindow(String message, int errorLevel, boolean stopProgram) {
 		super(message, null, errorLevel, stopProgram);
 	}
 
@@ -33,7 +30,7 @@ public class ErrorWindow extends NotificationWindow {
 	 * @param stopProgram - Stop Program when Displaying this
 	 * @param e - Exception of this Notification
 	 */
-	public ErrorWindow(@NotNull String message, int errorLevel, boolean stopProgram, @Nullable Exception e) {
+	public ErrorWindow(String message, int errorLevel, boolean stopProgram, Exception e) {
 		super(message, null, errorLevel, stopProgram, e);
 	}
 
@@ -46,7 +43,7 @@ public class ErrorWindow extends NotificationWindow {
 	 * @param stopProgram - Stop Program when Displaying this
 	 * @param e - Exception of this Notification
 	 */
-	public ErrorWindow(@NotNull String message, @Nullable String title, int errorLevel, boolean stopProgram, @Nullable Exception e) {
+	public ErrorWindow(String message, String title, int errorLevel, boolean stopProgram, Exception e) {
 		super(message, title, errorLevel, stopProgram, e);
 	}
 }

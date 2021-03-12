@@ -1,7 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 
@@ -31,7 +29,7 @@ class Finder {
 	 * @param projectDir - Directory of the Project
 	 * @return - System-File-Object if found else null
 	 */
-	static File findSystemFile(@Nullable String projectDir) {
+	static File findSystemFile(String projectDir) {
 		String[] filePaths = new String[]{
 				"data" + Const.ds + "System.json",
 				"www" + Const.ds + "data" + Const.ds + "System.json"
@@ -88,7 +86,13 @@ class Finder {
 	 * @param dir - Path to the Directory
 	 * @return - true if a File was found else false
 	 */
-	static boolean verifyRPGDir(@NotNull String dir) {
+	static boolean verifyRPGDir(String dir) {
+		if(dir == null) {
+			Exception e = new Exception("Dir can't be null!");
+			e.printStackTrace();
+			return false;
+		}
+
 		ArrayList<java.io.File> mainDirFiles = File.readDirFiles(new java.io.File(dir), false);
 		String[] rpgGameCommonFiles = new String[] {
 				"Game.exe", // Mostly with an other name...

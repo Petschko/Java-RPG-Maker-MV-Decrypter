@@ -1,7 +1,5 @@
 package org.petschko.lib;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import javax.swing.AbstractButton;
 import java.awt.Desktop;
 import java.awt.event.ActionListener;
@@ -26,7 +24,7 @@ public class Functions {
 	 * @param str - String to Check
 	 * @return - true if string contains "true" or "1" else false
 	 */
-	public static boolean strToBool(@Nullable String str) {
+	public static boolean strToBool(String str) {
 		if(str == null)
 			str = "";
 		str = str.toLowerCase();
@@ -72,7 +70,7 @@ public class Functions {
 	 *
 	 * @param url - Target URI as String
 	 */
-	public static void openWebsite(@NotNull String url) {
+	public static void openWebsite(String url) {
 		try {
 			Functions.openWebsite(new URI(url));
 		} catch(URISyntaxException e) {

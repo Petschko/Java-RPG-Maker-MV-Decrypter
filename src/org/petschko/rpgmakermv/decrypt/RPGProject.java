@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.petschko.lib.File;
 import org.petschko.lib.exceptions.PathException;
@@ -35,7 +34,9 @@ class RPGProject {
 	 * @param verifyRPGDir - true if the RPG-Maker-Directory should verified
 	 * @throws PathException - Path doesn't exists/Not Valid-Dir exception
 	 */
-	RPGProject(@NotNull String path, boolean verifyRPGDir) throws PathException {
+	RPGProject(String path, boolean verifyRPGDir) throws PathException {
+		if(path == null)
+			throw new PathException("Project-Path can't be null!", (String) null);
 		if(! File.existsDir(path))
 			throw new PathException("Project-Path doesn't exists!", path);
 
@@ -72,7 +73,7 @@ class RPGProject {
 	 *
 	 * @param path - Path of the Project
 	 */
-	private void setPath(@NotNull String path) {
+	private void setPath(String path) {
 		this.path = File.ensureDSonEndOfPath(path);
 	}
 
@@ -90,7 +91,13 @@ class RPGProject {
 	 *
 	 * @param outputPath - Output (Save-Dir)-Path of the Project
 	 */
-	void setOutputPath(@NotNull String outputPath) {
+	void setOutputPath(String outputPath) {
+		if(outputPath == null) {
+			PathException pe = new PathException("outputPath can't be null!", (String) null);
+			pe.printStackTrace();
+			return;
+		}
+
 		this.outputPath = File.ensureDSonEndOfPath(outputPath);
 	}
 
@@ -108,7 +115,7 @@ class RPGProject {
 	 *
 	 * @param system - System-File
 	 */
-	void setSystem(@NotNull File system) {
+	void setSystem(File system) {
 		this.system = system;
 	}
 

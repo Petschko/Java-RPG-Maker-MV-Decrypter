@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
@@ -32,16 +31,17 @@ class Decrypter {
 	private String decryptCode = null;
 	private String[] realDecryptCode = null;
 	private byte[] rpgHeaderBytes = null;
-	private int headerLen = 16;
-	private String signature = "5250474d56000000";
-	private String version = "000301";
-	private String remain = "0000000000";
+	private int headerLen;
+	private String signature;
+	private String version;
+	private String remain;
 	private boolean ignoreFakeHeader = false;
 
 	/**
 	 * Creates a new Decrypter instance
 	 */
 	Decrypter() {
+		this.setDefaultValues();
 	}
 
 	/**
@@ -49,7 +49,8 @@ class Decrypter {
 	 *
 	 * @param decryptCode - Decryption-Code
 	 */
-	Decrypter(@NotNull String decryptCode) {
+	Decrypter(String decryptCode) {
+		this.setDefaultValues();
 		this.setDecryptCode(decryptCode);
 	}
 
@@ -67,7 +68,7 @@ class Decrypter {
 	 *
 	 * @param decryptCode - Decrypt-Code
 	 */
-	void setDecryptCode(@NotNull String decryptCode) {
+	void setDecryptCode(String decryptCode) {
 		this.decryptCode = decryptCode;
 	}
 
@@ -88,7 +89,7 @@ class Decrypter {
 	 *
 	 * @param realDecryptCode - Real Decrypt-Code as Array
 	 */
-	private void setRealDecryptCode(@NotNull String[] realDecryptCode) {
+	private void setRealDecryptCode(String[] realDecryptCode) {
 		this.realDecryptCode = realDecryptCode;
 	}
 
@@ -145,7 +146,13 @@ class Decrypter {
 	 *
 	 * @param signature - Signature
 	 */
-	void setSignature(@NotNull String signature) {
+	void setSignature(String signature) {
+		if(signature == null) {
+			Exception e = new Exception("signature can't be null!");
+			e.printStackTrace();
+			return;
+		}
+
 		this.signature = signature;
 	}
 
@@ -163,7 +170,13 @@ class Decrypter {
 	 *
 	 * @param version - Version
 	 */
-	void setVersion(@NotNull String version) {
+	void setVersion(String version) {
+		if(version == null) {
+			Exception e = new Exception("version can't be null!");
+			e.printStackTrace();
+			return;
+		}
+
 		this.version = version;
 	}
 
@@ -181,7 +194,13 @@ class Decrypter {
 	 *
 	 * @param remain - Remain
 	 */
-	void setRemain(@NotNull String remain) {
+	void setRemain(String remain) {
+		if(remain == null) {
+			Exception e = new Exception("remain can't be null!");
+			e.printStackTrace();
+			return;
+		}
+
 		this.remain = remain;
 	}
 
@@ -201,6 +220,16 @@ class Decrypter {
 	 */
 	void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
 		this.ignoreFakeHeader = ignoreFakeHeader;
+	}
+
+	/**
+	 * Sets default values
+	 */
+	private void setDefaultValues() {
+		this.setHeaderLen(defaultHeaderLen);
+		this.setSignature(defaultSignature);
+		this.setVersion(defaultVersion);
+		this.setRemain(defaultRemain);
 	}
 
 	/**

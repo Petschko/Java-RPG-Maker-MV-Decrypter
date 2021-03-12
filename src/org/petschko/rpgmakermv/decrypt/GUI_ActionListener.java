@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.notification.ErrorWindow;
@@ -51,7 +50,12 @@ class GUI_ActionListener {
 	 * @param configName - Config-Name
 	 * @return - Switch-Setting ActionListener
 	 */
-	static ActionListener switchSetting(@NotNull String configName) {
+	static ActionListener switchSetting(String configName) {
+		if(configName == null) {
+			Exception e = new Exception("configName can't be null!");
+			e.printStackTrace();
+		}
+
 		return e -> App.preferences.switchBoolConfig(configName);
 	}
 

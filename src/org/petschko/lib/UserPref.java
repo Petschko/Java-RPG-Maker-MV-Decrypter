@@ -1,7 +1,5 @@
 package org.petschko.lib;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +25,7 @@ public abstract class UserPref {
 	 *
 	 * @param filePath - File-Path to UserPref-File
 	 */
-	public UserPref(@Nullable String filePath) {
+	public UserPref(String filePath) {
 		this.setFilePath(filePath);
 
 		if(filePath != null)
@@ -66,7 +64,7 @@ public abstract class UserPref {
 	 *
 	 * @param filePath - File-Path of the Properties File
 	 */
-	public void setFilePath(@Nullable String filePath) {
+	public void setFilePath(String filePath) {
 		this.filePath = filePath;
 	}
 
@@ -136,7 +134,7 @@ public abstract class UserPref {
 	 * @param configKey - Property-Key (Name)
 	 * @return - Property-Value
 	 */
-	public String getConfig(@NotNull String configKey) {
+	public String getConfig(String configKey) {
 		return getConfig(configKey, null);
 	}
 
@@ -147,7 +145,7 @@ public abstract class UserPref {
 	 * @param fallbackValue - Fallback-Value if the Key is not set or null to ignore
 	 * @return - Property-Value
 	 */
-	public String getConfig(@NotNull String configKey, @Nullable String fallbackValue) {
+	public String getConfig(String configKey, String fallbackValue) {
 		if(this.getProperties() == null)
 			this.load();
 
@@ -167,7 +165,7 @@ public abstract class UserPref {
 	 * @param configKey - Property-Key (Name)
 	 * @param newValue - New Value for this Properties-Key
 	 */
-	public void setConfig(@NotNull String configKey, @NotNull String newValue) {
+	public void setConfig(String configKey, String newValue) {
 		if(this.getProperties() == null)
 			this.load();
 
@@ -179,7 +177,7 @@ public abstract class UserPref {
 	 *
 	 * @param configKey - Config Key of the Value to switch
 	 */
-	public void switchBoolConfig(@NotNull String configKey) {
+	public void switchBoolConfig(String configKey) {
 		String config = this.getConfig(configKey);
 
 		// Config doesn't exists

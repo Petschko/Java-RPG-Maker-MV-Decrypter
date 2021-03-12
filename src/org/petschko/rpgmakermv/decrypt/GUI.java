@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
@@ -251,7 +250,13 @@ class GUI {
 	 * @param currentDirectory - Current RPG-Maker Directory
 	 * @param showInfoWindow - Show Info-Window if done
 	 */
-	private void openRPGProject(@NotNull String currentDirectory, boolean showInfoWindow) {
+	private void openRPGProject(String currentDirectory, boolean showInfoWindow) {
+		if(currentDirectory == null) {
+			PathException pe = new PathException("currentDirectory can't be null!", (String) null);
+			pe.printStackTrace();
+			return;
+		}
+
 		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory, showInfoWindow);
 		openRPG.execute();
 	}
@@ -455,7 +460,7 @@ class GUI {
 	 * Class GUI_DirectoryClearing
 	 */
 	private class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
-		private String directoryPath;
+		private String directoryPath = null;
 		private JDialog jDialog;
 
 		/**
@@ -463,7 +468,13 @@ class GUI {
 		 *
 		 * @param directoryPath - Path to clear
 		 */
-		GUI_DirectoryClearing(@NotNull String directoryPath) {
+		GUI_DirectoryClearing(String directoryPath) {
+			if(directoryPath == null) {
+				PathException pe = new PathException("directoryPath can't be null!", (String) null);
+				pe.printStackTrace();
+				return;
+			}
+
 			this.directoryPath = File.ensureDSonEndOfPath(directoryPath);
 		}
 
@@ -478,6 +489,9 @@ class GUI {
 		 */
 		@Override
 		protected Void doInBackground() {
+			if(this.directoryPath == null)
+				return null;
+
 			if(File.clearDirectory(this.directoryPath)) {
 				InfoWindow infoWindow = new InfoWindow("Output-Directory cleared!");
 				infoWindow.show(mainWindow);
@@ -510,7 +524,8 @@ class GUI {
 			this.jDialog.dispose();
 
 			// Reset this ActionListener
-			setNewOutputDir(this.directoryPath);
+			if(directoryPath != null)
+				setNewOutputDir(this.directoryPath);
 		}
 
 		/**
@@ -520,6 +535,9 @@ class GUI {
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			if(this.directoryPath == null)
+				return;
+
 			this.jDialog = new JDialog();
 			JLabel text = new JLabel("Please wait while clearing the Directory: " + this.directoryPath);
 			text.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));

@@ -13,7 +13,7 @@ import java.security.PrivilegedActionException;
  * Notes: PathException (Replacement for Oracle-Path-Exception)
  */
 public class PathException extends Exception {
-	private String path;
+	private final String path;
 
 	/**
 	 * Constructs a new throwable with {@code null} as its detail message.
@@ -153,6 +153,6 @@ public class PathException extends Exception {
 	 */
 	@Override
 	public String getMessage() {
-		return super.getMessage() + " | Path: " + this.path;
+		return super.getMessage() + " | Path: " + (this.getPath() == null ? "null" : this.getPath());
 	}
 }

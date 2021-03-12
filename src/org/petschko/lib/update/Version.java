@@ -1,7 +1,5 @@
 package org.petschko.lib.update;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: https://petschko.org/
@@ -20,7 +18,7 @@ public class Version {
 	 *
 	 * @param version - Version
 	 */
-	public Version(@NotNull String version) {
+	public Version(String version) {
 		this.version = version;
 	}
 

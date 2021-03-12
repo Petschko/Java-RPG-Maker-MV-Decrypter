@@ -1,6 +1,5 @@
 package org.petschko.lib.gui;
 
-import org.jetbrains.annotations.NotNull;
 import org.petschko.lib.Image;
 
 import javax.imageio.ImageIO;
@@ -29,7 +28,7 @@ public class JImageLabel extends JLabel {
 	 *
 	 * @param imagePath - Path of the Image
 	 */
-	public JImageLabel(@NotNull String imagePath) {
+	public JImageLabel(String imagePath) {
 		this.setImage(imagePath, false);
 	}
 
@@ -50,7 +49,7 @@ public class JImageLabel extends JLabel {
 	 * @param imagePath - Path or ClassPath to the Image
 	 * @param useURL - true if use class path else false
 	 */
-	public JImageLabel(@NotNull String imagePath, boolean useURL) {
+	public JImageLabel(String imagePath, boolean useURL) {
 		this.setImage(imagePath, useURL);
 	}
 
@@ -88,7 +87,13 @@ public class JImageLabel extends JLabel {
 	 * @param imagePath - Path or Class-Path
 	 * @param useURL - true uses Class-Path instead of a Path
 	 */
-	public void setImage(@NotNull String imagePath, boolean useURL) {
+	public void setImage(String imagePath, boolean useURL) {
+		if(imagePath == null) {
+			Exception e = new Exception("Image Path can't be null");
+			e.printStackTrace();
+			return;
+		}
+
 		if(useURL) {
 			this.setBufferedImage(getClass().getResource(imagePath));
 		} else {

@@ -1,7 +1,8 @@
 package org.petschko.lib;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.sun.istack.internal.NotNull;
+import org.petschko.lib.exceptions.PathException;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,7 +33,12 @@ public class File {
 	 * @param filePath - Path of the File
 	 * @throws Exception - Invalid File-Path
 	 */
-	public File(@NotNull String filePath) throws Exception {
+	public File(String filePath) throws Exception {
+		if(filePath == null) {
+			PathException pe = new PathException("filePath can't be null!", (String) null);
+			pe.printStackTrace();
+		}
+
 		this.setFilePath(filePath);
 
 		// Extract Name and Extension
@@ -82,7 +88,7 @@ public class File {
 	 *
 	 * @param extension - New Extension of the File
 	 */
-	private void setExtension(@Nullable String extension) {
+	private void setExtension(String extension) {
 		if(extension != null) {
 			if (extension.equals(""))
 				extension = null;
@@ -98,7 +104,7 @@ public class File {
 	 *
 	 * @param newExtension - New Extension for the File
 	 */
-	public void changeExtension(@Nullable String newExtension) {
+	public void changeExtension(String newExtension) {
 		if(newExtension != null) {
 			if (newExtension.equals(""))
 				newExtension = null;
@@ -123,7 +129,7 @@ public class File {
 	 *
 	 * @param content - New File-Content
 	 */
-	public void setContent(@Nullable byte[] content) {
+	public void setContent(byte[] content) {
 		this.content = content;
 	}
 
@@ -173,7 +179,7 @@ public class File {
 	 *
 	 * @param newPath - New Directory of the File
 	 */
-	public void changePathToFile(@Nullable String newPath) {
+	public void changePathToFile(String newPath) {
 		if(newPath == null)
 			newPath = "";
 

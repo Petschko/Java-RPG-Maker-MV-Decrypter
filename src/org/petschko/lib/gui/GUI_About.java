@@ -1,8 +1,5 @@
 package org.petschko.lib.gui;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -45,7 +42,7 @@ public abstract class GUI_About extends JDialog {
 	 * @see Component#setVisible
 	 * @see JComponent#getDefaultLocale
 	 */
-	public GUI_About(@NotNull String title, @Nullable JFrame relativeTo) throws HeadlessException {
+	public GUI_About(String title, JFrame relativeTo) throws HeadlessException {
 		super(relativeTo, title, JDialog.DEFAULT_MODALITY_TYPE);
 		this.parent = relativeTo;
 		this.imagePanel = this.aboutIcon();

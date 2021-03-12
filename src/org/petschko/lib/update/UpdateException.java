@@ -1,8 +1,5 @@
 package org.petschko.lib.update;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.security.PrivilegedActionException;
 
 /**
@@ -26,7 +23,7 @@ public class UpdateException extends Exception {
 	 *
 	 * @param currentVersion - Current Version
 	 */
-	public UpdateException(@NotNull Version currentVersion) {
+	public UpdateException(Version currentVersion) {
 		super();
 		this.setCurrentVersion(currentVersion);
 	}
@@ -39,7 +36,7 @@ public class UpdateException extends Exception {
 	 * @param currentVersion - Current Version
 	 * @param newestVersion - Newest Version or null for none
 	 */
-	public UpdateException(@NotNull Version currentVersion, @Nullable Version newestVersion) {
+	public UpdateException(Version currentVersion, Version newestVersion) {
 		super();
 		this.setCurrentVersion(currentVersion);
 		this.setNewestVersion(newestVersion);
@@ -54,7 +51,7 @@ public class UpdateException extends Exception {
 	 * later retrieval by the {@link #getMessage()} method.
 	 * @param currentVersion - Current Version
 	 */
-	public UpdateException(String message, @NotNull Version currentVersion) {
+	public UpdateException(String message, Version currentVersion) {
 		super(message);
 		this.setCurrentVersion(currentVersion);
 	}
@@ -69,7 +66,7 @@ public class UpdateException extends Exception {
 	 * @param currentVersion - Current Version
 	 * @param newestVersion - Newest Version or null for none
 	 */
-	public UpdateException(String message, @NotNull Version currentVersion, @Nullable Version newestVersion) {
+	public UpdateException(String message, Version currentVersion, Version newestVersion) {
 		super(message);
 		this.setCurrentVersion(currentVersion);
 		this.setNewestVersion(newestVersion);
@@ -89,7 +86,7 @@ public class UpdateException extends Exception {
 	 * permitted, and indicates that the cause is nonexistent or
 	 * unknown.)
 	 */
-	public UpdateException(String message, @NotNull Version currentVersion, Throwable cause) {
+	public UpdateException(String message, Version currentVersion, Throwable cause) {
 		super(message, cause);
 		this.setCurrentVersion(currentVersion);
 	}
@@ -109,7 +106,7 @@ public class UpdateException extends Exception {
 	 * permitted, and indicates that the cause is nonexistent or
 	 * unknown.)
 	 */
-	public UpdateException(String message, @NotNull Version currentVersion, @Nullable Version newestVersion, Throwable cause) {
+	public UpdateException(String message, Version currentVersion, Version newestVersion, Throwable cause) {
 		super(message, cause);
 		this.setCurrentVersion(currentVersion);
 		this.setNewestVersion(newestVersion);
@@ -129,7 +126,7 @@ public class UpdateException extends Exception {
 	 * permitted, and indicates that the cause is nonexistent or
 	 * unknown.)
 	 */
-	public UpdateException(@NotNull Version currentVersion, Throwable cause) {
+	public UpdateException(Version currentVersion, Throwable cause) {
 		super(cause);
 		this.setCurrentVersion(currentVersion);
 	}
@@ -149,7 +146,7 @@ public class UpdateException extends Exception {
 	 * permitted, and indicates that the cause is nonexistent or
 	 * unknown.)
 	 */
-	public UpdateException(@NotNull Version currentVersion, @Nullable Version newestVersion, Throwable cause) {
+	public UpdateException(Version currentVersion, Version newestVersion, Throwable cause) {
 		super(cause);
 		this.setCurrentVersion(currentVersion);
 		this.setNewestVersion(newestVersion);
@@ -169,7 +166,7 @@ public class UpdateException extends Exception {
 	 * @param writableStackTrace whether or not the stack trace should
 	 * be writable
 	 */
-	protected UpdateException(String message, @NotNull Version currentVersion, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	protected UpdateException(String message, Version currentVersion, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		this.setCurrentVersion(currentVersion);
 	}
@@ -189,7 +186,7 @@ public class UpdateException extends Exception {
 	 * @param writableStackTrace whether or not the stack trace should
 	 * be writable
 	 */
-	protected UpdateException(String message, @NotNull Version currentVersion, @Nullable Version newestVersion, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	protected UpdateException(String message, Version currentVersion, Version newestVersion, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		this.setCurrentVersion(currentVersion);
 		this.setNewestVersion(newestVersion);
@@ -200,7 +197,7 @@ public class UpdateException extends Exception {
 	 *
 	 * @return - Current Version
 	 */
-	public @NotNull Version getCurrentVersion() {
+	public Version getCurrentVersion() {
 		return currentVersion;
 	}
 
@@ -218,7 +215,7 @@ public class UpdateException extends Exception {
 	 *
 	 * @param currentVersion - Current Version
 	 */
-	private void setCurrentVersion(@NotNull Version currentVersion) {
+	private void setCurrentVersion(Version currentVersion) {
 		this.currentVersion = currentVersion;
 	}
 
@@ -227,7 +224,7 @@ public class UpdateException extends Exception {
 	 *
 	 * @return - Newest Version or null
 	 */
-	public @Nullable Version getNewestVersion() {
+	public Version getNewestVersion() {
 		return newestVersion;
 	}
 
@@ -248,7 +245,7 @@ public class UpdateException extends Exception {
 	 *
 	 * @param newestVersion - Newest Version or null
 	 */
-	private void setNewestVersion(@Nullable Version newestVersion) {
+	private void setNewestVersion(Version newestVersion) {
 		this.newestVersion = newestVersion;
 	}
 }

@@ -1,7 +1,5 @@
 package org.petschko.lib.gui;
 
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -45,7 +43,7 @@ public class JLabelExtra extends JLabel {
 	 * <code>RIGHT</code>,
 	 * <code>LEADING</code> or
 	 */
-	public JLabelExtra(@Nullable String text, int horizontalAlignment) {
+	public JLabelExtra(String text, int horizontalAlignment) {
 		super(text, horizontalAlignment);
 	}
 
@@ -56,7 +54,7 @@ public class JLabelExtra extends JLabel {
 	 *
 	 * @param text The text to be displayed by the label.
 	 */
-	public JLabelExtra(@Nullable String text) {
+	public JLabelExtra(String text) {
 		super(text);
 	}
 
@@ -77,7 +75,7 @@ public class JLabelExtra extends JLabel {
 	 *
 	 * @param color - new Color for the Text or null for default
 	 */
-	public void setTextColor(@Nullable Color color) {
+	public void setTextColor(Color color) {
 		if(color == null) {
 			this.setForeground(new JLabel().getForeground());
 			return;
@@ -142,7 +140,7 @@ public class JLabelExtra extends JLabel {
 	 *
 	 * @param fontType - Font-Type of the Text or null for default
 	 */
-	public void setFontType(@Nullable String fontType) {
+	public void setFontType(String fontType) {
 		if(fontType == null) {
 			this.changeStyleAttribute(TextAttribute.FONT, new JLabel().getFont().getFontName());
 			return;
@@ -171,7 +169,7 @@ public class JLabelExtra extends JLabel {
 	 * @param url - URL to set or null if you want remove the URL
 	 * @param defaultURLStyle - true Styles the URL for you Underlined-Blue else it don't style it for you
 	 */
-	public void setURL(@Nullable String url, boolean defaultURLStyle) {
+	public void setURL(String url, boolean defaultURLStyle) {
 		if(url == null) {
 			this.removeURL(defaultURLStyle);
 			return;

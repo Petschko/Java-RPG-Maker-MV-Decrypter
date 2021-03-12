@@ -1,8 +1,5 @@
 package org.petschko.lib.gui.notification;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.io.PrintWriter;
@@ -37,7 +34,7 @@ abstract class NotificationWindow {
 	 * @param message - Message for this Notification
 	 * @param title - Title for this Notification
 	 */
-	NotificationWindow(@NotNull String message, @Nullable String title) {
+	NotificationWindow(String message, String title) {
 		this.errorLevel = ERROR_LEVEL_INFO;
 		this.setTitle(title);
 		this.message = message;
@@ -50,7 +47,7 @@ abstract class NotificationWindow {
 	 * @param title - Title for this Notification
 	 * @param errorLevel - Error-Level of this Notification
 	 */
-	NotificationWindow(@NotNull String message, @Nullable String title, int errorLevel) {
+	NotificationWindow(String message, String title, int errorLevel) {
 		this.errorLevel = errorLevel;
 		this.setTitle(title);
 		this.message = message;
@@ -64,7 +61,7 @@ abstract class NotificationWindow {
 	 * @param errorLevel - Error-Level of this Notification
 	 * @param stopProgram - Stop Program when Displaying this
 	 */
-	NotificationWindow(@NotNull String message, @Nullable String title, int errorLevel, boolean stopProgram) {
+	NotificationWindow(String message, String title, int errorLevel, boolean stopProgram) {
 		this.errorLevel = errorLevel;
 		this.setTitle(title);
 		this.message = message;
@@ -80,7 +77,7 @@ abstract class NotificationWindow {
 	 * @param stopProgram - Stop Program when Displaying this
 	 * @param e - Exception of this Notification
 	 */
-	NotificationWindow(@NotNull String message, @Nullable String title, int errorLevel, boolean stopProgram, @Nullable Exception e) {
+	NotificationWindow(String message, String title, int errorLevel, boolean stopProgram, Exception e) {
 		this.errorLevel = errorLevel;
 		this.setTitle(title);
 		this.message = message;
@@ -120,7 +117,7 @@ abstract class NotificationWindow {
 	 *
 	 * @param title - Title for this Notification
 	 */
-	public void setTitle(@Nullable String title) {
+	public void setTitle(String title) {
 		if(title == null)
 			this.setDefaultTitle();
 		else
@@ -141,7 +138,7 @@ abstract class NotificationWindow {
 	 *
 	 * @param message - Message to display
 	 */
-	public void setMessage(@NotNull String message) {
+	public void setMessage(String message) {
 		this.message = message;
 	}
 
@@ -177,7 +174,7 @@ abstract class NotificationWindow {
 	 *
 	 * @param e - Exception
 	 */
-	public void setE(@Nullable Exception e) {
+	public void setE(Exception e) {
 		this.e = e;
 	}
 
@@ -251,7 +248,7 @@ abstract class NotificationWindow {
 	 *
 	 * @param parentComponent - Parent Component or null for none
 	 */
-	public void show(@Nullable Component parentComponent) {
+	public void show(Component parentComponent) {
 		JOptionPane.showConfirmDialog(parentComponent, this.getFullMessage(), this.getTitle(), JOptionPane.DEFAULT_OPTION, this.getJOptionType());
 	}
 }

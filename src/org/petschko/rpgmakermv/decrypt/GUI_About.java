@@ -1,7 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.Const;
 import org.petschko.lib.gui.JImageLabel;
 import org.petschko.lib.gui.JLabelExtra;
@@ -47,7 +45,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	 * @see Component#setVisible
 	 * @see JComponent#getDefaultLocale
 	 */
-	GUI_About(@NotNull String title, @Nullable JFrame relativeTo) throws HeadlessException {
+	GUI_About(String title, JFrame relativeTo) throws HeadlessException {
 		super(title, relativeTo);
 	}
 

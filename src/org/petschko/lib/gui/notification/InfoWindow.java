@@ -1,8 +1,5 @@
 package org.petschko.lib.gui.notification;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
  * Authors-Website: http://petschko.org/
@@ -19,7 +16,7 @@ public class InfoWindow extends NotificationWindow {
 	 *
 	 * @param message - Message for this Notification
 	 */
-	public InfoWindow(@NotNull String message) {
+	public InfoWindow(String message) {
 		super(message, null);
 	}
 
@@ -29,7 +26,7 @@ public class InfoWindow extends NotificationWindow {
 	 * @param message - Message for this Notification
 	 * @param title - Title for this Notification
 	 */
-	public InfoWindow(@NotNull String message, @Nullable String title) {
+	public InfoWindow(String message, String title) {
 		super(message, title);
 	}
 }

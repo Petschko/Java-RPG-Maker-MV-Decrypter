@@ -1,7 +1,5 @@
 package org.petschko.lib.update;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -229,7 +227,7 @@ public class Update {
 	 * @param relaunch - Relaunch this Program after Update
 	 * @param relaunchArgs - Args for relaunch, can be null if none
 	 */
-	public void runUpdate(String targetJar, boolean gui, boolean relaunch, @Nullable String[] relaunchArgs) throws UpdateException {
+	public void runUpdate(String targetJar, boolean gui, boolean relaunch, String[] relaunchArgs) throws UpdateException {
 		File updaterFile = new File("update.jar");
 		File targetJarFile = new File(targetJar);
 

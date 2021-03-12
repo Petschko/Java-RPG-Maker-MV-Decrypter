@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.jetbrains.annotations.Nullable;
 import org.petschko.lib.UserPref;
 
 import java.util.Properties;
@@ -34,7 +33,7 @@ class Preferences extends UserPref {
 	 *
 	 * @param filePath - File-Path to UserPref-File
 	 */
-	Preferences(@Nullable String filePath) {
+	Preferences(String filePath) {
 		super(filePath);
 	}
 
