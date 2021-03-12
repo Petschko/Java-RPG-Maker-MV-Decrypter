@@ -76,7 +76,7 @@ class GUI_Menu extends JMenuBar {
 		this.file = new JMenu("File");
 
 		// Sub-Items
-		this.open = new JMenuItem("Select RPG MV Project...");
+		this.open = new JMenuItem("Select RPG MV/MZ Project...");
 		this.changeOutputDir = new JMenuItem("Change Output-Directory...");
 		this.openRPGDirExplorer = new JMenuItem("Show RPG-Dir in Explorer");
 		this.openOutputDirExplorer = new JMenuItem("Show Output-Dir in Explorer");
