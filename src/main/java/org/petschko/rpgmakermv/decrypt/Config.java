@@ -12,13 +12,13 @@ package org.petschko.rpgmakermv.decrypt;
  */
 class Config {
 	// Program Info
-	static final String versionNumber = "0.3.2";
+	static final String versionNumber = "0.3.3";
 	static final String version = "v" + versionNumber + " Alpha";
 	static final String programName = "RPG-Maker MV/MZ Decrypter";
 	static final String projectPageURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter";
 	static final String projectBugReportURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues";
 	static final String projectLicenceURL = "https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/blob/master/LICENCE";
-	static final String authorImage = "/org/petschko/icons/petschko_icon.png";
+	static final String authorImage = "/icons/petschko_icon.png";
 	static final String updateUrl = "https://raw.githubusercontent.com/Petschko/Java-RPG-Maker-MV-Decrypter/master/version.txt";
 
 	// File-Path-Settings

@@ -1,5 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.gui.notification.ErrorWindow;
 
@@ -37,6 +38,9 @@ public class App {
 		}
 
 		if(useGUI) {
+			// Show something when its started via .bat or shell file
+			System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator);
+
 			// Use GUI
 			preferences = new Preferences(Config.preferencesFile);
 			outputDir = App.preferences.getConfig(Preferences.lastOutputDir, Config.defaultOutputDir);
