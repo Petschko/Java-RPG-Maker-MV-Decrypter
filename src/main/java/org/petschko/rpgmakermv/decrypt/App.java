@@ -1,5 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import org.petschko.lib.File;
 import org.petschko.lib.gui.notification.ErrorWindow;
 
 /**
@@ -25,6 +26,10 @@ public class App {
 	 * @param args - Optional Arguments from Command-Line
 	 */
 	public static void main(String[] args) {
+		// Ensure System output dir always exists
+		if(! File.existsDir(Config.defaultOutputDir))
+			File.createDirectory(Config.defaultOutputDir);
+
 		// Check whats given from CMD
 		if(args.length > 0) {
 			useGUI = false;
