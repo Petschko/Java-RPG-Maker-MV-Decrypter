@@ -61,9 +61,9 @@ class GUI_Update {
 	private void init() {
 		try {
 			if(this.ranAutomatically)
-				update = new Update(Config.updateUrl, Config.versionNumber, Config.updateCheckEverySecs);
+				update = new Update(Config.UPDATE_URL, Config.VERSION_NUMBER, Config.UPDATE_CHECK_EVERY_SECS);
 			else
-				update = new Update(Config.updateUrl, Config.versionNumber, true);
+				update = new Update(Config.UPDATE_URL, Config.VERSION_NUMBER, true);
 		} catch (IOException e) {
 			if(! this.ranAutomatically) {
 				ErrorWindow ew = new ErrorWindow("Can't check for Updates...", ErrorWindow.ERROR_LEVEL_WARNING, false);
@@ -83,9 +83,9 @@ class GUI_Update {
 				// Ask the user what to do
 				int response = JOptionPane.showOptionDialog(
 						this.gui.getMainWindow(),
-						"Update found!" + Const.newLine +
-								"Your Version: " + Config.versionNumber + Const.newLine +
-								"New Version: " + update.getNewestVersion() + Const.newLine + Const.newLine +
+						"Update found!" + Const.NEW_LINE +
+								"Your Version: " + Config.VERSION_NUMBER + Const.NEW_LINE +
+								"New Version: " + update.getNewestVersion() + Const.NEW_LINE + Const.NEW_LINE +
 								"What do you want to do?",
 						"Update found",
 						JOptionPane.DEFAULT_OPTION,
@@ -100,7 +100,7 @@ class GUI_Update {
 				else if(response == 1)
 					this.showWhatsNew();
 				else if(this.autoOptionExists && response == 2) {
-					App.preferences.switchBoolConfig(Preferences.autoCheckForUpdates);
+					App.preferences.switchBoolConfig(Preferences.AUTO_CHECK_FOR_UPDATES);
 					gui.getMainMenu().checkForUpdates.setState(false);
 				}
 			} else if(! this.ranAutomatically) {
@@ -115,7 +115,7 @@ class GUI_Update {
 	 */
 	private void runUpdate() {
 		try {
-			update.runUpdate(Config.thisJarFileName, true, true, null);
+			update.runUpdate(Config.THIS_JAR_FILE_NAME, true, true, null);
 		} catch(UpdateException e) {
 			ErrorWindow errorWindow = new ErrorWindow("Update Failed!", ErrorWindow.ERROR_LEVEL_ERROR, false, e);
 			errorWindow.show(this.gui.getMainWindow());
@@ -143,7 +143,7 @@ class GUI_Update {
 				}
 			}
 		} else {
-			ErrorWindow errorWindow = new ErrorWindow("Can't open \"What's new...\"..." + Const.newLine + "This operation isnt supported by your OS!", ErrorWindow.ERROR_LEVEL_ERROR, false);
+			ErrorWindow errorWindow = new ErrorWindow("Can't open \"What's new...\"..." + Const.NEW_LINE + "This operation isnt supported by your OS!", ErrorWindow.ERROR_LEVEL_ERROR, false);
 			errorWindow.show(this.gui.getMainWindow());
 		}
 	}

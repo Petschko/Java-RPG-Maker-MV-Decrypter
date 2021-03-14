@@ -31,8 +31,8 @@ class Finder {
 	 */
 	static File findSystemFile(String projectDir) {
 		String[] filePaths = new String[]{
-				"data" + Const.ds + "System.json",
-				"www" + Const.ds + "data" + Const.ds + "System.json"
+				"data" + Const.DS + "System.json",
+				"www" + Const.DS + "data" + Const.DS + "System.json"
 		};
 		File systemJsonFile = null;
 

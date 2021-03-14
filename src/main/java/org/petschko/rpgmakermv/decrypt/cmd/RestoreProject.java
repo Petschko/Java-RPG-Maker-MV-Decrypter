@@ -30,7 +30,7 @@ class RestoreProject implements I_CMD {
 	public void printHelp() {
 		App.showMessage("restoreproject -> !! NOT IMPLEMENTED YET !!", CMD.STATUS_WARNING);
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" restoreproject");
+		App.showMessage("Usage: java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" restoreproject");
 		App.showMessage("");
 	}
 }

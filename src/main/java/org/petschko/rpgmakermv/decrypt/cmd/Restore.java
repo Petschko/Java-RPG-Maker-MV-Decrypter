@@ -20,7 +20,7 @@ class Restore implements I_CMD {
 	// Decoder options
 	private boolean verifyDir = false;
 	private boolean ignoreFakeHeader = true;
-	private int headerLen = Decrypter.defaultHeaderLen;
+	private int headerLen = Decrypter.DEFAULT_HEADER_LEN;
 
 	/**
 	 * Runs the Command
@@ -45,7 +45,7 @@ class Restore implements I_CMD {
 		try {
 			outputDir = args[2];
 		} catch(ArrayIndexOutOfBoundsException arEx) {
-			outputDir = Config.defaultOutputDir;
+			outputDir = Config.DEFAULT_OUTPUT_DIR;
 		}
 
 		App.showMessage("Set Output-Dir to: \"" + outputDir + "\"");
@@ -59,7 +59,7 @@ class Restore implements I_CMD {
 
 			// Ensure headerLen is at least 1 else default
 			if(headerLen < 1)
-				headerLen = Decrypter.defaultHeaderLen;
+				headerLen = Decrypter.DEFAULT_HEADER_LEN;
 		}
 
 		handleFiles();
@@ -90,7 +90,7 @@ class Restore implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Restores images without needing the Key");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
+		App.showMessage("Usage: java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to project]        - Path to the RPG-MV/MZ Project were you want to restore images");
@@ -102,9 +102,9 @@ class Restore implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [headerLen] - Byte length of the Header | Default: " + this.headerLen);
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Examples of full commands with all params:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"output\" false true");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false 14");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" restore \"C:\\my rpg mv game\\\" \"output\" false true");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false 14");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "- The first command restores all files inside this programs output dir, dont check if its a");
 		App.showMessage(CMD.HELP_INDENT + "  RPG-MV/MZ dir and ignores if the header of the files is the RPG-MV/MZ header");

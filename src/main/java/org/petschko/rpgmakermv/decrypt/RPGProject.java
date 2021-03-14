@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class RPGProject {
 	private String path;
-	private String outputPath = Config.defaultOutputDir;
+	private String outputPath = Config.DEFAULT_OUTPUT_DIR;
 	private File system = null;
 	private File encryptedImgFile = null;
 	private String encryptionKeyName = "encryptionKey";

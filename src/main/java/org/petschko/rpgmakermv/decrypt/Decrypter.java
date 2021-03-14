@@ -21,11 +21,11 @@ import java.util.ArrayList;
  * Notes: Decrypter class
  */
 public class Decrypter {
-	private static final String pngHeader = "89504E470D0A1A0A0000000D49484452";
-	public static final int defaultHeaderLen = 16;
-	public static final String defaultSignature = "5250474d56000000";
-	public static final String defaultVersion = "000301";
-	public static final String defaultRemain = "0000000000";
+	private static final String PNG_HEADER = "89504E470D0A1A0A0000000D49484452";
+	public static final int DEFAULT_HEADER_LEN = 16;
+	public static final String DEFAULT_SIGNATURE = "5250474d56000000";
+	public static final String DEFAULT_VERSION = "000301";
+	public static final String DEFAULT_REMAIN = "0000000000";
 
 	private static byte[] pngHeaderBytes = null;
 
@@ -227,10 +227,10 @@ public class Decrypter {
 	 * Sets default values
 	 */
 	private void setDefaultValues() {
-		this.setHeaderLen(defaultHeaderLen);
-		this.setSignature(defaultSignature);
-		this.setVersion(defaultVersion);
-		this.setRemain(defaultRemain);
+		this.setHeaderLen(DEFAULT_HEADER_LEN);
+		this.setSignature(DEFAULT_SIGNATURE);
+		this.setVersion(DEFAULT_VERSION);
+		this.setRemain(DEFAULT_REMAIN);
 	}
 
 	/**
@@ -476,7 +476,7 @@ public class Decrypter {
 		if(pngHeaderBytes != null)
 			return pngHeaderBytes;
 
-		String[] pngHeaderArr = pngHeader.split("(?<=\\G.{2})");
+		String[] pngHeaderArr = PNG_HEADER.split("(?<=\\G.{2})");
 		byte[] pngHeaderBytesArray = new byte[this.getHeaderLen()];
 
 		for(int i = 0; i < this.getHeaderLen(); i++) {

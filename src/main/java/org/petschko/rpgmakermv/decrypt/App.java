@@ -29,8 +29,8 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		// Ensure System output dir always exists
-		if(! File.existsDir(Config.defaultOutputDir))
-			File.createDirectory(Config.defaultOutputDir);
+		if(! File.existsDir(Config.DEFAULT_OUTPUT_DIR))
+			File.createDirectory(Config.DEFAULT_OUTPUT_DIR);
 
 		// Check whats given from CMD
 		if(args.length > 0) {
@@ -40,11 +40,11 @@ public class App {
 
 		if(useGUI) {
 			// Show something when its started via .bat or shell file
-			System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator);
+			System.out.println(Config.PROGRAM_NAME + " - " + Config.VERSION + " by " + Const.CREATOR);
 
 			// Use GUI
-			preferences = new Preferences(Config.preferencesFile);
-			outputDir = App.preferences.getConfig(Preferences.lastOutputDir, Config.defaultOutputDir);
+			preferences = new Preferences(Config.PREFERENCES_FILE);
+			outputDir = App.preferences.getConfig(Preferences.LAST_OUTPUT_DIR, Config.DEFAULT_OUTPUT_DIR);
 			gui = new GUI();
 		} else {
 			// Use Command-Line Version

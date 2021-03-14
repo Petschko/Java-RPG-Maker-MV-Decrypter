@@ -65,26 +65,26 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 		// Initial Comps - Labels
 		JPanelLine versionLine = new JPanelLine();
 		JLabelExtra versionHeading = new JLabelExtra("Version:");
-		JLabel version = new JLabel(Config.version);
+		JLabel version = new JLabel(Config.VERSION);
 
 		JPanelLine licenceLine = new JPanelLine();
 		JLabelExtra licenceHeading = new JLabelExtra("Licence:");
 		JLabelExtra licence = new JLabelExtra("MIT-Licence");
-		licence.setURL(Config.projectLicenceURL, true);
+		licence.setURL(Config.PROJECT_LICENCE_URL, true);
 
 		JPanelLine projectLine = new JPanelLine();
 		JLabelExtra projectHpHeading = new JLabelExtra("Project-HP:");
 		JLabelExtra projectHp = new JLabelExtra("Visit the Project-Page on Github");
-		projectHp.setURL(Config.projectPageURL, true);
+		projectHp.setURL(Config.PROJECT_PAGE_URL, true);
 
 		JPanelLine creditLine = new JPanelLine();
 		JLabelExtra creditHeading = new JLabelExtra("Credits:");
 		JPanelLine creatorLine = new JPanelLine();
-		JLabel programmedBy = new JLabel(Const.creator + " (Programmer) - ");
+		JLabel programmedBy = new JLabel(Const.CREATOR + " (Programmer) - ");
 		JLabelExtra programmedByURL = new JLabelExtra("Website");
-		programmedByURL.setURL(Const.creatorURL, true);
+		programmedByURL.setURL(Const.CREATOR_URL, true);
 		JLabelExtra programmedByDonate = new JLabelExtra("Donate");
-		programmedByDonate.setURL(Const.creatorDonationUrl, true);
+		programmedByDonate.setURL(Const.CREATOR_DONATION_URL, true);
 
 		// Set Layouts
 		borderFrame.setLayout(new BorderLayout());
@@ -152,7 +152,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	 */
 	@Override
 	protected JImageLabel aboutIcon() {
-		JImageLabel imagePanel = new JImageLabel(Config.authorImage, true);
+		JImageLabel imagePanel = new JImageLabel(Config.AUTHOR_IMAGE, true);
 
 		// Ensure this size
 		imagePanel.setImageSize(200, 200);

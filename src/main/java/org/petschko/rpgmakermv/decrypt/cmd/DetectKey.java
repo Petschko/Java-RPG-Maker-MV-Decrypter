@@ -21,7 +21,7 @@ class DetectKey implements I_CMD {
 	private boolean skipImageQuestion = false;
 
 	// Decoder options
-	private int headerLen = Decrypter.defaultHeaderLen;
+	private int headerLen = Decrypter.DEFAULT_HEADER_LEN;
 
 	/**
 	 * Runs the Command
@@ -49,7 +49,7 @@ class DetectKey implements I_CMD {
 
 			// Ensure headerLen is at least 1 else default
 			if(headerLen < 1)
-				headerLen = Decrypter.defaultHeaderLen;
+				headerLen = Decrypter.DEFAULT_HEADER_LEN;
 		}
 
 		detectsKey();
@@ -132,7 +132,7 @@ class DetectKey implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Detects the En-/Decryption-Key");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" key [path to project] [(optional) ask before image keysearch (true|false)] [(optional) headerLen]");
+		App.showMessage("Usage: java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" key [path to project] [(optional) ask before image keysearch (true|false)] [(optional) headerLen]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to project] - Path to the RPG-MV/MZ Project were you want to get the key from");
@@ -142,9 +142,9 @@ class DetectKey implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [headerLen] - Byte length of the Header | Default: " + this.headerLen);
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Examples of the full commands with all params:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" key \"C:\\my rpg mv game\\\" true");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" key \"C:\\my rpg mv game\\\" false");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" key \"C:\\my rpg mv game\\\" false 14");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" key \"C:\\my rpg mv game\\\" true");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" key \"C:\\my rpg mv game\\\" false");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" key \"C:\\my rpg mv game\\\" false 14");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "- The first command returns the key of the Project if found also asks before searching in images");
 		App.showMessage(CMD.HELP_INDENT + "- The second command returns the key of the Project if found but skips the image question");

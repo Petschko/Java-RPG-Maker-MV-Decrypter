@@ -31,7 +31,7 @@ class Help implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Help:");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" [command] [help|args...]");
+		App.showMessage("Usage: java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" [command] [help|args...]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Commands:");
 		App.showMessage(CMD.HELP_INDENT + "  help    - Shows this message");
@@ -44,7 +44,7 @@ class Help implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  update - Updates this Program");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Display detailed help for each command:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" [command] help");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" [command] help");
 		App.showMessage("");
 	}
 }

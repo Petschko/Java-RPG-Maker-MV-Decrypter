@@ -20,10 +20,10 @@ class Encrypt implements I_CMD {
 	// Encrypter options
 	private boolean toMV = true;
 	private String key = null;
-	private int headerLen = Decrypter.defaultHeaderLen;
-	private String signature = Decrypter.defaultSignature;
-	private String version = Decrypter.defaultVersion;
-	private String remain = Decrypter.defaultRemain;
+	private int headerLen = Decrypter.DEFAULT_HEADER_LEN;
+	private String signature = Decrypter.DEFAULT_SIGNATURE;
+	private String version = Decrypter.DEFAULT_VERSION;
+	private String remain = Decrypter.DEFAULT_REMAIN;
 
 	/**
 	 * Runs the Command
@@ -48,7 +48,7 @@ class Encrypt implements I_CMD {
 		try {
 			outputDir = args[2];
 		} catch(ArrayIndexOutOfBoundsException arEx) {
-			outputDir = Config.defaultOutputDir;
+			outputDir = Config.DEFAULT_OUTPUT_DIR;
 		}
 
 		App.showMessage("Set Output-Dir to: \"" + outputDir + "\"");
@@ -65,7 +65,7 @@ class Encrypt implements I_CMD {
 
 			// Ensure headerLen is at least 1 else default
 			if(headerLen < 1)
-				headerLen = Decrypter.defaultHeaderLen;
+				headerLen = Decrypter.DEFAULT_HEADER_LEN;
 		}
 		if(args.length >= 7)
 			signature = args[6].trim().toLowerCase();
@@ -110,7 +110,7 @@ class Encrypt implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Encrypts files back to MV/MZ");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" encrypt [path to encrypt files dir] [(optional) output path] [(optional) to MV - true|false] [(optional) key - auto|keyValue] [(optional) headerLen] [(optional) hsignature] [(optional) hversion] [(optional) hremain]");
+		App.showMessage("Usage: java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" encrypt [path to encrypt files dir] [(optional) output path] [(optional) to MV - true|false] [(optional) key - auto|keyValue] [(optional) headerLen] [(optional) hsignature] [(optional) hversion] [(optional) hremain]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to encrypt files dir]      - Path to the File-Dir/Project you want to encrypt");
@@ -126,9 +126,9 @@ class Encrypt implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [hremain]    - Remain of the Header | Default: " + this.remain);
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Examples of full commands with all params:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" encrypt \"C:\\my rpg mv game\\\" \"output\" true auto");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" encrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true d41d8cd98f00b204e9800998ecf8427e");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" encrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true d41d8cd98f00b204e9800998ecf8427e 14 5250474d56000000 000301 00000000");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" encrypt \"C:\\my rpg mv game\\\" \"output\" true auto");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" encrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true d41d8cd98f00b204e9800998ecf8427e");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.THIS_JAR_FILE_NAME + "\" encrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true d41d8cd98f00b204e9800998ecf8427e 14 5250474d56000000 000301 00000000");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "- The first command encrypts all files to this programs output dir, as a MV-Files and auto-detects the key");
 		App.showMessage(CMD.HELP_INDENT + "- The second command encrypts all files inside the game directory, as MV-Files");

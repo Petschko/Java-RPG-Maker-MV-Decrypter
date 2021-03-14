@@ -61,13 +61,13 @@ class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
 			gui.setRpgProject(
 				new RPGProject(
 					File.ensureDSonEndOfPath(this.directoryPath),
-					! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
+					! Functions.strToBool(App.preferences.getConfig(Preferences.LOAD_INVALID_RPG_DIRS, "false"))
 				)
 			);
 		} catch(PathException e) {
 			ErrorWindow errorWindow = new ErrorWindow(
-					e.getMessage() + Const.newLine +
-							"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
+					e.getMessage() + Const.NEW_LINE +
+							"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.NEW_LINE +
 							"Warning: Turning on the Option may cause incorrect results.",
 					ErrorWindow.ERROR_LEVEL_WARNING,
 					false
@@ -112,7 +112,7 @@ class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
 
 			// Done
 			if(this.showInfoWindow) {
-				InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
+				InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.NEW_LINE +
 						"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
 				infoWindow.show(gui.getMainWindow());
 			}

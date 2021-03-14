@@ -52,7 +52,7 @@ public class CMD {
 	public void runCMD() {
 		// Show Welcome-Message
 		System.out.println(LINE_CMD);
-		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
+		System.out.println(Config.PROGRAM_NAME + " - " + Config.VERSION + " by " + Const.CREATOR + " | Command-Line Version");
 		System.out.println(LINE_CMD);
 
 		Update.checkForUpdates();

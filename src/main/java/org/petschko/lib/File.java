@@ -177,7 +177,7 @@ public class File {
 	 * @return - File Directory-Path
 	 */
 	public String getFileDirectoryPath() {
-		int lastDSChar = this.getFilePath().lastIndexOf(Const.ds);
+		int lastDSChar = this.getFilePath().lastIndexOf(Const.DS);
 
 		if(lastDSChar == -1)
 			return "";
@@ -315,7 +315,7 @@ public class File {
 	 */
 	private void extractInfosFromPath() throws Exception {
 		int filePathLen = this.getFilePath().length();
-		int lastDSCharPos = this.getFilePath().lastIndexOf(Const.ds);
+		int lastDSCharPos = this.getFilePath().lastIndexOf(Const.DS);
 		int lastDotPos = this.getFilePath().lastIndexOf(".");
 		String fileName = this.getFilePath();
 
@@ -387,8 +387,8 @@ public class File {
 			return null;
 		}
 
-		if(! path.substring(path.length() - 1).equals(Const.ds))
-			path = path + Const.ds;
+		if(! path.substring(path.length() - 1).equals(Const.DS))
+			path = path + Const.DS;
 
 		return path;
 	}

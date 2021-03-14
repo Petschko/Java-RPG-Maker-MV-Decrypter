@@ -87,7 +87,7 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 		}
 
 		// Clear Output-Dir if checked
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.clearOutputDirBeforeDecrypt, "true"))) {
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true"))) {
 			this.progressMonitor.setNote("Clearing Output-Directory...");
 			File.clearDirectory(App.outputDir);
 		}
@@ -95,15 +95,15 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 		// Setup Decrypter
 		this.progressMonitor.setNote("Configuring Decrypter...");
 		gui.getDecrypter().setIgnoreFakeHeader(
-				Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "true"))
+				Functions.strToBool(App.preferences.getConfig(Preferences.IGNORE_FAKE_HEADER, "true"))
 		);
-		gui.getDecrypter().setRemain(App.preferences.getConfig(Preferences.decrypterRemain, Decrypter.defaultRemain));
-		gui.getDecrypter().setSignature(App.preferences.getConfig(Preferences.decrypterSignature, Decrypter.defaultSignature));
-		gui.getDecrypter().setVersion(App.preferences.getConfig(Preferences.decrypterVersion, Decrypter.defaultVersion));
-		int headerLen = Decrypter.defaultHeaderLen;
+		gui.getDecrypter().setRemain(App.preferences.getConfig(Preferences.DECRYPTER_REMAIN, Decrypter.DEFAULT_REMAIN));
+		gui.getDecrypter().setSignature(App.preferences.getConfig(Preferences.DECRYPTER_SIGNATURE, Decrypter.DEFAULT_SIGNATURE));
+		gui.getDecrypter().setVersion(App.preferences.getConfig(Preferences.DECRYPTER_VERSION, Decrypter.DEFAULT_VERSION));
+		int headerLen = Decrypter.DEFAULT_HEADER_LEN;
 
 		try {
-			headerLen = Integer.parseInt(App.preferences.getConfig(Preferences.decrypterHeaderLen));
+			headerLen = Integer.parseInt(App.preferences.getConfig(Preferences.DECRYPTER_HEADER_LEN));
 		} catch(NumberFormatException ex) {
 			ErrorWindow errorWindow = new ErrorWindow(
 					"Header-Length was not an Valid Number - Using Default-Length!",
@@ -113,7 +113,7 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 			errorWindow.show(gui.getMainWindow());
 
 			// Set default as new Len
-			App.preferences.setConfig(Preferences.decrypterHeaderLen, Integer.toString(Decrypter.defaultHeaderLen));
+			App.preferences.setConfig(Preferences.DECRYPTER_HEADER_LEN, Integer.toString(Decrypter.DEFAULT_HEADER_LEN));
 		}
 		gui.getDecrypter().setHeaderLen(headerLen);
 
@@ -125,8 +125,8 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 			} catch(NullPointerException decryNullEx) {
 				// File-Null-Pointer
 				ErrorWindow errorWindow = new ErrorWindow(
-						"Can't find Decryption-Key-File!" + Const.newLine +
-								"Make sure that the File is in the RPG-Directory..." + Const.newLine +
+						"Can't find Decryption-Key-File!" + Const.NEW_LINE +
+								"Make sure that the File is in the RPG-Directory..." + Const.NEW_LINE +
 								"Or set the Key by yourself (Decrypter -> Set Encryption-Key)",
 						ErrorWindow.ERROR_LEVEL_WARNING,
 						false
@@ -164,7 +164,7 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 				e1.printStackTrace();
 			} finally {
 				if(! this.restoreImages || file.isImage())
-					gui.getRpgProject().saveFile(file, Functions.strToBool(App.preferences.getConfig(Preferences.overwriteFiles, "false")));
+					gui.getRpgProject().saveFile(file, Functions.strToBool(App.preferences.getConfig(Preferences.OVERWRITE_FILES, "false")));
 			}
 			// Add Progress to Progress-Monitor
 			i++;
