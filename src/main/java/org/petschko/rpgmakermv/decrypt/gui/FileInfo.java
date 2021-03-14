@@ -25,7 +25,7 @@ class FileInfo extends JPanel {
 
 
 	/**
-	 * GUI_FileInfo Constructor
+	 * FileInfo Constructor
 	 */
 	FileInfo() {
 		this.setBorder(BorderFactory.createTitledBorder("File-Info"));

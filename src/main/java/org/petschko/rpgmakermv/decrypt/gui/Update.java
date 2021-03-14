@@ -31,7 +31,7 @@ class Update {
 	private boolean ranAutomatically = false;
 
 	/**
-	 * GUI_Update constructor
+	 * Update constructor
 	 *
 	 * @param gui - Main GUI-Object
 	 */
@@ -43,7 +43,7 @@ class Update {
 	}
 
 	/**
-	 * GUI_Update constructor
+	 * Update constructor
 	 *
 	 * @param gui - Main GUI-Object
 	 * @param auto - This ran automatically

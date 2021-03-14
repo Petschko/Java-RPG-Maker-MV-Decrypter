@@ -56,7 +56,7 @@ class Menu extends JMenuBar {
 	JMenuItem about;
 
 	/**
-	 * GUI_Menu Constructor
+	 * Menu Constructor
 	 */
 	Menu() {
 		this.constructFileMenu();

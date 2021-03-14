@@ -33,7 +33,7 @@ public class GUI {
 	private JPanel fileList = new JPanel();
 	private About guiAbout;
 	private FileInfo fileInfo = new FileInfo();
-	private RPGProject rpgProject = null;
+	private RPG_Project rpgProject = null;
 	private Decrypter decrypter = null;
 
 	/**
@@ -83,7 +83,7 @@ public class GUI {
 	 *
 	 * @return - RPG-Project
 	 */
-	RPGProject getRpgProject() {
+	RPG_Project getRpgProject() {
 		return rpgProject;
 	}
 
@@ -92,7 +92,7 @@ public class GUI {
 	 *
 	 * @param rpgProject - RPG-Project
 	 */
-	void setRpgProject(RPGProject rpgProject) {
+	void setRpgProject(RPG_Project rpgProject) {
 		this.rpgProject = rpgProject;
 	}
 

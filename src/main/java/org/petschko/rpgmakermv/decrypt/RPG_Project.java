@@ -15,9 +15,9 @@ import java.util.ArrayList;
  * Update: 04.05.2019
  * Version: 0.1.2
  *
- * Notes: RPG-Project-Class
+ * Notes: RPG_Project Class
  */
-public class RPGProject {
+public class RPG_Project {
 	private String path;
 	private String outputPath = Config.DEFAULT_OUTPUT_DIR;
 	private File system = null;
@@ -30,13 +30,13 @@ public class RPGProject {
 	private ArrayList<File> resourceFiles = new ArrayList<>();
 
 	/**
-	 * RPGProject Constructor
+	 * RPG_Project Constructor
 	 *
 	 * @param path - Path to the RPG-Maker-Project
 	 * @param verifyRPGDir - true if the RPG-Maker-Directory should verified
 	 * @throws PathException - Path doesn't exists/Not Valid-Dir exception
 	 */
-	public RPGProject(String path, boolean verifyRPGDir) throws PathException {
+	public RPG_Project(String path, boolean verifyRPGDir) throws PathException {
 		if(path == null)
 			throw new PathException("Project-Path can't be null!", (String) null);
 		if(! File.existsDir(path))

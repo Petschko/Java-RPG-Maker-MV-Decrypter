@@ -9,7 +9,7 @@ import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Decrypter;
 import org.petschko.rpgmakermv.decrypt.Preferences;
-import org.petschko.rpgmakermv.decrypt.RPGProject;
+import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 import javax.swing.SwingWorker;
 
@@ -27,7 +27,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	private boolean showInfoWindow = false;
 
 	/**
-	 * GUI_OpenRPGDir constructor
+	 * WorkerOpenRPGDir constructor
 	 *
 	 * @param gui - GUI-Object
 	 * @param directoryPath - Path of the Directory
@@ -38,7 +38,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	}
 
 	/**
-	 * GUI_OpenRPGDir constructor
+	 * WorkerOpenRPGDir constructor
 	 *
 	 * @param gui - GUI-Object
 	 * @param directoryPath - Path of the Directory
@@ -63,7 +63,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	protected Void doInBackground() {
 		try {
 			gui.setRpgProject(
-				new RPGProject(
+				new RPG_Project(
 					File.ensureDSonEndOfPath(this.directoryPath),
 					! Functions.strToBool(App.preferences.getConfig(Preferences.LOAD_INVALID_RPG_DIRS, "false"))
 				)

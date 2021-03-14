@@ -3,7 +3,7 @@ package org.petschko.rpgmakermv.decrypt.cmd;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 import org.petschko.rpgmakermv.decrypt.Decrypter;
-import org.petschko.rpgmakermv.decrypt.RPGProject;
+import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 /**
  * Author: Peter Dragicevic
@@ -70,7 +70,7 @@ class Restore implements I_CMD {
 	 */
 	private void handleFiles() {
 		try {
-			RPGProject rpgProject = new RPGProject(pathToProject, verifyDir);
+			RPG_Project rpgProject = new RPG_Project(pathToProject, verifyDir);
 			Decrypter decrypter = new Decrypter();
 
 			rpgProject.setOutputPath(outputDir);

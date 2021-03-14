@@ -3,7 +3,7 @@ package org.petschko.rpgmakermv.decrypt.cmd;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 import org.petschko.rpgmakermv.decrypt.Decrypter;
-import org.petschko.rpgmakermv.decrypt.RPGProject;
+import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 /**
  * Author: Peter Dragicevic
@@ -82,7 +82,7 @@ class Encrypt implements I_CMD {
 	 */
 	private void handleFiles() {
 		try {
-			RPGProject rpgProject = new RPGProject(pathToProject, false);
+			RPG_Project rpgProject = new RPG_Project(pathToProject, false);
 			Decrypter encrypter;
 
 			if(key == null)

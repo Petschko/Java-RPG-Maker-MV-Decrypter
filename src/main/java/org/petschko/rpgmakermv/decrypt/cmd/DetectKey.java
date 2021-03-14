@@ -3,7 +3,7 @@ package org.petschko.rpgmakermv.decrypt.cmd;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 import org.petschko.rpgmakermv.decrypt.Decrypter;
-import org.petschko.rpgmakermv.decrypt.RPGProject;
+import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -60,7 +60,7 @@ class DetectKey implements I_CMD {
 	 */
 	private void detectsKey() {
 		try {
-			RPGProject rpgProject = new RPGProject(pathToProject, false);
+			RPG_Project rpgProject = new RPG_Project(pathToProject, false);
 			Decrypter decrypter = new Decrypter();
 			decrypter.setHeaderLen(headerLen);
 

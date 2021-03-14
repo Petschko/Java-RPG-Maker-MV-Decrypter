@@ -26,7 +26,7 @@ class WorkerDirectoryClearing extends SwingWorker<Void, Void> implements ActionL
 	private JDialog jDialog;
 
 	/**
-	 * GUI_DirectoryClearing constructor
+	 * WorkerDirectoryClearing constructor
 	 *
 	 * @param gui - GUI-Object
 	 * @param directoryPath - Path to clear

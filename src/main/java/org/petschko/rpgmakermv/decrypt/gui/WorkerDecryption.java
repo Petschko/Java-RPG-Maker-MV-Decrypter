@@ -31,7 +31,7 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 	private boolean restoreImages = false;
 
 	/**
-	 * GUI_Decryption constructor
+	 * WorkerDecryption constructor
 	 *
 	 * @param gui - GUI-Object
 	 * @param files - Files to Decrypt
@@ -42,7 +42,7 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 	}
 
 	/**
-	 * GUI_Decryption constructor
+	 * WorkerDecryption constructor
 	 *
 	 * @param gui - GUI-Object
 	 * @param files - Files to Decrypt
