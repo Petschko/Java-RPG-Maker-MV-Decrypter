@@ -1,27 +1,18 @@
 package org.petschko.rpgmakermv.decrypt;
 
-import org.json.JSONException;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.exceptions.PathException;
 import org.petschko.lib.gui.*;
-import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
 
 import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ProgressMonitor;
-import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
@@ -41,8 +32,8 @@ class GUI {
 	private JPanel fileList = new JPanel();
 	private GUI_About guiAbout;
 	private GUI_FileInfo fileInfo = new GUI_FileInfo();
-	private RPGProject rpgProject;
-	private Decrypter decrypter;
+	private RPGProject rpgProject = null;
+	private Decrypter decrypter = null;
 
 	/**
 	 * GUI Constructor
@@ -84,6 +75,42 @@ class GUI {
 	 */
 	GUI_Menu getMainMenu() {
 		return mainMenu;
+	}
+
+	/**
+	 * Returns the RPG-Project
+	 *
+	 * @return - RPG-Project
+	 */
+	RPGProject getRpgProject() {
+		return rpgProject;
+	}
+
+	/**
+	 * Sets the RPG-Project
+	 *
+	 * @param rpgProject - RPG-Project
+	 */
+	void setRpgProject(RPGProject rpgProject) {
+		this.rpgProject = rpgProject;
+	}
+
+	/**
+	 * Returns the Decrypter Object
+	 *
+	 * @return - Decrypter-Object
+	 */
+	Decrypter getDecrypter() {
+		return decrypter;
+	}
+
+	/**
+	 * Sets the Decrypter Object
+	 *
+	 * @param decrypter - Decrypter Object
+	 */
+	void setDecrypter(Decrypter decrypter) {
+		this.decrypter = decrypter;
 	}
 
 	/**
@@ -233,16 +260,16 @@ class GUI {
 	/**
 	 * Assign RPG-Project ActionListeners
 	 */
-	private void assignRPGActionListener() {
+	void assignRPGActionListener() {
 		// Remove all Previous ActionListeners
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.openRPGDirExplorer);
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.allFiles);
 
 		// Add new ActionListener
 		this.mainMenu.openRPGDirExplorer.addActionListener(GUI_ActionListener.openExplorer(this.rpgProject.getPath()));
-		//this.mainMenu.allFiles.addActionListener(this.decrypt(this.rpgProject.getEncryptedFiles()));
-		this.mainMenu.allFiles.addActionListener(new GUI_Decryption(this.rpgProject.getEncryptedFiles()));
-		this.mainMenu.restoreImages.addActionListener(new GUI_Decryption(this.rpgProject.getEncryptedFiles(), true));
+
+		this.mainMenu.allFiles.addActionListener(new GUI_Decryption(this, this.rpgProject.getEncryptedFiles()));
+		this.mainMenu.restoreImages.addActionListener(new GUI_Decryption(this, this.rpgProject.getEncryptedFiles(), true));
 	}
 
 	/**
@@ -251,14 +278,14 @@ class GUI {
 	 * @param currentDirectory - Current RPG-Maker Directory
 	 * @param showInfoWindow - Show Info-Window if done
 	 */
-	private void openRPGProject(String currentDirectory, boolean showInfoWindow) {
+	void openRPGProject(String currentDirectory, boolean showInfoWindow) {
 		if(currentDirectory == null) {
 			PathException pe = new PathException("currentDirectory can't be null!", (String) null);
 			pe.printStackTrace();
 			return;
 		}
 
-		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(currentDirectory, showInfoWindow);
+		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(this, currentDirectory, showInfoWindow);
 		openRPG.execute();
 	}
 
@@ -267,7 +294,7 @@ class GUI {
 	 *
 	 * @param newOutputDir - New Output-Directory
 	 */
-	private void setNewOutputDir(String newOutputDir) {
+	void setNewOutputDir(String newOutputDir) {
 		App.outputDir = File.ensureDSonEndOfPath(newOutputDir);
 
 		// Remove old ActionListener
@@ -276,380 +303,6 @@ class GUI {
 
 		// New ActionListener
 		this.mainMenu.openOutputDirExplorer.addActionListener(GUI_ActionListener.openExplorer(App.outputDir));
-		this.mainMenu.doClearOutputDir.addActionListener(new GUI_DirectoryClearing(App.outputDir));
-	}
-
-	/**
-	 * Class GUI_Decryption
-	 */
-	private class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
-		private ArrayList<File> files;
-		private ProgressMonitor progressMonitor;
-		private boolean restoreImages = false;
-
-		/**
-		 * GUI_Decryption constructor
-		 *
-		 * @param files - Files to Decrypt
-		 */
-		GUI_Decryption(ArrayList<File> files) {
-			this.files = files;
-		}
-
-		/**
-		 * GUI_Decryption constructor
-		 *
-		 * @param files - Files to Decrypt
-		 * @param restoreImages - Restores Images without key
-		 */
-		GUI_Decryption(ArrayList<File> files, boolean restoreImages) {
-			this.files = files;
-			this.restoreImages = restoreImages;
-		}
-
-		/**
-		 * Computes a result, or throws an exception if unable to do so.
-		 *
-		 * Note that this method is executed only once.
-		 *
-		 * Note: this method is executed in a background thread.
-		 *
-		 * @return the computed result
-		 */
-		@Override
-		protected Void doInBackground() {
-			// Clear Output-Dir if checked
-			if(Functions.strToBool(App.preferences.getConfig(Preferences.clearOutputDirBeforeDecrypt, "true"))) {
-				this.progressMonitor.setNote("Clearing Output-Directory...");
-				File.clearDirectory(App.outputDir);
-			}
-
-			// Setup Decrypter
-			this.progressMonitor.setNote("Configuring Decrypter...");
-			decrypter.setIgnoreFakeHeader(
-					Functions.strToBool(App.preferences.getConfig(Preferences.ignoreFakeHeader, "true"))
-			);
-			decrypter.setRemain(App.preferences.getConfig(Preferences.decrypterRemain, Decrypter.defaultRemain));
-			decrypter.setSignature(App.preferences.getConfig(Preferences.decrypterSignature, Decrypter.defaultSignature));
-			decrypter.setVersion(App.preferences.getConfig(Preferences.decrypterVersion, Decrypter.defaultVersion));
-			int headerLen = Decrypter.defaultHeaderLen;
-
-			try {
-				headerLen = Integer.parseInt(App.preferences.getConfig(Preferences.decrypterHeaderLen));
-			} catch(NumberFormatException ex) {
-				ErrorWindow errorWindow = new ErrorWindow(
-						"Header-Length was not an Valid Number - Using Default-Length!",
-						ErrorWindow.ERROR_LEVEL_WARNING,
-						false
-				);
-				errorWindow.show(mainWindow);
-
-				// Set default as new Len
-				App.preferences.setConfig(Preferences.decrypterHeaderLen, Integer.toString(Decrypter.defaultHeaderLen));
-			}
-			decrypter.setHeaderLen(headerLen);
-
-			// Check if Decrypter already has a Key
-			if(decrypter.getDecryptCode() == null) {
-				this.progressMonitor.setNote("Try to detect Encryption-Key...");
-				try {
-					decrypter.detectEncryptionKeyFromJson(rpgProject.getSystem(), rpgProject.getEncryptionKeyName());
-				} catch(NullPointerException decryNullEx) {
-					// File-Null-Pointer
-					ErrorWindow errorWindow = new ErrorWindow(
-							"Can't find Decryption-Key-File!" + Const.newLine +
-									"Make sure that the File is in the RPG-Directory..." + Const.newLine +
-									"Or set the Key by yourself (Decrypter -> Set Encryption-Key)",
-							ErrorWindow.ERROR_LEVEL_WARNING,
-							false
-					);
-					errorWindow.show(mainWindow);
-
-					// Halt task
-					this.cancel(true);
-					return null;
-				} catch(JSONException e1) {
-					// JSON-NotFound
-					ErrorWindow errorWindow = new ErrorWindow("Can't find Decryption-Key in File!", ErrorWindow.ERROR_LEVEL_WARNING, false);
-					errorWindow.show(mainWindow);
-
-					// Halt task
-					this.cancel(true);
-					return null;
-				}
-			}
-
-			// Decrypt and Save Files
-			int i = 0;
-			for(File file : this.files) {
-				// Check if cancel button was pressed
-				if(this.progressMonitor.isCanceled()) {
-					this.cancel(true);
-					return null;
-				}
-
-				this.progressMonitor.setNote("File: " + file.getFilePath());
-				try {
-					System.out.println("Decrypt: " + file.getFilePath());
-					decrypter.decryptFile(file, this.restoreImages);
-				} catch(Exception e1) {
-					e1.printStackTrace();
-				} finally {
-					if(! this.restoreImages || file.isImage())
-						rpgProject.saveFile(file, Functions.strToBool(App.preferences.getConfig(Preferences.overwriteFiles, "false")));
-				}
-				// Add Progress to Progress-Monitor
-				i++;
-				this.progressMonitor.setProgress(i);
-			}
-
-			return null;
-		}
-
-		/**
-		 * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
-		 * method is finished. The default
-		 * implementation does nothing. Subclasses may override this method to
-		 * perform completion actions on the <i>Event Dispatch Thread</i>. Note
-		 * that you can query status inside the implementation of this method to
-		 * determine the result of this task or whether this task has been cancelled.
-		 *
-		 * @see #doInBackground
-		 * @see #isCancelled()
-		 * @see #get
-		 */
-		@Override
-		protected void done() {
-			this.progressMonitor.close();
-
-			// Reset Files/ActionListener
-			openRPGProject(rpgProject.getPath(), false);
-
-			if(this.isCancelled()) {
-				System.out.println("Cancelled...");
-
-				InfoWindow infoWindow = new InfoWindow("Decryption canceled!");
-				infoWindow.show(mainWindow);
-			} else {
-				System.out.println("Done.");
-
-				InfoWindow infoWindow;
-				if(this.restoreImages)
-					infoWindow = new InfoWindow("Images are restored! ^-^");
-				else
-					infoWindow = new InfoWindow("Decryption complete! =)");
-
-				infoWindow.show(mainWindow);
-			}
-		}
-
-		/**
-		 * Invoked when an action occurs.
-		 *
-		 * @param e - ActionEvent
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			this.progressMonitor = new ProgressMonitor(mainWindow, this.restoreImages ? "Restoring..." : "Decrypting...", "Preparing...", 0, this.files.size());
-			this.progressMonitor.setProgress(0);
-
-			this.execute();
-		}
-	}
-
-	/**
-	 * Class GUI_DirectoryClearing
-	 */
-	private class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
-		private String directoryPath = null;
-		private JDialog jDialog;
-
-		/**
-		 * GUI_DirectoryClearing constructor
-		 *
-		 * @param directoryPath - Path to clear
-		 */
-		GUI_DirectoryClearing(String directoryPath) {
-			if(directoryPath == null) {
-				PathException pe = new PathException("directoryPath can't be null!", (String) null);
-				pe.printStackTrace();
-				return;
-			}
-
-			this.directoryPath = File.ensureDSonEndOfPath(directoryPath);
-		}
-
-		/**
-		 * Computes a result, or throws an exception if unable to do so.
-		 *
-		 * Note that this method is executed only once.
-		 *
-		 * Note: this method is executed in a background thread.
-		 *
-		 * @return the computed result
-		 */
-		@Override
-		protected Void doInBackground() {
-			if(this.directoryPath == null)
-				return null;
-
-			if(File.clearDirectory(this.directoryPath)) {
-				InfoWindow infoWindow = new InfoWindow("Output-Directory cleared!");
-				infoWindow.show(mainWindow);
-			} else {
-				ErrorWindow errorWindow = new ErrorWindow(
-						"Can't clear Directory... May an other Program has still Files open in there?",
-						ErrorWindow.ERROR_LEVEL_WARNING,
-						false
-				);
-				errorWindow.show(mainWindow);
-			}
-
-			return null;
-		}
-
-		/**
-		 * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
-		 * method is finished. The default
-		 * implementation does nothing. Subclasses may override this method to
-		 * perform completion actions on the <i>Event Dispatch Thread</i>. Note
-		 * that you can query status inside the implementation of this method to
-		 * determine the result of this task or whether this task has been cancelled.
-		 *
-		 * @see #doInBackground
-		 * @see #isCancelled()
-		 * @see #get
-		 */
-		@Override
-		protected void done() {
-			this.jDialog.dispose();
-
-			// Reset this ActionListener
-			if(directoryPath != null)
-				setNewOutputDir(this.directoryPath);
-		}
-
-		/**
-		 * Invoked when an action occurs.
-		 *
-		 * @param e - ActionEvent
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(this.directoryPath == null)
-				return;
-
-			this.jDialog = new JDialog();
-			JLabel text = new JLabel("Please wait while clearing the Directory: " + this.directoryPath);
-			text.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-			this.jDialog.setTitle("Please wait...");
-			this.jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			this.jDialog.add(text);
-			this.jDialog.pack();
-			this.jDialog.setLocationRelativeTo(mainWindow);
-			this.jDialog.setVisible(true);
-
-			this.execute();
-		}
-	}
-
-	/**
-	 * Class GUI_OpenRPGDir
-	 */
-	private class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
-		private String directoryPath;
-		private boolean showInfoWindow;
-
-		/**
-		 * GUI_OpenRPGDir constructor
-		 *
-		 * @param directoryPath - Path of the Directory
-		 */
-		GUI_OpenRPGDir(String directoryPath) {
-			this.directoryPath = directoryPath;
-			this.showInfoWindow = false;
-		}
-
-		/**
-		 * GUI_OpenRPGDir constructor
-		 *
-		 * @param directoryPath - Path of the Directory
-		 * @param showInfoWindow - Show success Window after the Action
-		 */
-		GUI_OpenRPGDir(String directoryPath, boolean showInfoWindow) {
-			this.directoryPath = directoryPath;
-			this.showInfoWindow = showInfoWindow;
-		}
-
-		/**
-		 * Computes a result, or throws an exception if unable to do so.
-		 *
-		 * Note that this method is executed only once.
-		 *
-		 * Note: this method is executed in a background thread.
-		 *
-		 * @return the computed result
-		 */
-		@Override
-		protected Void doInBackground() {
-			try {
-				rpgProject = new RPGProject(
-						File.ensureDSonEndOfPath(this.directoryPath),
-						! Functions.strToBool(App.preferences.getConfig(Preferences.loadInvalidRPGDirs, "false"))
-				);
-			} catch(PathException e) {
-				ErrorWindow errorWindow = new ErrorWindow(
-						e.getMessage() + Const.newLine +
-								"You can turn on the Option \"Load invalid RPG-Dirs anyway\" if your Directory is a RPG-Dir but it not detect it correctly." + Const.newLine +
-								"Warning: Turning on the Option may cause incorrect results.",
-						ErrorWindow.ERROR_LEVEL_WARNING,
-						false
-				);
-				errorWindow.show(mainWindow);
-
-				this.cancel(true);
-				return null;
-			} catch(Exception e) {
-				ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
-				errorWindow.show(mainWindow);
-
-				this.cancel(true);
-				return null;
-			}
-
-			return null;
-		}
-
-		/**
-		 * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
-		 * method is finished. The default
-		 * implementation does nothing. Subclasses may override this method to
-		 * perform completion actions on the <i>Event Dispatch Thread</i>. Note
-		 * that you can query status inside the implementation of this method to
-		 * determine the result of this task or whether this task has been cancelled.
-		 *
-		 * @see #doInBackground
-		 * @see #isCancelled()
-		 * @see #get
-		 */
-		@Override
-		protected void done() {
-			if(! this.isCancelled()) {
-				decrypter = new Decrypter();
-				rpgProject.setOutputPath(App.outputDir);
-				mainMenu.enableOnRPGProject(true);
-				assignRPGActionListener();
-
-				// Refresh Project-Files
-				// todo (re)load file list
-
-				// Done
-				if(this.showInfoWindow) {
-					InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.newLine +
-							"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
-					infoWindow.show(mainWindow);
-				}
-			}
-		}
+		this.mainMenu.doClearOutputDir.addActionListener(new GUI_DirectoryClearing(this, App.outputDir));
 	}
 }
