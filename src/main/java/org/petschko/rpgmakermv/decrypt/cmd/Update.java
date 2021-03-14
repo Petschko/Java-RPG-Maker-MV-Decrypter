@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
  *
  * Notes: -
  */
-public class Update implements I_CMD {
+class Update implements I_CMD {
 	private static final String SUB_CMD_WHATS_NEW = "whatsnew";
 
 	private org.petschko.lib.update.Update update = null;

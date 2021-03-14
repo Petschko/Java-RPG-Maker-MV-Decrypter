@@ -48,7 +48,7 @@ class Open implements I_CMD {
 	/**
 	 * Opens a RPG-MV/MZ Image-File
 	 */
-	public void openFile() {
+	private void openFile() {
 		try {
 			// todo fix issue file is deleted before shown
 
