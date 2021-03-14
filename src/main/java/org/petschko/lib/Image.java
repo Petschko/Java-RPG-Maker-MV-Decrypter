@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * @author Peter Dragicevic
  */
 public class Image {
-	private BufferedImage bufferedImage = null;
+	private BufferedImage bufferedImage;
 
 	/**
 	 * Image constructor

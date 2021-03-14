@@ -5,13 +5,11 @@ import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.exceptions.PathException;
 import org.petschko.lib.gui.*;
-import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
