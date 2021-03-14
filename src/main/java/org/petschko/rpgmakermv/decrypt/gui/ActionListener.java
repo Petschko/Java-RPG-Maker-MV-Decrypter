@@ -79,9 +79,21 @@ class GUI_ActionListener {
 	static ActionListener openExplorer(String directoryPath) {
 		return e -> {
 			Desktop desktop = Desktop.getDesktop();
+			String path = File.ensureDSonEndOfPath(directoryPath);
+
+			if(path == null) {
+				ErrorWindow errorWindow = new ErrorWindow(
+						"File-Explorer can't be opened due to: Directory can't be null!",
+						ErrorWindow.ERROR_LEVEL_ERROR,
+						false
+				);
+
+				errorWindow.show();
+				return;
+			}
 
 			try {
-				desktop.open(new java.io.File(File.ensureDSonEndOfPath(directoryPath)).getAbsoluteFile());
+				desktop.open(new java.io.File(path).getAbsoluteFile());
 			} catch(Exception ex) {
 				ex.printStackTrace();
 				ErrorWindow errorWindow = new ErrorWindow(
