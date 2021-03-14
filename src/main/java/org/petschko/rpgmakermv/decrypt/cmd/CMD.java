@@ -55,7 +55,7 @@ public class CMD {
 		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");
 		System.out.println(LINE_CMD);
 
-		CMD_Update.checkForUpdates();
+		Update.checkForUpdates();
 
 		sanitizeArgs();
 		processArgs();
@@ -84,7 +84,7 @@ public class CMD {
 	private void processArgs() {
 		// Get the Sub command
 		String subCommand;
-		CMD_Command cmdHandler;
+		I_CMD cmdHandler;
 		try {
 			subCommand = args[1].toLowerCase();
 		} catch(ArrayIndexOutOfBoundsException arEx) {
@@ -94,36 +94,36 @@ public class CMD {
 
 		switch(args[0]) {
 			case CMD_OPEN_IMG:
-				cmdHandler = new CMD_Open();
+				cmdHandler = new Open();
 				break;
 			case CMD_DECRYPT:
-				cmdHandler = new CMD_Decrypt();
+				cmdHandler = new Decrypt();
 				break;
 			case CMD_ENCRYPT:
-				cmdHandler = new CMD_Encrypt();
+				cmdHandler = new Encrypt();
 				break;
 			case CMD_RESTORE:
-				cmdHandler = new CMD_Restore();
+				cmdHandler = new Restore();
 				break;
 			case CMD_RESTORE_PROJECT:
-				cmdHandler = new CMD_RestoreProject();
+				cmdHandler = new RestoreProject();
 				break;
 			case CMD_GET_KEY:
 			case CMD_GET_KEY_2:
 			case CMD_GET_KEY_3:
 			case CMD_GET_KEY_4:
 			case CMD_GET_KEY_5:
-				cmdHandler = new CMD_DetectKey();
+				cmdHandler = new DetectKey();
 				break;
 			case UPDATE:
-				cmdHandler = new CMD_Update();
+				cmdHandler = new Update();
 				break;
 			default:
 				boolean invalidCommand = false;
 				if(! isHelpCmd(args[0]))
 					invalidCommand = true;
 
-				cmdHandler = new CMD_Help();
+				cmdHandler = new Help();
 
 				// Help is handles a bit different
 				if(invalidCommand)
@@ -164,30 +164,30 @@ public class CMD {
 	 * @param command - Command to print help of
 	 */
 	private void printHelpForCmd(String command) {
-		CMD_Command cmdCommand = new CMD_Help();
+		I_CMD cmdCommand = new Help();
 
 		switch(command) {
 			case CMD_OPEN_IMG:
-				cmdCommand = new CMD_Open();
+				cmdCommand = new Open();
 				break;
 			case CMD_DECRYPT:
-				cmdCommand = new CMD_Decrypt();
+				cmdCommand = new Decrypt();
 				break;
 			case CMD_ENCRYPT:
-				cmdCommand = new CMD_Encrypt();
+				cmdCommand = new Encrypt();
 				break;
 			case CMD_RESTORE:
-				cmdCommand = new CMD_Restore();
+				cmdCommand = new Restore();
 				break;
 			case CMD_RESTORE_PROJECT:
-				cmdCommand = new CMD_RestoreProject();
+				cmdCommand = new RestoreProject();
 				break;
 			case CMD_GET_KEY:
 			case CMD_GET_KEY_2:
 			case CMD_GET_KEY_3:
 			case CMD_GET_KEY_4:
 			case CMD_GET_KEY_5:
-				cmdCommand = new CMD_DetectKey();
+				cmdCommand = new DetectKey();
 				break;
 			default:
 				// Void

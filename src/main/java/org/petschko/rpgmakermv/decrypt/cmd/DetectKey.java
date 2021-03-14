@@ -13,9 +13,9 @@ import java.io.InputStreamReader;
  * Date: 15.02.2021
  * Time: 23:35
  *
- * Notes: CMD_DetectKey Class
+ * Notes: DetectKey Class
  */
-class CMD_DetectKey implements CMD_Command {
+class DetectKey implements I_CMD {
 	private String pathToProject;
 	private boolean skipImageQuestion = false;
 

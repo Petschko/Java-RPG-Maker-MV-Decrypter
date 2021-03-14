@@ -11,9 +11,9 @@ import org.petschko.rpgmakermv.decrypt.RPGProject;
  * Date: 15.02.2021
  * Time: 23:37
  *
- * Notes: CMD_Restore Class
+ * Notes: Restore Class
  */
-class CMD_Restore implements CMD_Command {
+class Restore implements I_CMD {
 	private String pathToProject;
 	private String outputDir;
 

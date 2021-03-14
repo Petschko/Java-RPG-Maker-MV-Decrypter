@@ -1,6 +1,5 @@
 package org.petschko.rpgmakermv.decrypt.cmd;
 
-import org.petschko.lib.update.Update;
 import org.petschko.lib.update.UpdateException;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
@@ -18,10 +17,10 @@ import java.net.URISyntaxException;
  *
  * Notes: -
  */
-public class CMD_Update implements CMD_Command {
+public class Update implements I_CMD {
 	private static final String SUB_CMD_WHATS_NEW = "whatsnew";
 
-	private Update update = null;
+	private org.petschko.lib.update.Update update = null;
 
 	/**
 	 * Runs the Command
@@ -132,14 +131,14 @@ public class CMD_Update implements CMD_Command {
 	 * @param ignoreUpdateCache - Ignored the Update-Cache
 	 * @return - Update Object
 	 */
-	private static Update checkForUpdates(boolean output, boolean ignoreUpdateCache) {
-		Update update = null;
+	private static org.petschko.lib.update.Update checkForUpdates(boolean output, boolean ignoreUpdateCache) {
+		org.petschko.lib.update.Update update = null;
 
 		try {
 			if(ignoreUpdateCache)
-				update = new Update(Config.updateUrl, Config.versionNumber, true);
+				update = new org.petschko.lib.update.Update(Config.updateUrl, Config.versionNumber, true);
 			else
-				update = new Update(Config.updateUrl, Config.versionNumber, Config.updateCheckEverySecs);
+				update = new org.petschko.lib.update.Update(Config.updateUrl, Config.versionNumber, Config.updateCheckEverySecs);
 		} catch(IOException e) {
 			System.out.println("Update: Can't check for Updates...");
 			System.out.println(CMD.LINE_CMD);

@@ -6,9 +6,9 @@ package org.petschko.rpgmakermv.decrypt.cmd;
  * Date: 15.02.2021
  * Time: 22:59
  *
- * Notes: CMD_Command Class
+ * Notes: I_CMD
  */
-interface CMD_Command {
+interface I_CMD {
 	/**
 	 * Runs the Command
 	 *

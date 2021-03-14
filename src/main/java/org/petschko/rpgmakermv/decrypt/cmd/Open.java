@@ -15,9 +15,9 @@ import java.nio.file.Paths;
  * Date: 15.02.2021
  * Time: 23:41
  *
- * Notes: CMD_Open Class
+ * Notes: Open Class
  */
-class CMD_Open implements CMD_Command {
+class Open implements I_CMD {
 	private String pathToFile;
 
 	/**

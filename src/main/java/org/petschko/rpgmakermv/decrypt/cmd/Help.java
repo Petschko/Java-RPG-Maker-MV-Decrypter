@@ -8,9 +8,9 @@ import org.petschko.rpgmakermv.decrypt.App;
  * Date: 15.02.2021
  * Time: 23:34
  *
- * Notes: CMD_Help Class
+ * Notes: Help Class
  */
-class CMD_Help implements CMD_Command {
+class Help implements I_CMD {
 	/**
 	 * Runs the Command
 	 *
