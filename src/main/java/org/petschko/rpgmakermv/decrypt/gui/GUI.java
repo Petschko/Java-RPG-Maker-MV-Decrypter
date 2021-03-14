@@ -264,6 +264,7 @@ class GUI {
 		// Remove all Previous ActionListeners
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.openRPGDirExplorer);
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.allFiles);
+		Functions.buttonRemoveAllActionListeners(this.mainMenu.restoreImages);
 
 		// Add new ActionListener
 		this.mainMenu.openRPGDirExplorer.addActionListener(GUI_ActionListener.openExplorer(this.rpgProject.getPath()));
