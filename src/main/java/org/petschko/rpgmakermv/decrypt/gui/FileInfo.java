@@ -14,9 +14,9 @@ import javax.swing.JTextField;
  * Update: -
  * Version: 0.0.1
  *
- * Notes: Class GUI_FileInfo
+ * Notes: Class FileInfo
  */
-class GUI_FileInfo extends JPanel {
+class FileInfo extends JPanel {
 	private File file = null;
 	private JTextField filePath = new JTextField();
 	private JTextField fileExt = new JTextField();
@@ -27,7 +27,7 @@ class GUI_FileInfo extends JPanel {
 	/**
 	 * GUI_FileInfo Constructor
 	 */
-	GUI_FileInfo() {
+	FileInfo() {
 		this.setBorder(BorderFactory.createTitledBorder("File-Info"));
 		// todo add comps together
 	}

@@ -27,12 +27,12 @@ import java.awt.GridLayout;
  */
 public class GUI {
 	private JFrame mainWindow;
-	private GUI_Menu mainMenu;
+	private Menu mainMenu;
 	private JPanel windowPanel = new JPanel(new BorderLayout());
 	private JPanel projectFilesPanel = new JPanel();
 	private JPanel fileList = new JPanel();
-	private GUI_About guiAbout;
-	private GUI_FileInfo fileInfo = new GUI_FileInfo();
+	private About guiAbout;
+	private FileInfo fileInfo = new FileInfo();
 	private RPGProject rpgProject = null;
 	private Decrypter decrypter = null;
 
@@ -43,7 +43,7 @@ public class GUI {
 		// Create and Setup components
 		this.createMainWindow();
 		this.createMainMenu();
-		this.guiAbout = new GUI_About("About " + Config.PROGRAM_NAME, this.mainWindow);
+		this.guiAbout = new About("About " + Config.PROGRAM_NAME, this.mainWindow);
 		this.createWindowGUI();
 
 		// Center Window and Display it
@@ -57,7 +57,7 @@ public class GUI {
 
 		// Add Update-Check
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
-			new GUI_Update(this, true);
+			new Update(this, true);
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class GUI {
 	 *
 	 * @return - Main-Menu
 	 */
-	GUI_Menu getMainMenu() {
+	Menu getMainMenu() {
 		return mainMenu;
 	}
 
@@ -130,14 +130,14 @@ public class GUI {
 
 		// Change close Action
 		this.mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.mainWindow.addWindowListener(GUI_ActionListener.closeButton());
+		this.mainWindow.addWindowListener(ActionListener.closeButton());
 	}
 
 	/**
 	 * Creates and assign the Main-Menu
 	 */
 	private void createMainMenu() {
-		this.mainMenu = new GUI_Menu();
+		this.mainMenu = new Menu();
 		this.mainWindow.add(this.mainMenu, BorderLayout.NORTH);
 
 		// Set Menu-Settings
@@ -236,23 +236,23 @@ public class GUI {
 					}
 				}
 		);
-		this.mainMenu.exit.addActionListener(GUI_ActionListener.closeMenu());
+		this.mainMenu.exit.addActionListener(ActionListener.closeMenu());
 		// -- Options
-		this.mainMenu.ignoreFakeHeader.addActionListener(GUI_ActionListener.switchSetting(Preferences.IGNORE_FAKE_HEADER));
-		this.mainMenu.loadInvalidRPGDirs.addActionListener(GUI_ActionListener.switchSetting(Preferences.LOAD_INVALID_RPG_DIRS));
-		this.mainMenu.clearOutputDir.addActionListener(GUI_ActionListener.switchSetting(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT));
+		this.mainMenu.ignoreFakeHeader.addActionListener(ActionListener.switchSetting(Preferences.IGNORE_FAKE_HEADER));
+		this.mainMenu.loadInvalidRPGDirs.addActionListener(ActionListener.switchSetting(Preferences.LOAD_INVALID_RPG_DIRS));
+		this.mainMenu.clearOutputDir.addActionListener(ActionListener.switchSetting(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT));
 		this.mainMenu.clearOutputDir.addActionListener(
 				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
 		);
-		this.mainMenu.overwriteExistingFiles.addActionListener(GUI_ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
-		this.mainMenu.checkForUpdates.addActionListener(GUI_ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
+		this.mainMenu.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
+		this.mainMenu.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
 		// -- Decrypt
 		// -- Tools
 		// -- Info
 		this.mainMenu.updateProgram.addActionListener(
-				e -> new GUI_Update(this)
+				e -> new Update(this)
 		);
-		this.mainMenu.reportABug.addActionListener(GUI_ActionListener.openWebsite(Config.PROJECT_BUG_REPORT_URL));
+		this.mainMenu.reportABug.addActionListener(ActionListener.openWebsite(Config.PROJECT_BUG_REPORT_URL));
 		this.mainMenu.about.addActionListener(
 				e -> this.guiAbout.showWindow()
 		);
@@ -268,10 +268,10 @@ public class GUI {
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.restoreImages);
 
 		// Add new ActionListener
-		this.mainMenu.openRPGDirExplorer.addActionListener(GUI_ActionListener.openExplorer(this.rpgProject.getPath()));
+		this.mainMenu.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(this.rpgProject.getPath()));
 
-		this.mainMenu.allFiles.addActionListener(new GUI_Decryption(this, this.rpgProject.getEncryptedFiles()));
-		this.mainMenu.restoreImages.addActionListener(new GUI_Decryption(this, this.rpgProject.getEncryptedFiles(), true));
+		this.mainMenu.allFiles.addActionListener(new WorkerDecryption(this, this.rpgProject.getEncryptedFiles()));
+		this.mainMenu.restoreImages.addActionListener(new WorkerDecryption(this, this.rpgProject.getEncryptedFiles(), true));
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class GUI {
 			return;
 		}
 
-		GUI_OpenRPGDir openRPG = new GUI_OpenRPGDir(this, currentDirectory, showInfoWindow);
+		WorkerOpenRPGDir openRPG = new WorkerOpenRPGDir(this, currentDirectory, showInfoWindow);
 		openRPG.execute();
 	}
 
@@ -304,7 +304,7 @@ public class GUI {
 		Functions.buttonRemoveAllActionListeners(this.mainMenu.doClearOutputDir);
 
 		// New ActionListener
-		this.mainMenu.openOutputDirExplorer.addActionListener(GUI_ActionListener.openExplorer(App.outputDir));
-		this.mainMenu.doClearOutputDir.addActionListener(new GUI_DirectoryClearing(this, App.outputDir));
+		this.mainMenu.openOutputDirExplorer.addActionListener(ActionListener.openExplorer(App.outputDir));
+		this.mainMenu.doClearOutputDir.addActionListener(new WorkerDirectoryClearing(this, App.outputDir));
 	}
 }

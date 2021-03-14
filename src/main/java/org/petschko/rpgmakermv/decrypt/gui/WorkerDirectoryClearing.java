@@ -18,9 +18,9 @@ import java.awt.event.ActionListener;
  * Date: 14.03.2021
  * Time: 19:48
  *
- * Notes: Class GUI_DirectoryClearing
+ * Notes: Class WorkerDirectoryClearing
  */
-class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
+class WorkerDirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
 	private GUI gui;
 	private String directoryPath = null;
 	private JDialog jDialog;
@@ -31,7 +31,7 @@ class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionLis
 	 * @param gui - GUI-Object
 	 * @param directoryPath - Path to clear
 	 */
-	GUI_DirectoryClearing(GUI gui, String directoryPath) {
+	WorkerDirectoryClearing(GUI gui, String directoryPath) {
 		if(directoryPath == null) {
 			PathException pe = new PathException("directoryPath can't be null!", (String) null);
 			pe.printStackTrace();

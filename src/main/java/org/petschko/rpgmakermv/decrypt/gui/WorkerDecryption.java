@@ -22,9 +22,9 @@ import java.util.ArrayList;
  * Date: 14.03.2021
  * Time: 20:53
  *
- * Notes: Class GUI_Decryption
+ * Notes: Class WorkerDecryption
  */
-class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
+class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener {
 	private GUI gui;
 	private ArrayList<File> files;
 	private ProgressMonitor progressMonitor;
@@ -36,7 +36,7 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 	 * @param gui - GUI-Object
 	 * @param files - Files to Decrypt
 	 */
-	GUI_Decryption(GUI gui, ArrayList<File> files) {
+	WorkerDecryption(GUI gui, ArrayList<File> files) {
 		this.gui = gui;
 		this.files = files;
 	}
@@ -48,7 +48,7 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 	 * @param files - Files to Decrypt
 	 * @param restoreImages - Restores Images without key
 	 */
-	GUI_Decryption(GUI gui, ArrayList<File> files, boolean restoreImages) {
+	WorkerDecryption(GUI gui, ArrayList<File> files, boolean restoreImages) {
 		this.gui = gui;
 		this.files = files;
 		this.restoreImages = restoreImages;

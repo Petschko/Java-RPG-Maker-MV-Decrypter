@@ -27,9 +27,9 @@ import java.awt.HeadlessException;
  * Update: -
  * Version: 0.0.1
  *
- * Notes: GUI_About Class
+ * Notes: About Class
  */
-class GUI_About extends org.petschko.lib.gui.GUI_About {
+class About extends org.petschko.lib.gui.GUI_About {
 	/**
 	 * Creates a new, initially invisible <code>Frame</code> with the
 	 * specified title.
@@ -46,7 +46,7 @@ class GUI_About extends org.petschko.lib.gui.GUI_About {
 	 * @see Component#setVisible
 	 * @see JComponent#getDefaultLocale
 	 */
-	GUI_About(String title, JFrame relativeTo) throws HeadlessException {
+	About(String title, JFrame relativeTo) throws HeadlessException {
 		super(title, relativeTo);
 	}
 

@@ -18,10 +18,10 @@ import javax.swing.SwingWorker;
  * Authors-Website: https://petschko.org/
  * Date: 14.03.2021
  * Time: 20:32
- * <p>
- * Notes: Class GUI_OpenRPGDir
+ *
+ * Notes: Class WorkerOpenRPGDir
  */
-class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
+class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	private GUI gui;
 	private String directoryPath;
 	private boolean showInfoWindow = false;
@@ -32,7 +32,7 @@ class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
 	 * @param gui - GUI-Object
 	 * @param directoryPath - Path of the Directory
 	 */
-	GUI_OpenRPGDir(GUI gui, String directoryPath) {
+	WorkerOpenRPGDir(GUI gui, String directoryPath) {
 		this.gui = gui;
 		this.directoryPath = directoryPath;
 	}
@@ -44,7 +44,7 @@ class GUI_OpenRPGDir extends SwingWorker<Void, Void> {
 	 * @param directoryPath - Path of the Directory
 	 * @param showInfoWindow - Show success Window after the Action
 	 */
-	GUI_OpenRPGDir(GUI gui, String directoryPath, boolean showInfoWindow) {
+	WorkerOpenRPGDir(GUI gui, String directoryPath, boolean showInfoWindow) {
 		this.gui = gui;
 		this.directoryPath = directoryPath;
 		this.showInfoWindow = showInfoWindow;

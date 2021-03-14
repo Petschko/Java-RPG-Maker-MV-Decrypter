@@ -6,7 +6,6 @@ import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 
 import java.awt.Desktop;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -18,16 +17,16 @@ import java.awt.event.WindowEvent;
  * Update: -
  * Version: 0.0.2
  *
- * Notes: GUI_ActionListener Class
+ * Notes: ActionListener Class
  */
-class GUI_ActionListener {
+class ActionListener {
 
 	/**
 	 * Close via Menu ActionListener
 	 *
 	 * @return - Close ActionListener
 	 */
-	static ActionListener closeMenu() {
+	static java.awt.event.ActionListener closeMenu() {
 		return e -> App.closeGUI();
 	}
 
@@ -51,7 +50,7 @@ class GUI_ActionListener {
 	 * @param configName - Config-Name
 	 * @return - Switch-Setting ActionListener
 	 */
-	static ActionListener switchSetting(String configName) {
+	static java.awt.event.ActionListener switchSetting(String configName) {
 		if(configName == null) {
 			Exception e = new Exception("configName can't be null!");
 			e.printStackTrace();
@@ -66,7 +65,7 @@ class GUI_ActionListener {
 	 * @param url - Target URL
 	 * @return - Open-Website ActionListener
 	 */
-	static ActionListener openWebsite(String url) {
+	static java.awt.event.ActionListener openWebsite(String url) {
 		return e -> Functions.openWebsite(url);
 	}
 
@@ -76,7 +75,7 @@ class GUI_ActionListener {
 	 * @param directoryPath - Path to open
 	 * @return Open-Explorer ActionListener
 	 */
-	static ActionListener openExplorer(String directoryPath) {
+	static java.awt.event.ActionListener openExplorer(String directoryPath) {
 		return e -> {
 			Desktop desktop = Desktop.getDesktop();
 			String path = File.ensureDSonEndOfPath(directoryPath);

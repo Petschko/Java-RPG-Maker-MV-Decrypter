@@ -4,7 +4,6 @@ import org.petschko.lib.Const;
 import org.petschko.lib.gui.JOptionPane;
 import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
-import org.petschko.lib.update.Update;
 import org.petschko.lib.update.UpdateException;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
@@ -21,12 +20,12 @@ import java.net.URISyntaxException;
  * Date: 20.02.2021
  * Time: 17:29
  *
- * Notes: -
+ * Notes: Class Update
  */
 
-class GUI_Update {
+class Update {
 	private GUI gui;
-	private Update update = null;
+	private org.petschko.lib.update.Update update = null;
 	private String[] options;
 	private boolean autoOptionExists = false;
 	private boolean ranAutomatically = false;
@@ -36,7 +35,7 @@ class GUI_Update {
 	 *
 	 * @param gui - Main GUI-Object
 	 */
-	GUI_Update(GUI gui) {
+	Update(GUI gui) {
 		this.gui = gui;
 		this.options = new String[] {"Update", "Show whats new", "Cancel"};
 
@@ -49,7 +48,7 @@ class GUI_Update {
 	 * @param gui - Main GUI-Object
 	 * @param auto - This ran automatically
 	 */
-	GUI_Update(GUI gui, boolean auto) {
+	Update(GUI gui, boolean auto) {
 		this.gui = gui;
 		this.options = new String[] {"Update", "Show whats new", "Disable update check", "Cancel"};
 		this.autoOptionExists = true;
@@ -64,9 +63,9 @@ class GUI_Update {
 	private void init() {
 		try {
 			if(this.ranAutomatically)
-				update = new Update(Config.UPDATE_URL, Config.VERSION_NUMBER, Config.UPDATE_CHECK_EVERY_SECS);
+				update = new org.petschko.lib.update.Update(Config.UPDATE_URL, Config.VERSION_NUMBER, Config.UPDATE_CHECK_EVERY_SECS);
 			else
-				update = new Update(Config.UPDATE_URL, Config.VERSION_NUMBER, true);
+				update = new org.petschko.lib.update.Update(Config.UPDATE_URL, Config.VERSION_NUMBER, true);
 		} catch (IOException e) {
 			if(! this.ranAutomatically) {
 				ErrorWindow ew = new ErrorWindow("Can't check for Updates...", ErrorWindow.ERROR_LEVEL_WARNING, false);

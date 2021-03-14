@@ -13,9 +13,9 @@ import javax.swing.JMenuItem;
  * Update: -
  * Version: 1.0.2
  *
- * Notes: GUI_Menu Class
+ * Notes: Menu Class
  */
-class GUI_Menu extends JMenuBar {
+class Menu extends JMenuBar {
 	// Main Menu-Points
 	JMenu file;
 	JMenu options;
@@ -58,7 +58,7 @@ class GUI_Menu extends JMenuBar {
 	/**
 	 * GUI_Menu Constructor
 	 */
-	GUI_Menu() {
+	Menu() {
 		this.constructFileMenu();
 		this.constructOptionsMenu();
 		this.constructDecryptMenu();
