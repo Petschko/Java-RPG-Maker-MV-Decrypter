@@ -7,12 +7,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 25.02.2021
- * Time: 16:57
- *
- * Notes: -
+ * @author Peter Dragicevic
  */
 class UpdateCache {
 	private static final String PROP_NEWEST_VERSION_CACHE = "newestVersionCache";

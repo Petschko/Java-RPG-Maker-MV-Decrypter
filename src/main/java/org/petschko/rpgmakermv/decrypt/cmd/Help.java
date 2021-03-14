@@ -4,12 +4,7 @@ import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 23:34
- *
- * Notes: Help Class
+ * @author Peter Dragicevic
  */
 class Help implements I_CMD {
 	/**

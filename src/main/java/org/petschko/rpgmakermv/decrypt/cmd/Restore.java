@@ -6,12 +6,7 @@ import org.petschko.rpgmakermv.decrypt.Decrypter;
 import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 23:37
- *
- * Notes: Restore Class
+ * @author Peter Dragicevic
  */
 class Restore implements I_CMD {
 	private String pathToProject;

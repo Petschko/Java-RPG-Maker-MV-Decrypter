@@ -4,14 +4,7 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 05.01.2017
- * Time: 13:39
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Class JLabelWrap
+ * @author Peter Dragicevic
  */
 public class JLabelWrap extends JTextArea {
 	/**

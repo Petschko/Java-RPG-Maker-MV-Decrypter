@@ -11,14 +11,7 @@ import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 21.12.2016
- * Time: 15:12
- * Update: 03.02.2017
- * Version: 0.1.2
- *
- * Notes: Decrypter class
+ * @author Peter Dragicevic
  */
 public class Decrypter {
 	private static final String PNG_HEADER = "89504E470D0A1A0A0000000D49484452";

@@ -1,14 +1,7 @@
 package org.petschko.lib.update;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: https://petschko.org/
- * Date: 05.05.2019
- * Time: 17:16
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Version Class
+ * @author Peter Dragicevic
  */
 public class Version {
 	private String version;

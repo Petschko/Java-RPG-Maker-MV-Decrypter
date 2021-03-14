@@ -17,12 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 14.03.2021
- * Time: 20:53
- *
- * Notes: Class WorkerDecryption
+ * @author Peter Dragicevic
  */
 class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener {
 	private GUI gui;

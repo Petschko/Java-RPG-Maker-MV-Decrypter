@@ -14,12 +14,7 @@ import org.petschko.rpgmakermv.decrypt.RPG_Project;
 import javax.swing.SwingWorker;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 14.03.2021
- * Time: 20:32
- *
- * Notes: Class WorkerOpenRPGDir
+ * @author Peter Dragicevic
  */
 class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	private GUI gui;

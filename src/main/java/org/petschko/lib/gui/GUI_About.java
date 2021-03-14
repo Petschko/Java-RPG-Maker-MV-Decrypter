@@ -12,14 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 15.01.2017
- * Time: 17:45
- * Update: -
- * Version: 0.0.1
- *
- * Notes: GUI_About Class
+ * @author Peter Dragicevic
  */
 public abstract class GUI_About extends JDialog {
 	protected JImageLabel imagePanel;

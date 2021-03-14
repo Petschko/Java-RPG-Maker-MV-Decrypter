@@ -7,14 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Author: Peter Dragicevic [peter&#064;petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 05.10.2017
- * Time: 14:37
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Update Class
+ * @author Peter Dragicevic
  */
 public class Update {
 	private UpdateCache updateCache;

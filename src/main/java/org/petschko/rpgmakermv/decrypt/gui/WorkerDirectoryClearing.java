@@ -13,12 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 14.03.2021
- * Time: 19:48
- *
- * Notes: Class WorkerDirectoryClearing
+ * @author Peter Dragicevic
  */
 class WorkerDirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {
 	private GUI gui;

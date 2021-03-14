@@ -10,12 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 22.02.2021
- * Time: 22:38
- *
- * Notes: -
+ * @author Peter Dragicevic
  */
 class Update implements I_CMD {
 	private static final String SUB_CMD_WHATS_NEW = "whatsnew";

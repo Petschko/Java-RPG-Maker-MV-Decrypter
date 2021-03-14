@@ -20,14 +20,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 15.01.2017
- * Time: 19:42
- * Update: -
- * Version: 0.0.1
- *
- * Notes: About Class
+ * @author Peter Dragicevic
  */
 class About extends org.petschko.lib.gui.GUI_About {
 	/**

@@ -16,14 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 28.12.2016
- * Time: 19:14
- * Update: 04.05.2019
- * Version: 0.1.3
- *
- * Notes: GUI Class
+ * @author Peter Dragicevic
  */
 public class GUI {
 	private JFrame mainWindow;

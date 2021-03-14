@@ -4,12 +4,7 @@ import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 23:37
- *
- * Notes: RestoreProject Class
+ * @author Peter Dragicevic
  */
 class RestoreProject implements I_CMD {
 	/**

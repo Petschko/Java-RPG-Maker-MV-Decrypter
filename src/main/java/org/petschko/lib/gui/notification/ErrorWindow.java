@@ -1,14 +1,7 @@
 package org.petschko.lib.gui.notification;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 05.01.2017
- * Time: 14:01
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Class ErrorWindow
+ * @author Peter Dragicevic
  */
 public class ErrorWindow extends NotificationWindow {
 	/**

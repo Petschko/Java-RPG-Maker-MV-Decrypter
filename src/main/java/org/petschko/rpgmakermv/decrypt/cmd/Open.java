@@ -11,12 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 23:41
- *
- * Notes: Open Class
+ * @author Peter Dragicevic
  */
 class Open implements I_CMD {
 	private String pathToFile;

@@ -14,14 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 17.01.2017
- * Time: 19:05
- * Update: -
- * Version: 0.0.1
- *
- * Notes: JLabelExtra Class
+ * @author Peter Dragicevic
  */
 public class JLabelExtra extends JLabel {
 	private String url = null;

@@ -4,14 +4,7 @@ import javax.swing.JFileChooser;
 import java.io.File;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 06.01.2017
- * Time: 22:18
- * Update: -
- * Version: 0.0.1
- *
- * Notes: -
+ * @author Peter Dragicevic
  */
 public class JDirectoryChooser extends JFileChooser{
 	/**

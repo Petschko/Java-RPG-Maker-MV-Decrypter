@@ -3,14 +3,7 @@ package org.petschko.lib.update;
 import java.security.PrivilegedActionException;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: https://petschko.org/
- * Date: 05.05.2019
- * Time: 17:02
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Contains the UpdateException Class
+ * @author Peter Dragicevic
  */
 public class UpdateException extends Exception {
 	private Version currentVersion;

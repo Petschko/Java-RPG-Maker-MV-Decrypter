@@ -10,14 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 29.12.2016
- * Time: 17:59
- * Update: -
- * Version: 0.0.2
- *
- * Notes: ActionListener Class
+ * @author Peter Dragicevic
  */
 class ActionListener {
 

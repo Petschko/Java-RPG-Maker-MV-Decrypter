@@ -1,14 +1,7 @@
 package org.petschko.rpgmakermv.decrypt;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 11.12.2016
- * Time: 21:24
- * Update: 04.05.2019
- * Version: 0.1.1
- *
- * Notes: Config class
+ * @author Peter Dragicevic
  */
 public class Config {
 	// Program Info

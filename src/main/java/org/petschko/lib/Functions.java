@@ -8,14 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 04.01.2017
- * Time: 14:28
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Functions Class
+ * @author Peter Dragicevic
  */
 public class Functions {
 	/**

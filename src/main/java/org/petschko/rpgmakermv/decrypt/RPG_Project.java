@@ -8,14 +8,7 @@ import org.petschko.rpgmakermv.decrypt.cmd.CMD;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 23.12.2016
- * Time: 11:19
- * Update: 04.05.2019
- * Version: 0.1.2
- *
- * Notes: RPG_Project Class
+ * @author Peter Dragicevic
  */
 public class RPG_Project {
 	private String path;

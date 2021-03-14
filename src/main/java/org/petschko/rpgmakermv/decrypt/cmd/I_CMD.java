@@ -1,12 +1,7 @@
 package org.petschko.rpgmakermv.decrypt.cmd;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 22:59
- *
- * Notes: I_CMD
+ * @author Peter Dragicevic
  */
 interface I_CMD {
 	/**

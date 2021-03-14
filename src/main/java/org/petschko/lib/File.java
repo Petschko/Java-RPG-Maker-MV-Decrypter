@@ -11,14 +11,7 @@ import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 11.12.2016
- * Time: 20:23
- * Update: -
- * Version: 0.0.1
- *
- * Notes: File Class
+ * @author Peter Dragicevic
  */
 public class File {
 	private String name;

@@ -10,14 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 15.01.2017
- * Time: 19:47
- * Update: -
- * Version: 0.0.1
- *
- * Notes: JImageLabel Class
+ * @author Peter Dragicevic
  */
 public class JImageLabel extends JLabel {
 	private BufferedImage image = null;

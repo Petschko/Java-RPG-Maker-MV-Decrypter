@@ -8,14 +8,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 17.01.2017
- * Time: 18:52
- * Update: -
- * Version: 0.0.1
- *
- * Notes: JPanelLine Class
+ * @author Peter Dragicevic
  */
 public class JPanelLine extends JPanel {
 	/**

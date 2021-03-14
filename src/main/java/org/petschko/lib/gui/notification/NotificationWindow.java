@@ -6,14 +6,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 05.01.2017
- * Time: 14:04
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Class Notification Window
+ * @author Peter Dragicevic
  */
 abstract class NotificationWindow {
 	public static final int ERROR_LEVEL_FATAL = 4;

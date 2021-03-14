@@ -7,14 +7,7 @@ import java.io.Reader;
 import java.util.Properties;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 23.12.2016
- * Time: 04:44
- * Update: -
- * Version: 0.1.0
- *
- * Notes: UserPref Class
+ * @author Peter Dragicevic
  */
 public abstract class UserPref {
 	private Properties properties = null;

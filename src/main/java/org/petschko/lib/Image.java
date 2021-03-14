@@ -5,14 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 15.01.2017
- * Time: 21:52
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Image Class
+ * @author Peter Dragicevic
  */
 public class Image {
 	private BufferedImage bufferedImage = null;

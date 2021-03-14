@@ -3,14 +3,7 @@ package org.petschko.lib.exceptions;
 import java.security.PrivilegedActionException;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: https://petschko.org/
- * Date: 04.05.2019
- * Time: 21:03
- * Update: -
- * Version: 0.0.1
- *
- * Notes: PathException (Replacement for Oracle-Path-Exception)
+ * @author Peter Dragicevic
  */
 public class PathException extends Exception {
 	private final String path;

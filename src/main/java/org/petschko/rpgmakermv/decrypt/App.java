@@ -7,14 +7,7 @@ import org.petschko.rpgmakermv.decrypt.cmd.CMD;
 import org.petschko.rpgmakermv.decrypt.gui.GUI;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 11.12.2016
- * Time: 20:02
- * Update: -
- * Version: 0.0.1
- *
- * Notes: App Class
+ * @author Peter Dragicevic
  */
 public class App {
 	private static Boolean useGUI = true;

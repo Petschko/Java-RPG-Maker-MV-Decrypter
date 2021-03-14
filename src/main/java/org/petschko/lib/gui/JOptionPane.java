@@ -1,12 +1,7 @@
 package org.petschko.lib.gui;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 20.02.2021
- * Time: 18:17
- * <p>
- * Notes: -
+ * @author Peter Dragicevic
  */
 public class JOptionPane extends javax.swing.JOptionPane {
 	/**

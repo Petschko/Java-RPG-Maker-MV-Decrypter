@@ -5,14 +5,7 @@ import org.petschko.lib.UserPref;
 import java.util.Properties;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 30.12.2016
- * Time: 22:32
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Preferences Class
+ * @author Peter Dragicevic
  */
 public class Preferences extends UserPref {
 	public static final String IGNORE_FAKE_HEADER = "ignoreFakeHeader";

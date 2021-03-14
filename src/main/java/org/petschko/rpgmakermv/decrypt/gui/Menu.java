@@ -6,14 +6,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 29.12.2016
- * Time: 17:07
- * Update: -
- * Version: 1.0.2
- *
- * Notes: Menu Class
+ * @author Peter Dragicevic
  */
 class Menu extends JMenuBar {
 	// Main Menu-Points

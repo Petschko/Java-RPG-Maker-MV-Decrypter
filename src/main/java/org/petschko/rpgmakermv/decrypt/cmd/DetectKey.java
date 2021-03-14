@@ -9,12 +9,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 23:35
- *
- * Notes: DetectKey Class
+ * @author Peter Dragicevic
  */
 class DetectKey implements I_CMD {
 	private String pathToProject;

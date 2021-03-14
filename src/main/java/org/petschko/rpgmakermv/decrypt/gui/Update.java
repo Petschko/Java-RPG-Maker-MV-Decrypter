@@ -15,14 +15,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 20.02.2021
- * Time: 17:29
- *
- * Notes: Class Update
+ * @author Peter Dragicevic
  */
-
 class Update {
 	private GUI gui;
 	private org.petschko.lib.update.Update update = null;

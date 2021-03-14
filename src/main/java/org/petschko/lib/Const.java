@@ -1,14 +1,7 @@
 package org.petschko.lib;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 26.12.2016
- * Time: 14:46
- * Update: 04.05.2019
- * Version: 0.0.2
- *
- * Notes: Const Class
+ * @author Peter Dragicevic
  */
 public class Const {
 	public static final String CREATOR = "Petschko";

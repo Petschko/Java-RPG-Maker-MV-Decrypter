@@ -7,14 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 05.01.2017
- * Time: 12:07
- * Update: -
- * Version: 0.0.1
- *
- * Notes: Class FileInfo
+ * @author Peter Dragicevic
  */
 class FileInfo extends JPanel {
 	private File file = null;

@@ -5,12 +5,7 @@ import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 
 /**
- * Author: Peter Dragicevic
- * Authors-Website: https://petschko.org/
- * Date: 15.02.2021
- * Time: 22:11
- *
- * Notes: CMD Class
+ * @author Peter Dragicevic
  */
 public class CMD {
 	public static final int STATUS_OK = 0;

@@ -6,14 +6,7 @@ import org.petschko.lib.File;
 import java.util.ArrayList;
 
 /**
- * Author: Peter Dragicevic [peter@petschko.org]
- * Authors-Website: http://petschko.org/
- * Date: 26.12.2016
- * Time: 00:02
- * Update: 03.02.2017
- * Version: 0.0.2
- *
- * Notes: Finder Class
+ * @author Peter Dragicevic
  */
 class Finder {
 	/**
