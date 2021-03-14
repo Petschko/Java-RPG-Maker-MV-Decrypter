@@ -104,15 +104,20 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			gui.setDecrypter(new Decrypter());
 			gui.getRpgProject().setOutputPath(App.outputDir);
 			gui.getMainMenu().enableOnRPGProject(true);
-			gui.assignRPGActionListener();
+			gui.getMainMenu().assignRPGActionListener(gui);
 
 			// Refresh Project-Files
 			// todo (re)load file list
 
 			// Done
 			if(this.showInfoWindow) {
-				InfoWindow infoWindow = new InfoWindow("RPG-Maker Project loaded..." + Const.NEW_LINE +
-						"Please use \"Decrypt\" -> \"All\" Files to Decrypt.");
+				InfoWindow infoWindow = new InfoWindow(
+						"RPG-Maker Project loaded..." + Const.NEW_LINE +
+						Const.NEW_LINE +
+						"Please use one of these options:" + Const.NEW_LINE +
+						"- \"Decrypt\" -> \"All Files\" to Decrypt." + Const.NEW_LINE +
+						"- \"Decrypt\" -> \"Restore Images (No Key)\" for restoring."
+				);
 				infoWindow.show(gui.getMainWindow());
 			}
 		}

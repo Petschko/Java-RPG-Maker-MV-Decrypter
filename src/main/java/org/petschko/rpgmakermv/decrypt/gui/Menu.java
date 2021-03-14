@@ -1,9 +1,14 @@
 package org.petschko.rpgmakermv.decrypt.gui;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import org.petschko.lib.File;
+import org.petschko.lib.Functions;
+import org.petschko.lib.gui.JDirectoryChooser;
+import org.petschko.lib.gui.notification.InfoWindow;
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
+import org.petschko.rpgmakermv.decrypt.Preferences;
+
+import javax.swing.*;
 
 /**
  * @author Peter Dragicevic
@@ -196,5 +201,117 @@ class Menu extends JMenuBar {
 		this.restoreProject.setEnabled(false);
 		this.help.setEnabled(false);
 		//this.updateProgram.setEnabled(false);
+	}
+
+	/**
+	 * Loads the settings from Preferences for the Menu
+	 */
+	void loadSettings() {
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.IGNORE_FAKE_HEADER, "true")))
+			this.ignoreFakeHeader.setState(true);
+
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.LOAD_INVALID_RPG_DIRS, "false")))
+			this.loadInvalidRPGDirs.setState(true);
+
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")))
+			this.clearOutputDir.setState(true);
+
+		if(! this.clearOutputDir.isSelected()) {
+			if(Functions.strToBool(App.preferences.getConfig(Preferences.OVERWRITE_FILES, "false")))
+				this.overwriteExistingFiles.setState(true);
+		} else
+			this.overwriteExistingFiles.setEnabled(false);
+
+		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
+			this.checkForUpdates.setState(true);
+
+		this.enableOnRPGProject(false);
+	}
+
+	/**
+	 * Assigns all Action-Listeners to the Menu-Items
+	 *
+	 * @param gui - GUI-Object
+	 */
+	void assignActionListeners(GUI gui) {
+		// -- File
+		this.open.addActionListener(
+				e -> {
+					String openDir = App.preferences.getConfig(Preferences.LAST_RPG_DIR, ".");
+
+					if(! File.existsDir(openDir))
+						openDir = ".";
+
+					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
+					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
+					int choose = dirChooser.showDialog(gui.getMainMenu(), null);
+
+					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
+						App.preferences.setConfig(Preferences.LAST_RPG_DIR, dirChooser.getCurrentDirectory().getPath());
+
+						gui.openRPGProject(dirChooser.getSelectedFile().getPath(), true);
+					}
+				}
+		);
+		this.changeOutputDir.addActionListener(
+				e -> {
+					// Warn the user that the selected directory will be cleared
+					if(Boolean.parseBoolean(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")))
+						new InfoWindow("You have chosen, that the selected Directory will be cleared.\nBeware that this Program clear the selected Directory (Deletes all Files within)! Don't select directories where you have important Files or Sub-Directories in!\n\n(Or turn off the clearing under Options)", "Important Info about your Files").show(gui.getMainWindow());
+
+					String openDir = App.preferences.getConfig(Preferences.LAST_OUTPUT_PARENT_DIR, ".");
+
+					if(! File.existsDir(openDir))
+						openDir = ".";
+
+					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
+					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
+					int choose = dirChooser.showDialog(gui.getMainMenu(), null);
+
+					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
+						App.preferences.setConfig(Preferences.LAST_OUTPUT_PARENT_DIR, dirChooser.getCurrentDirectory().getPath());
+						App.preferences.setConfig(Preferences.LAST_OUTPUT_DIR, dirChooser.getSelectedFile().getPath());
+						gui.setNewOutputDir(dirChooser.getSelectedFile().getPath());
+					}
+				}
+		);
+		this.exit.addActionListener(ActionListener.closeMenu());
+		// -- Options
+		this.ignoreFakeHeader.addActionListener(ActionListener.switchSetting(Preferences.IGNORE_FAKE_HEADER));
+		this.loadInvalidRPGDirs.addActionListener(ActionListener.switchSetting(Preferences.LOAD_INVALID_RPG_DIRS));
+		this.clearOutputDir.addActionListener(ActionListener.switchSetting(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT));
+		this.clearOutputDir.addActionListener(
+				e -> this.overwriteExistingFiles.setEnabled(! this.overwriteExistingFiles.isEnabled())
+		);
+		this.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
+		this.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
+		// -- Decrypt
+		// -- Tools
+		// -- Info
+		this.updateProgram.addActionListener(
+				e -> new Update(gui)
+		);
+		this.reportABug.addActionListener(ActionListener.openWebsite(Config.PROJECT_BUG_REPORT_URL));
+		this.about.addActionListener(
+				e -> gui.getGuiAbout().showWindow()
+		);
+	}
+
+	/**
+	 * Assign RPG-Project ActionListeners
+	 *
+	 * @param gui - GUI-Object
+	 */
+	void assignRPGActionListener(GUI gui) {
+		// Remove all Previous ActionListeners
+		Functions.buttonRemoveAllActionListeners(this.openRPGDirExplorer);
+		Functions.buttonRemoveAllActionListeners(this.allFiles);
+		Functions.buttonRemoveAllActionListeners(this.restoreImages);
+
+		// Add new ActionListener
+		this.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(gui.getRpgProject().getPath()));
+
+		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));
+		this.restoreImages.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles(), true));
 	}
 }

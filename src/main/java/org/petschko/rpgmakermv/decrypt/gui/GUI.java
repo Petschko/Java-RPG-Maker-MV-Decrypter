@@ -45,7 +45,7 @@ public class GUI {
 		this.mainWindow.pack();
 
 		// Assign Listener
-		this.assignMainMenuListener();
+		this.mainMenu.assignActionListeners(this);
 		this.setNewOutputDir(App.outputDir);
 
 		// Add Update-Check
@@ -108,6 +108,15 @@ public class GUI {
 	}
 
 	/**
+	 * Returns the GUI-About Object
+	 *
+	 * @return - GUI-About Object
+	 */
+	About getGuiAbout() {
+		return guiAbout;
+	}
+
+	/**
 	 * Dispose the GUI
 	 */
 	public void dispose() {
@@ -134,25 +143,7 @@ public class GUI {
 		this.mainWindow.add(this.mainMenu, BorderLayout.NORTH);
 
 		// Set Menu-Settings
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.IGNORE_FAKE_HEADER, "true")))
-			this.mainMenu.ignoreFakeHeader.setState(true);
-
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.LOAD_INVALID_RPG_DIRS, "false")))
-			this.mainMenu.loadInvalidRPGDirs.setState(true);
-
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")))
-			this.mainMenu.clearOutputDir.setState(true);
-
-		if(! this.mainMenu.clearOutputDir.isSelected()) {
-			if(Functions.strToBool(App.preferences.getConfig(Preferences.OVERWRITE_FILES, "false")))
-				this.mainMenu.overwriteExistingFiles.setState(true);
-		} else
-			this.mainMenu.overwriteExistingFiles.setEnabled(false);
-
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
-			this.mainMenu.checkForUpdates.setState(true);
-
-		this.mainMenu.enableOnRPGProject(false);
+		this.mainMenu.loadSettings();
 	}
 
 	/**
@@ -182,89 +173,6 @@ public class GUI {
 		this.windowPanel.add(footContainer, BorderLayout.SOUTH);
 		this.projectFilesPanel.add(filesListText, BorderLayout.NORTH);
 		this.mainWindow.add(this.windowPanel, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Assigns ActionListener to the Main-Menu parts
-	 */
-	private void assignMainMenuListener() {
-		// -- File
-		this.mainMenu.open.addActionListener(
-				e -> {
-					String openDir = App.preferences.getConfig(Preferences.LAST_RPG_DIR, ".");
-
-					if(! File.existsDir(openDir))
-						openDir = ".";
-
-					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
-					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					int choose = dirChooser.showDialog(this.mainWindow, null);
-
-					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
-						App.preferences.setConfig(Preferences.LAST_RPG_DIR, dirChooser.getCurrentDirectory().getPath());
-
-						this.openRPGProject(dirChooser.getSelectedFile().getPath(), true);
-					}
-				}
-		);
-		this.mainMenu.changeOutputDir.addActionListener(
-				e -> {
-					// Warn the user that the selected directory will be cleared
-					if(Boolean.parseBoolean(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")))
-						new InfoWindow("You have chosen, that the selected Directory will be cleared.\nBeware that this Program clear the selected Directory (Deletes all Files within)! Don't select directories where you have important Files or Sub-Directories in!\n\n(Or turn off the clearing under Options)", "Important Info about your Files").show(this.mainWindow);
-
-					String openDir = App.preferences.getConfig(Preferences.LAST_OUTPUT_PARENT_DIR, ".");
-
-					if(! File.existsDir(openDir))
-						openDir = ".";
-
-					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
-					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					int choose = dirChooser.showDialog(this.mainWindow, null);
-
-					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
-						App.preferences.setConfig(Preferences.LAST_OUTPUT_PARENT_DIR, dirChooser.getCurrentDirectory().getPath());
-						App.preferences.setConfig(Preferences.LAST_OUTPUT_DIR, dirChooser.getSelectedFile().getPath());
-						this.setNewOutputDir(dirChooser.getSelectedFile().getPath());
-					}
-				}
-		);
-		this.mainMenu.exit.addActionListener(ActionListener.closeMenu());
-		// -- Options
-		this.mainMenu.ignoreFakeHeader.addActionListener(ActionListener.switchSetting(Preferences.IGNORE_FAKE_HEADER));
-		this.mainMenu.loadInvalidRPGDirs.addActionListener(ActionListener.switchSetting(Preferences.LOAD_INVALID_RPG_DIRS));
-		this.mainMenu.clearOutputDir.addActionListener(ActionListener.switchSetting(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT));
-		this.mainMenu.clearOutputDir.addActionListener(
-				e -> this.mainMenu.overwriteExistingFiles.setEnabled(! this.mainMenu.overwriteExistingFiles.isEnabled())
-		);
-		this.mainMenu.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
-		this.mainMenu.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
-		// -- Decrypt
-		// -- Tools
-		// -- Info
-		this.mainMenu.updateProgram.addActionListener(
-				e -> new Update(this)
-		);
-		this.mainMenu.reportABug.addActionListener(ActionListener.openWebsite(Config.PROJECT_BUG_REPORT_URL));
-		this.mainMenu.about.addActionListener(
-				e -> this.guiAbout.showWindow()
-		);
-	}
-
-	/**
-	 * Assign RPG-Project ActionListeners
-	 */
-	void assignRPGActionListener() {
-		// Remove all Previous ActionListeners
-		Functions.buttonRemoveAllActionListeners(this.mainMenu.openRPGDirExplorer);
-		Functions.buttonRemoveAllActionListeners(this.mainMenu.allFiles);
-		Functions.buttonRemoveAllActionListeners(this.mainMenu.restoreImages);
-
-		// Add new ActionListener
-		this.mainMenu.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(this.rpgProject.getPath()));
-
-		this.mainMenu.allFiles.addActionListener(new WorkerDecryption(this, this.rpgProject.getEncryptedFiles()));
-		this.mainMenu.restoreImages.addActionListener(new WorkerDecryption(this, this.rpgProject.getEncryptedFiles(), true));
 	}
 
 	/**
