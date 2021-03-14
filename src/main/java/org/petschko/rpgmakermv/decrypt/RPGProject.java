@@ -3,6 +3,8 @@ package org.petschko.rpgmakermv.decrypt;
 import org.json.JSONException;
 import org.petschko.lib.File;
 import org.petschko.lib.exceptions.PathException;
+import org.petschko.rpgmakermv.decrypt.cmd.CMD;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  *
  * Notes: RPG-Project-Class
  */
-class RPGProject {
+public class RPGProject {
 	private String path;
 	private String outputPath = Config.defaultOutputDir;
 	private File system = null;
@@ -34,7 +36,7 @@ class RPGProject {
 	 * @param verifyRPGDir - true if the RPG-Maker-Directory should verified
 	 * @throws PathException - Path doesn't exists/Not Valid-Dir exception
 	 */
-	RPGProject(String path, boolean verifyRPGDir) throws PathException {
+	public RPGProject(String path, boolean verifyRPGDir) throws PathException {
 		if(path == null)
 			throw new PathException("Project-Path can't be null!", (String) null);
 		if(! File.existsDir(path))
@@ -91,7 +93,7 @@ class RPGProject {
 	 *
 	 * @param outputPath - Output (Save-Dir)-Path of the Project
 	 */
-	void setOutputPath(String outputPath) {
+	public void setOutputPath(String outputPath) {
 		if(outputPath == null) {
 			PathException pe = new PathException("outputPath can't be null!", (String) null);
 			pe.printStackTrace();
@@ -106,7 +108,7 @@ class RPGProject {
 	 *
 	 * @return - System-File or null if not set
 	 */
-	File getSystem() {
+	public File getSystem() {
 		return system;
 	}
 
@@ -124,7 +126,7 @@ class RPGProject {
 	 *
 	 * @return - encrypted image file or null if none found
 	 */
-	File getEncryptedImgFile() {
+	public File getEncryptedImgFile() {
 		return encryptedImgFile;
 	}
 
@@ -142,7 +144,7 @@ class RPGProject {
 	 *
 	 * @return - EncryptionKeyName
 	 */
-	String getEncryptionKeyName() {
+	public String getEncryptionKeyName() {
 		return encryptionKeyName;
 	}
 
@@ -194,7 +196,7 @@ class RPGProject {
 	 *
 	 * @param isMV - Is MV-Project
 	 */
-	void setMV(boolean isMV) {
+	public void setMV(boolean isMV) {
 		this.isMV = isMV;
 	}
 
@@ -323,7 +325,7 @@ class RPGProject {
 	 * @param encrypter - Decrypter (aka Encrypter) Object
 	 * @throws Exception - Key not Found Exception
 	 */
-	void encryptFilesCmd(Decrypter encrypter) throws Exception {
+	public void encryptFilesCmd(Decrypter encrypter) throws Exception {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
 			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!", CMD.STATUS_ERROR);
@@ -363,7 +365,7 @@ class RPGProject {
 	 * @param decrypter - Decrypter Object
 	 * @throws Exception - Key not Found Exception
 	 */
-	void decryptFilesCmd(Decrypter decrypter) throws Exception {
+	public void decryptFilesCmd(Decrypter decrypter) throws Exception {
 		decryptFilesCmd(decrypter, false);
 	}
 
@@ -374,7 +376,7 @@ class RPGProject {
 	 * @param restoreImages - Restores images instead of decrypting
 	 * @throws Exception - Key not Found Exception
 	 */
-	void decryptFilesCmd(Decrypter decrypter, boolean restoreImages) throws Exception {
+	public void decryptFilesCmd(Decrypter decrypter, boolean restoreImages) throws Exception {
 		// Check if Output-Dir exists
 		if(! File.existsDir(this.getOutputPath())) {
 			App.showMessage("Output-dir \"" + this.getOutputPath() + "\" doesn't exists!", CMD.STATUS_ERROR);

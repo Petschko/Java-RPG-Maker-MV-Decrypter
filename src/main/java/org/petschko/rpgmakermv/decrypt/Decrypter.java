@@ -3,6 +3,7 @@ package org.petschko.rpgmakermv.decrypt;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
+import org.petschko.rpgmakermv.decrypt.cmd.CMD;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -19,14 +20,14 @@ import java.util.ArrayList;
  *
  * Notes: Decrypter class
  */
-class Decrypter {
+public class Decrypter {
 	private static final String pngHeader = "89504E470D0A1A0A0000000D49484452";
-	private static byte[] pngHeaderBytes = null;
+	public static final int defaultHeaderLen = 16;
+	public static final String defaultSignature = "5250474d56000000";
+	public static final String defaultVersion = "000301";
+	public static final String defaultRemain = "0000000000";
 
-	static final int defaultHeaderLen = 16;
-	static final String defaultSignature = "5250474d56000000";
-	static final String defaultVersion = "000301";
-	static final String defaultRemain = "0000000000";
+	private static byte[] pngHeaderBytes = null;
 
 	private String decryptCode = null;
 	private String[] realDecryptCode = null;
@@ -40,7 +41,7 @@ class Decrypter {
 	/**
 	 * Creates a new Decrypter instance
 	 */
-	Decrypter() {
+	public Decrypter() {
 		this.setDefaultValues();
 	}
 
@@ -49,7 +50,7 @@ class Decrypter {
 	 *
 	 * @param decryptCode - Decryption-Code
 	 */
-	Decrypter(String decryptCode) {
+	public Decrypter(String decryptCode) {
 		this.setDefaultValues();
 		this.setDecryptCode(decryptCode);
 	}
@@ -59,7 +60,7 @@ class Decrypter {
 	 *
 	 * @return DecryptCode or null if not set
 	 */
-	String getDecryptCode() {
+	public String getDecryptCode() {
 		return decryptCode;
 	}
 
@@ -128,7 +129,7 @@ class Decrypter {
 	 *
 	 * @param headerLen - File-Header Length in Bytes
 	 */
-	void setHeaderLen(int headerLen) {
+	public void setHeaderLen(int headerLen) {
 		this.headerLen = headerLen;
 	}
 
@@ -146,7 +147,7 @@ class Decrypter {
 	 *
 	 * @param signature - Signature
 	 */
-	void setSignature(String signature) {
+	public void setSignature(String signature) {
 		if(signature == null) {
 			Exception e = new Exception("signature can't be null!");
 			e.printStackTrace();
@@ -170,7 +171,7 @@ class Decrypter {
 	 *
 	 * @param version - Version
 	 */
-	void setVersion(String version) {
+	public void setVersion(String version) {
 		if(version == null) {
 			Exception e = new Exception("version can't be null!");
 			e.printStackTrace();
@@ -194,7 +195,7 @@ class Decrypter {
 	 *
 	 * @param remain - Remain
 	 */
-	void setRemain(String remain) {
+	public void setRemain(String remain) {
 		if(remain == null) {
 			Exception e = new Exception("remain can't be null!");
 			e.printStackTrace();
@@ -218,7 +219,7 @@ class Decrypter {
 	 *
 	 * @param ignoreFakeHeader - true if Fake-Header can be ignored else false
 	 */
-	void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
+	public void setIgnoreFakeHeader(boolean ignoreFakeHeader) {
 		this.ignoreFakeHeader = ignoreFakeHeader;
 	}
 
@@ -316,7 +317,7 @@ class Decrypter {
 	 * @param restorePictures - Restore Pictures without the Key
 	 * @throws Exception - Various Exceptions
 	 */
-	void decryptFile(File file, boolean restorePictures) throws Exception {
+	public void decryptFile(File file, boolean restorePictures) throws Exception {
 		if(restorePictures && (! file.isImage() || ! file.isFileEncryptedExt()))
 			return;
 
@@ -389,7 +390,7 @@ class Decrypter {
 	 * @throws JSONException - Key not Found Exception
 	 * @throws NullPointerException - System-File is null
 	 */
-	void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException {
+	public void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -424,7 +425,7 @@ class Decrypter {
 	 *
 	 * @param file - Encrypted-Image-File
 	 */
-	void detectEncryptionKeyFromImage(File file) throws Exception {
+	public void detectEncryptionKeyFromImage(File file) throws Exception {
 		// Only encrypted images
 		if(! file.isImage() || ! file.isFileEncryptedExt())
 			return;

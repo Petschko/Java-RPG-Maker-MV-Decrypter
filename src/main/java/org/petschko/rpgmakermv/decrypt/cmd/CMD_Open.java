@@ -1,4 +1,7 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.cmd;
+
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Decrypter;
 
 import java.awt.Desktop;
 import java.io.File;

@@ -1,7 +1,9 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.cmd;
 
 import org.petschko.lib.update.Update;
 import org.petschko.lib.update.UpdateException;
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
 
 import java.awt.Desktop;
 import java.io.IOException;

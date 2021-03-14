@@ -1,6 +1,8 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.cmd;
 
 import org.petschko.lib.Const;
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
 
 /**
  * Author: Peter Dragicevic
@@ -10,13 +12,13 @@ import org.petschko.lib.Const;
  *
  * Notes: CMD Class
  */
-class CMD {
-	static final int STATUS_OK = 0;
-	static final int STATUS_INFO = 2;
-	static final int STATUS_WARNING = 1;
-	static final int STATUS_ERROR = -1;
-	static final String HELP_INDENT = "  ";
-	static final String LINE_CMD = "------------------------------------------------------------------------------";
+public class CMD {
+	public static final int STATUS_OK = 0;
+	public static final int STATUS_INFO = 2;
+	public static final int STATUS_WARNING = 1;
+	public static final int STATUS_ERROR = -1;
+	public static final String HELP_INDENT = "  ";
+	public static final String LINE_CMD = "------------------------------------------------------------------------------";
 	private static final String CMD_HELP = "help";
 	private static final String CMD_HELP_2 = "-help";
 	private static final String CMD_HELP_3 = "--help";
@@ -40,14 +42,14 @@ class CMD {
 	 *
 	 * @param args - CMD Args
 	 */
-	CMD(String[] args) {
+	public CMD(String[] args) {
 		this.args = args;
 	}
 
 	/**
 	 * Runs the Command
 	 */
-	void runCMD() {
+	public void runCMD() {
 		// Show Welcome-Message
 		System.out.println(LINE_CMD);
 		System.out.println(Config.programName + " - " + Config.version + " by " + Const.creator + " | Command-Line Version");

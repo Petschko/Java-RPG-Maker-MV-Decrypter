@@ -1,4 +1,9 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.cmd;
+
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
+import org.petschko.rpgmakermv.decrypt.Decrypter;
+import org.petschko.rpgmakermv.decrypt.RPGProject;
 
 /**
  * Author: Peter Dragicevic

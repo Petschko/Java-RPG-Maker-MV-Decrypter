@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.cmd;
 
 /**
  * Author: Peter Dragicevic

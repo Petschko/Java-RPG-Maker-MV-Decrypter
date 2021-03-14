@@ -3,6 +3,7 @@ package org.petschko.rpgmakermv.decrypt;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.gui.notification.ErrorWindow;
+import org.petschko.rpgmakermv.decrypt.cmd.CMD;
 
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
@@ -57,7 +58,7 @@ public class App {
 	 * @param msg - Message to display
 	 * @param messageStatus - Status of the Message
 	 */
-	static void showMessage(String msg, int messageStatus) {
+	public static void showMessage(String msg, int messageStatus) {
 		String status;
 
 		switch(messageStatus) {
@@ -83,7 +84,7 @@ public class App {
 	 *
 	 * @param msg - Message to display
 	 */
-	static void showMessage(String msg) {
+	public static void showMessage(String msg) {
 		showMessage(msg, CMD.STATUS_INFO);
 	}
 
