@@ -90,7 +90,7 @@ class Restore implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Restores images without needing the Key");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
+		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" restore [path to project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) headerLen]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to project]        - Path to the RPG-MV/MZ Project were you want to restore images");
@@ -102,9 +102,9 @@ class Restore implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [headerLen] - Byte length of the Header | Default: " + this.headerLen);
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Examples of full commands with all params:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" restore \"C:\\my rpg mv game\\\" \"output\" false true");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false 14");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"output\" false true");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" restore \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false 14");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "- The first command restores all files inside this programs output dir, dont check if its a");
 		App.showMessage(CMD.HELP_INDENT + "  RPG-MV/MZ dir and ignores if the header of the files is the RPG-MV/MZ header");

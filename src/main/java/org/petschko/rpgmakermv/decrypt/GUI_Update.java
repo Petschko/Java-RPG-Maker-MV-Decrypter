@@ -115,7 +115,7 @@ class GUI_Update {
 	 */
 	private void runUpdate() {
 		try {
-			update.runUpdate(Config.jarFileUpdate, true, true, null);
+			update.runUpdate(Config.thisJarFileName, true, true, null);
 		} catch(UpdateException e) {
 			ErrorWindow errorWindow = new ErrorWindow("Update Failed!", ErrorWindow.ERROR_LEVEL_ERROR, false, e);
 			errorWindow.show(this.gui.getMainWindow());

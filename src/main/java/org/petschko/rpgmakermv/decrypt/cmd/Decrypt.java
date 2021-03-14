@@ -113,7 +113,7 @@ class Decrypt implements I_CMD {
 	public void printHelp() {
 		App.showMessage("Decrypt Files");
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" decrypt [path to decrypt project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) key - auto|keyValue] [(optional) headerLen] [(optional) hsignature] [(optional) hversion] [(optional) hremain]");
+		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" decrypt [path to decrypt project] [(optional) output path] [(optional) verifyRpgDir - false|true] [(optional) ignoreFakeHeader - true|false] [(optional) key - auto|keyValue] [(optional) headerLen] [(optional) hsignature] [(optional) hversion] [(optional) hremain]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to decrypt project]        - Path to the RPG-MV/MZ Project you want to decrypt");
@@ -131,9 +131,9 @@ class Decrypt implements I_CMD {
 		App.showMessage(CMD.HELP_INDENT + "  (very optional) [hremain]    - Remain of the Header | Default: " + this.remain);
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Examples of full commands with all params:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" decrypt \"C:\\my rpg mv game\\\" \"output\" false true auto");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" decrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false d41d8cd98f00b204e9800998ecf8427e");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" decrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false d41d8cd98f00b204e9800998ecf8427e 14 5250474d56000000 000301 00000000");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" decrypt \"C:\\my rpg mv game\\\" \"output\" false true auto");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" decrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false d41d8cd98f00b204e9800998ecf8427e");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" decrypt \"C:\\my rpg mv game\\\" \"C:\\my rpg mv game\\\" true false d41d8cd98f00b204e9800998ecf8427e 14 5250474d56000000 000301 00000000");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "- The first command extracts all files inside this programs output dir, dont check if its a RPG-MV/MZ dir,");
 		App.showMessage(CMD.HELP_INDENT + "  ignored if the header of the files is the RPG-MV/MZ header and auto-detects the key");

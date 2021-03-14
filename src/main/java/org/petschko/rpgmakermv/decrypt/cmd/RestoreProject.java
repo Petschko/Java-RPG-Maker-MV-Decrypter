@@ -1,6 +1,7 @@
 package org.petschko.rpgmakermv.decrypt.cmd;
 
 import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
 
 /**
  * Author: Peter Dragicevic
@@ -29,7 +30,7 @@ class RestoreProject implements I_CMD {
 	public void printHelp() {
 		App.showMessage("restoreproject -> !! NOT IMPLEMENTED YET !!", CMD.STATUS_WARNING);
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" restoreproject");
+		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" restoreproject");
 		App.showMessage("");
 	}
 }

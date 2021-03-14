@@ -1,6 +1,7 @@
 package org.petschko.rpgmakermv.decrypt.cmd;
 
 import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
 import org.petschko.rpgmakermv.decrypt.Decrypter;
 
 import java.awt.Desktop;
@@ -79,7 +80,7 @@ class Open implements I_CMD {
 	public void printHelp() {
 		App.showMessage("open -> !! NOT IMPLEMENTED YET !!", CMD.STATUS_WARNING);
 		App.showMessage("");
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" open [path to rpgmvp|png_ file]");
+		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" open [path to rpgmvp|png_ file]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Params: (Separate each param by a space, for paths use \"\" around the path)");
 		App.showMessage(CMD.HELP_INDENT + "  [path to rpgmvp|png_ file] - Path to the rpgmvp/png_ file you want to open");

@@ -63,7 +63,7 @@ public class Update implements I_CMD {
 
 		App.showMessage("Starting update...");
 		try {
-			update.runUpdate(Config.jarFileUpdate, false);
+			update.runUpdate(Config.thisJarFileName, false);
 		} catch(UpdateException e) {
 			App.showMessage("Update Failed... Cause: " + e.getMessage());
 		}
@@ -104,16 +104,16 @@ public class Update implements I_CMD {
 	 */
 	@Override
 	public void printHelp() {
-		App.showMessage("Usage: java -jar \"RPG Maker MV Decrypter.jar\" update [(optional) Sub Command]");
+		App.showMessage("Usage: java -jar \"" + Config.thisJarFileName + "\" update [(optional) Sub Command]");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Sub-Commands:");
 		App.showMessage(CMD.HELP_INDENT + "  " + SUB_CMD_WHATS_NEW + " - Opens \"Whats new\" in your Browser");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Updates the Program:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" update");
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" update");
 		App.showMessage("");
 		App.showMessage(CMD.HELP_INDENT + "Show whats new in your Browser:");
-		App.showMessage(CMD.HELP_INDENT + "  java -jar \"RPG Maker MV Decrypter.jar\" update " + SUB_CMD_WHATS_NEW);
+		App.showMessage(CMD.HELP_INDENT + "  java -jar \"" + Config.thisJarFileName + "\" update " + SUB_CMD_WHATS_NEW);
 		App.showMessage("");
 	}
 
@@ -148,8 +148,8 @@ public class Update implements I_CMD {
 			if(update.isHasNewVersion() && output) {
 				System.out.println("Update: There is a new Version available! New Version: " + update.getNewestVersion());
 				System.out.println();
-				System.out.println("For update run: java -jar \"RPG Maker MV Decrypter.jar\" update");
-				System.out.println("To see whats new (Opens Browser): java -jar \"RPG Maker MV Decrypter.jar\" update "+ SUB_CMD_WHATS_NEW);
+				System.out.println("For update run: java -jar \"" + Config.thisJarFileName + "\" update");
+				System.out.println("To see whats new (Opens Browser): java -jar \"" + Config.thisJarFileName + "\" update "+ SUB_CMD_WHATS_NEW);
 				System.out.println(CMD.LINE_CMD);
 			}
 		}
