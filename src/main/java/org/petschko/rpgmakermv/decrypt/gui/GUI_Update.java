@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.Const;
 import org.petschko.lib.gui.JOptionPane;
@@ -6,6 +6,9 @@ import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.lib.update.Update;
 import org.petschko.lib.update.UpdateException;
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Config;
+import org.petschko.rpgmakermv.decrypt.Preferences;
 
 import java.awt.*;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;

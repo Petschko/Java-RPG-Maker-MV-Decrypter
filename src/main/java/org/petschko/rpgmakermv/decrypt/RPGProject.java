@@ -66,7 +66,7 @@ public class RPGProject {
 	 *
 	 * @return - Path of the Project
 	 */
-	String getPath() {
+	public String getPath() {
 		return path;
 	}
 
@@ -214,7 +214,7 @@ public class RPGProject {
 	 *
 	 * @return - Encryption-File List
 	 */
-	ArrayList<File> getEncryptedFiles() {
+	public ArrayList<File> getEncryptedFiles() {
 		return encryptedFiles;
 	}
 
@@ -444,7 +444,7 @@ public class RPGProject {
 	 * @param file - File to save to the Output Directory
 	 * @param overwriteExisting - Overwrite existing Files
 	 */
-	void saveFile(File file, boolean overwriteExisting) {
+	public void saveFile(File file, boolean overwriteExisting) {
 		String newPath = this.projectPathToOutputPath(file.getFileDirectoryPath());
 
 		// Check if dir exists if not create it

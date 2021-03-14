@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.File;
 import org.petschko.lib.exceptions.PathException;
@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  * Authors-Website: https://petschko.org/
  * Date: 14.03.2021
  * Time: 19:48
- * <p>
+ *
  * Notes: Class GUI_DirectoryClearing
  */
 class GUI_DirectoryClearing extends SwingWorker<Void, Void> implements ActionListener {

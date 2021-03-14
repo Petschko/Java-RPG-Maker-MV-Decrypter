@@ -1,9 +1,10 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.Const;
 import org.petschko.lib.gui.JImageLabel;
 import org.petschko.lib.gui.JLabelExtra;
 import org.petschko.lib.gui.JPanelLine;
+import org.petschko.rpgmakermv.decrypt.Config;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;

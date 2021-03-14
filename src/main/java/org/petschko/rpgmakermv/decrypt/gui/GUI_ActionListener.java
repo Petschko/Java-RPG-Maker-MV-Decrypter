@@ -1,8 +1,9 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.notification.ErrorWindow;
+import org.petschko.rpgmakermv.decrypt.App;
 
 import java.awt.Desktop;
 import java.awt.event.ActionListener;

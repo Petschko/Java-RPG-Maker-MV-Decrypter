@@ -4,6 +4,7 @@ import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.rpgmakermv.decrypt.cmd.CMD;
+import org.petschko.rpgmakermv.decrypt.gui.GUI;
 
 /**
  * Author: Peter Dragicevic [peter@petschko.org]
@@ -19,8 +20,8 @@ public class App {
 	private static Boolean useGUI = true;
 	private static GUI gui;
 	private static CMD cmd;
-	static String outputDir;
-	static Preferences preferences;
+	public static String outputDir;
+	public static Preferences preferences;
 
 	/**
 	 * Main-Class
@@ -91,7 +92,7 @@ public class App {
 	/**
 	 * Saves the settings, close the GUI and quit the Program
 	 */
-	static void closeGUI() {
+	public static void closeGUI() {
 		if(! App.preferences.save()) {
 			ErrorWindow errorWindow = new ErrorWindow("Can't save Settings...", ErrorWindow.ERROR_LEVEL_ERROR, false);
 			errorWindow.show();

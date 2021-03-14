@@ -14,26 +14,26 @@ import java.util.Properties;
  *
  * Notes: Preferences Class
  */
-class Preferences extends UserPref {
-	static final String IGNORE_FAKE_HEADER = "ignoreFakeHeader";
-	static final String LOAD_INVALID_RPG_DIRS = "loadInvalidRPGDirs";
-	static final String OVERWRITE_FILES = "overwriteFiles";
-	static final String CLEAR_OUTPUT_DIR_BEFORE_DECRYPT = "clearOutputDirBeforeDecrypt";
-	static final String LAST_OUTPUT_DIR = "lastOutputDir";
-	static final String LAST_OUTPUT_PARENT_DIR = "lastOutputParentDir";
-	static final String LAST_RPG_DIR = "lastRPGParentDir";
-	static final String DECRYPTER_VERSION = "decrypterVersion";
-	static final String DECRYPTER_REMAIN = "decrypterRemain";
-	static final String DECRYPTER_SIGNATURE = "decrypterSignature";
-	static final String DECRYPTER_HEADER_LEN = "decrypterHeaderLen";
-	static final String AUTO_CHECK_FOR_UPDATES = "autoCheckForUpdates";
+public class Preferences extends UserPref {
+	public static final String IGNORE_FAKE_HEADER = "ignoreFakeHeader";
+	public static final String LOAD_INVALID_RPG_DIRS = "loadInvalidRPGDirs";
+	public static final String OVERWRITE_FILES = "overwriteFiles";
+	public static final String CLEAR_OUTPUT_DIR_BEFORE_DECRYPT = "clearOutputDirBeforeDecrypt";
+	public static final String LAST_OUTPUT_DIR = "lastOutputDir";
+	public static final String LAST_OUTPUT_PARENT_DIR = "lastOutputParentDir";
+	public static final String LAST_RPG_DIR = "lastRPGParentDir";
+	public static final String DECRYPTER_VERSION = "decrypterVersion";
+	public static final String DECRYPTER_REMAIN = "decrypterRemain";
+	public static final String DECRYPTER_SIGNATURE = "decrypterSignature";
+	public static final String DECRYPTER_HEADER_LEN = "decrypterHeaderLen";
+	public static final String AUTO_CHECK_FOR_UPDATES = "autoCheckForUpdates";
 
 	/**
 	 * UserPrefs Constructor
 	 *
 	 * @param filePath - File-Path to UserPref-File
 	 */
-	Preferences(String filePath) {
+	public Preferences(String filePath) {
 		super(filePath);
 	}
 

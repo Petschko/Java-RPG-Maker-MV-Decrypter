@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.File;
 

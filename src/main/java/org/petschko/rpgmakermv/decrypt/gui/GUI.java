@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
@@ -6,6 +6,7 @@ import org.petschko.lib.Functions;
 import org.petschko.lib.exceptions.PathException;
 import org.petschko.lib.gui.*;
 import org.petschko.lib.gui.notification.InfoWindow;
+import org.petschko.rpgmakermv.decrypt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -24,7 +25,7 @@ import java.awt.GridLayout;
  *
  * Notes: GUI Class
  */
-class GUI {
+public class GUI {
 	private JFrame mainWindow;
 	private GUI_Menu mainMenu;
 	private JPanel windowPanel = new JPanel(new BorderLayout());
@@ -38,7 +39,7 @@ class GUI {
 	/**
 	 * GUI Constructor
 	 */
-	GUI() {
+	public GUI() {
 		// Create and Setup components
 		this.createMainWindow();
 		this.createMainMenu();
@@ -116,7 +117,7 @@ class GUI {
 	/**
 	 * Dispose the GUI
 	 */
-	void dispose() {
+	public void dispose() {
 		this.guiAbout.dispose();
 		this.mainWindow.dispose();
 	}

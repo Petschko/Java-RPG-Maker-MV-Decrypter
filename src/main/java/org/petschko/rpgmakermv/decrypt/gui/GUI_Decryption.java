@@ -1,4 +1,4 @@
-package org.petschko.rpgmakermv.decrypt;
+package org.petschko.rpgmakermv.decrypt.gui;
 
 import org.json.JSONException;
 import org.petschko.lib.Const;
@@ -6,6 +6,9 @@ import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
+import org.petschko.rpgmakermv.decrypt.App;
+import org.petschko.rpgmakermv.decrypt.Decrypter;
+import org.petschko.rpgmakermv.decrypt.Preferences;
 
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingWorker;
@@ -18,7 +21,7 @@ import java.util.ArrayList;
  * Authors-Website: https://petschko.org/
  * Date: 14.03.2021
  * Time: 20:53
- * <p>
+ *
  * Notes: Class GUI_Decryption
  */
 class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
@@ -196,7 +199,12 @@ class GUI_Decryption extends SwingWorker<Void, Void> implements ActionListener {
 		if(this.isCancelled()) {
 			System.out.println("Cancelled...");
 
-			InfoWindow infoWindow = new InfoWindow("Decryption canceled!");
+			InfoWindow infoWindow;
+			if(this.restoreImages)
+				infoWindow = new InfoWindow("Restoring canceled!");
+			else
+				infoWindow = new InfoWindow("Decryption canceled!");
+
 			infoWindow.show(gui.getMainWindow());
 		} else {
 			System.out.println("Done.");
