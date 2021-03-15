@@ -113,7 +113,7 @@ public class Decrypter {
 	 *
 	 * @return - File-Header Length in Bytes
 	 */
-	int getHeaderLen() {
+	public int getHeaderLen() {
 		return headerLen;
 	}
 

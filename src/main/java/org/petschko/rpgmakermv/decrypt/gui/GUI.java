@@ -8,15 +8,13 @@ import org.petschko.lib.gui.*;
 import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.rpgmakermv.decrypt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JList;
+import javax.swing.*;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 
 /**
  * @author Peter Dragicevic
@@ -256,6 +254,78 @@ public class GUI {
 				ErrorWindow ew = new ErrorWindow("Only 0-9 and A-F are allowed for the Code!", ErrorWindow.ERROR_LEVEL_WARNING, false);
 				ew.show();
 			}
+		}
+	}
+
+	void changeHeaderSignature() {
+		JTextField headerLen = new JTextField();
+		headerLen.setText(String.valueOf(getDecrypter().getHeaderLen()));
+		JTextField signature = new JTextField();
+		signature.setText(getDecrypter().getSignature());
+		JTextField version = new JTextField();
+		version.setText(getDecrypter().getVersion());
+		JTextField remain = new JTextField();
+		remain.setText(getDecrypter().getRemain());
+
+		Object[] fields = {
+				"Header-Length:", headerLen,
+				"Header-Signature:", signature,
+				"Header-Version:", version,
+				"Header-Remain:", remain
+		};
+
+		int option = JOptionPane.showConfirmDialog(getMainWindow(), fields, "Change-Header Values", JOptionPane.OK_CANCEL_OPTION);
+
+		if(option == JOptionPane.OK_OPTION) {
+			headerLen.setText(headerLen.getText().trim());
+			signature.setText(signature.getText().toLowerCase().trim());
+			version.setText(version.getText().toLowerCase().trim());
+			remain.setText(remain.getText().toLowerCase().trim());
+			ArrayList<String> errors = new ArrayList<>();
+			boolean changes = false;
+
+			if(headerLen.getText().matches("[0-9]+")) {
+				getDecrypter().setHeaderLen(Integer.parseInt(headerLen.getText()));
+				changes = true;
+			} else
+				errors.add("Header Length can be only numbers!");
+
+			if(signature.getText().matches("[0-9a-f]+")) {
+				getDecrypter().setSignature(signature.getText());
+				projectInfo.setSignature(signature.getText());
+				changes = true;
+			} else
+				errors.add("Only 0-9 and A-F are allowed for the Signature!");
+
+			if(version.getText().matches("[0-9a-f]+")) {
+				getDecrypter().setVersion(version.getText());
+				projectInfo.setVersion(version.getText());
+				changes = true;
+			} else
+				errors.add("Only 0-9 and A-F are allowed for the Version!");
+
+			if(remain.getText().matches("[0-9a-f]+")) {
+				getDecrypter().setRemain(remain.getText());
+				projectInfo.setRemain(remain.getText());
+				changes = true;
+			} else
+				errors.add("Only 0-9 and A-F are allowed for the Remain!");
+
+			if(errors.size() > 0) {
+				StringBuilder errorText = new StringBuilder();
+				for(String e : errors)
+					errorText.append(e).append(Const.NEW_LINE);
+
+				ErrorWindow ew = new ErrorWindow(
+						"There were some Errors in your inputs, these were are ignored:" + Const.NEW_LINE + Const.NEW_LINE + errorText,
+						ErrorWindow.ERROR_LEVEL_WARNING,
+						false
+				);
+				ew.show(getMainWindow());
+			}
+
+			if(changes)
+				projectInfo.refresh();
 		}
 	}
 }
