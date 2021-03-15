@@ -18,6 +18,7 @@ class Menu extends JMenuBar {
 	JMenu file;
 	JMenu options;
 	JMenu decrypt;
+	JMenu encrypt;
 	JMenu tools;
 	JMenu info;
 
@@ -44,8 +45,15 @@ class Menu extends JMenuBar {
 	JMenuItem setEncryptionFile;
 	JMenuItem changeDecrypterSignature;
 
+	// Encrypt-Menu-Sub
+	JMenuItem encryptSelectedFilesMV;
+	JMenuItem encryptAllFilesMV;
+	JMenuItem encryptSelectedFilesMZ;
+	JMenuItem encryptAllFilesMZ;
+
 	// Tool-Menu-Sub
-	JMenuItem restoreProject;
+	JMenuItem restoreProjectMV;
+	JMenuItem restoreProjectMZ;
 	JMenuItem doClearOutputDir;
 
 	// Info-Menu-Sub
@@ -61,6 +69,7 @@ class Menu extends JMenuBar {
 		this.constructFileMenu();
 		this.constructOptionsMenu();
 		this.constructDecryptMenu();
+		this.constructEncryptMenu();
 		this.constructToolsMenu();
 		this.constructInfoMenu();
 		this.addAllMenus();
@@ -113,12 +122,26 @@ class Menu extends JMenuBar {
 	}
 
 	/**
+	 * Creates the Encrypt-Menu
+	 */
+	private void constructEncryptMenu() {
+		this.encrypt = new JMenu("Encrypt");
+
+		// Sub-Items
+		this.encryptSelectedFilesMV = new JMenuItem("Selected Files (to MV)");
+		this.encryptAllFilesMV = new JMenuItem("All Files (to MV)");
+		this.encryptSelectedFilesMZ = new JMenuItem("Selected Files (to MZ)");
+		this.encryptAllFilesMZ = new JMenuItem("All Files (to MZ)");
+	}
+
+	/**
 	 * Creates the Tools-Menu
 	 */
 	private void constructToolsMenu() {
 		this.tools = new JMenu("Tools");
 
-		this.restoreProject = new JMenuItem("Restore-Project (Experimental)");
+		this.restoreProjectMV = new JMenuItem("Restore-Project (MV) (Experimental)");
+		this.restoreProjectMZ = new JMenuItem("Restore-Project (MZ) (Experimental)");
 		this.doClearOutputDir = new JMenuItem("Clear Output-Dir now");
 	}
 
@@ -167,8 +190,21 @@ class Menu extends JMenuBar {
 		this.decrypt.add(this.setEncryptionFile);
 		this.decrypt.add(this.changeDecrypterSignature);
 
+		this.add(this.encrypt);
+		this.encrypt.add(this.encryptSelectedFilesMV);
+		this.encrypt.add(this.encryptAllFilesMV);
+		this.encrypt.addSeparator();
+		this.encrypt.add(this.encryptSelectedFilesMZ);
+		this.encrypt.add(this.encryptAllFilesMZ);
+		this.encrypt.addSeparator();
+		this.encrypt.add(this.setEncryptionKey);
+		this.encrypt.add(this.setEncryptionFile);
+		this.encrypt.add(this.changeDecrypterSignature);
+
 		this.add(this.tools);
-		this.tools.add(this.restoreProject);
+		this.tools.add(this.restoreProjectMV);
+		this.tools.add(this.restoreProjectMZ);
+		this.tools.addSeparator();
 		this.tools.add(this.doClearOutputDir);
 
 		this.add(this.info);
@@ -187,6 +223,7 @@ class Menu extends JMenuBar {
 	void enableOnRPGProject(boolean enable) {
 		this.openRPGDirExplorer.setEnabled(enable);
 		this.closeRPGProject.setEnabled(enable);
+		this.decrypt.setEnabled(enable);
 		//this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
 		this.restoreImages.setEnabled(enable);
@@ -203,7 +240,9 @@ class Menu extends JMenuBar {
 		this.setEncryptionKey.setEnabled(false);
 		this.setEncryptionFile.setEnabled(false);
 		this.changeDecrypterSignature.setEnabled(false);
-		this.restoreProject.setEnabled(false);
+		this.encrypt.setEnabled(false);
+		this.restoreProjectMV.setEnabled(false);
+		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
 	}
 
