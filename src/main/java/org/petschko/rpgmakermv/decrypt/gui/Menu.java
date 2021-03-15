@@ -3,7 +3,6 @@ package org.petschko.rpgmakermv.decrypt.gui;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.JDirectoryChooser;
-import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
