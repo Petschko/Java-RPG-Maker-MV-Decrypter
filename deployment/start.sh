@@ -1,0 +1,1 @@
+java -jar "RPG Maker MV Decrypter.jar"
