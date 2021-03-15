@@ -220,7 +220,7 @@ public class GUI {
 		setDecrypter(null);
 
 		mainMenu.enableOnRPGProject(false);
-		mainMenu.deAssignRPGActionListener(this);
+		mainMenu.deAssignRPGActionListener();
 
 		resetFileList();
 	}

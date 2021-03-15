@@ -366,10 +366,8 @@ class Menu extends JMenuBar {
 
 	/**
 	 * De-Assigns Action-Listeners for RPG-Project
-	 *
-	 * @param gui - GUI-Object
 	 */
-	void deAssignRPGActionListener(GUI gui) {
+	void deAssignRPGActionListener() {
 		Functions.buttonRemoveAllActionListeners(openRPGDirExplorer);
 		Functions.buttonRemoveAllActionListeners(closeRPGProject);
 		Functions.buttonRemoveAllActionListeners(allFiles);
