@@ -229,7 +229,7 @@ public class GUI {
 		setRpgProject(null);
 		setDecrypter(null);
 
-		mainMenu.enableOnRPGProject(false);
+		mainMenu.enableOnRPGProject(false, this);
 		mainMenu.deAssignRPGActionListener();
 
 		resetFileList();

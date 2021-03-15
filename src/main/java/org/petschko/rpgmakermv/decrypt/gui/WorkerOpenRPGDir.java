@@ -109,7 +109,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 		if(! this.isCancelled()) {
 			gui.setDecrypter(new Decrypter());
 			gui.getRpgProject().setOutputPath(App.outputDir);
-			gui.getMainMenu().enableOnRPGProject(true);
+			gui.getMainMenu().enableOnRPGProject(true, gui);
 			gui.getMainMenu().assignRPGActionListener(gui);
 
 			// Load the Key

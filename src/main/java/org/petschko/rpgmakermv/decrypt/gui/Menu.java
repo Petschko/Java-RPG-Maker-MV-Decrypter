@@ -228,20 +228,40 @@ class Menu extends JMenuBar {
 	 * Enable/Disable Menu-Items for RPGMaker Project-Operations
 	 *
 	 * @param enable - enable or disable Menu-Items
+	 * @param gui - GUI-Object
 	 */
-	void enableOnRPGProject(boolean enable) {
+	void enableOnRPGProject(boolean enable, GUI gui) {
+		boolean hasEncryptedFiles = false;
+		boolean hasResourceFiles = false;
+		if(gui != null) {
+			hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
+			hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+		}
+
 		this.openRPGDirExplorer.setEnabled(enable);
 		this.closeRPGProject.setEnabled(enable);
-		this.decrypt.setEnabled(enable);
-		//this.selectedFiles.setEnabled(enable);
-		this.allFiles.setEnabled(enable);
-		this.restoreImages.setEnabled(enable);
-		//this.setEncryptionFile.setEnabled(enable);
-		this.setEncryptionFile.setEnabled(enable);
-		this.setEncryptionFileE.setEnabled(enable);
-		this.setEncryptionKey.setEnabled(enable);
-		this.setEncryptionKeyE.setEnabled(enable);
-		//this.restoreProject.setEnabled(enable);
+
+		this.decrypt.setEnabled(hasEncryptedFiles);
+		//this.selectedFiles.setEnabled(hasEncryptedFiles);
+		this.allFiles.setEnabled(hasEncryptedFiles);
+		this.restoreImages.setEnabled(hasEncryptedFiles);
+		//this.setEncryptionFile.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionKey.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.changeDecrypterSignature.setEnabled(hasEncryptedFiles || hasResourceFiles);
+
+
+		//this.encrypt.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
+		//this.setEncryptionFileE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionKeyE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.changeDecrypterSignatureE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+
+		//this.detectKeyFromEncryptedImg.setEnabled(enable);
+		//this.restoreProjectMV.setEnabled(enable);
+		//this.restoreProjectMZ.setEnabled(enable);
 	}
 
 	/**
@@ -279,7 +299,7 @@ class Menu extends JMenuBar {
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
 			this.checkForUpdates.setState(true);
 
-		this.enableOnRPGProject(false);
+		this.enableOnRPGProject(false, null);
 	}
 
 	/**
