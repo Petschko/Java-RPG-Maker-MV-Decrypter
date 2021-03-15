@@ -131,7 +131,7 @@ public class Decrypter {
 	 *
 	 * @return - Signature
 	 */
-	String getSignature() {
+	public String getSignature() {
 		return signature;
 	}
 
@@ -155,7 +155,7 @@ public class Decrypter {
 	 *
 	 * @return - Version
 	 */
-	String getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
@@ -179,7 +179,7 @@ public class Decrypter {
 	 *
 	 * @return - Remain
 	 */
-	String getRemain() {
+	public String getRemain() {
 		return remain;
 	}
 

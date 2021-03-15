@@ -112,6 +112,15 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			gui.getMainMenu().enableOnRPGProject(true);
 			gui.getMainMenu().assignRPGActionListener(gui);
 
+			// Load the Key
+			gui.getDecrypter().detectEncryptionKeyFromJson(gui.getRpgProject().getSystem(), gui.getRpgProject().getEncryptionKeyName());
+
+			// Load Info-Values to GUI
+			gui.projectInfo.setValuesFromRPGProject(gui.getRpgProject());
+			gui.projectInfo.setValuesFromDecrypter(gui.getDecrypter());
+			gui.projectInfo.refresh();
+			gui.getMainWindow().pack();
+
 			// Done
 			if(this.showInfoWindow) {
 				InfoWindow infoWindow = new InfoWindow(

@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
 /**
@@ -25,6 +27,7 @@ public class GUI {
 	JList<java.io.File> fileList = new JList<>();
 	private About guiAbout;
 	private FileInfo fileInfo = new FileInfo();
+	ProjectInfo projectInfo = new ProjectInfo();
 	private RPG_Project rpgProject = null;
 	private Decrypter decrypter = null;
 
@@ -128,6 +131,7 @@ public class GUI {
 	 */
 	private void createMainWindow() {
 		this.mainWindow = new JFrame(Config.PROGRAM_NAME + " by " + Const.CREATOR + " " + Config.VERSION);
+		this.mainWindow.setPreferredSize(new Dimension(450, 500));
 
 		// Change close Action
 		this.mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -149,8 +153,8 @@ public class GUI {
 	 * Creates all Components for the Window
 	 */
 	private void createWindowGUI() {
+		JPanel middleStuffWrapper = new JPanel(new BorderLayout());
 		JPanel middleFileContainer = new JPanel(new GridLayout(1, 2));
-		JPanel footContainer = new JPanel(new GridLayout(1, 3));
 
 		// Design stuff
 		this.projectFilesPanel.setLayout(new BorderLayout());
@@ -160,8 +164,12 @@ public class GUI {
 		// Assign to the main comps
 		middleFileContainer.add(this.projectFilesPanel);
 		middleFileContainer.add(this.fileInfo);
-		this.windowPanel.add(middleFileContainer, BorderLayout.CENTER);
-		this.windowPanel.add(footContainer, BorderLayout.SOUTH);
+
+		this.projectInfo.reset();
+		middleStuffWrapper.add(this.projectInfo, BorderLayout.NORTH);
+		middleStuffWrapper.add(middleFileContainer, BorderLayout.CENTER);
+
+		this.windowPanel.add(middleStuffWrapper, BorderLayout.CENTER);
 		this.resetFileList();
 		this.mainWindow.add(this.windowPanel, BorderLayout.CENTER);
 	}
@@ -172,6 +180,8 @@ public class GUI {
 	void resetFileList() {
 		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (\"File\" -> \"Select RPG MV/MZ Project\")");
 		filesListText.setColumns(20);
+		filesListText.setForeground(Color.GRAY);
+		filesListText.setBorder(BorderFactory.createEmptyBorder(5, 7, 5, 7));
 
 		this.projectFilesPanel.removeAll();
 		this.projectFilesPanel.add(filesListText, BorderLayout.NORTH);
@@ -223,5 +233,6 @@ public class GUI {
 		mainMenu.deAssignRPGActionListener();
 
 		resetFileList();
+		projectInfo.reset();
 	}
 }
