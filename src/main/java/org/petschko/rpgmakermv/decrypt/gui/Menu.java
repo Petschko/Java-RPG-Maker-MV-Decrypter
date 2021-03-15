@@ -234,8 +234,10 @@ class Menu extends JMenuBar {
 		boolean hasEncryptedFiles = false;
 		boolean hasResourceFiles = false;
 		if(gui != null) {
-			hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
-			hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+			if(gui.getRpgProject() != null) {
+				hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
+				hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+			}
 		}
 
 		this.openRPGDirExplorer.setEnabled(enable);
