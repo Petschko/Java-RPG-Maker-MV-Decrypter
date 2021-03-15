@@ -257,6 +257,9 @@ public class GUI {
 		}
 	}
 
+	/**
+	 * Changes the Header-Signature
+	 */
 	void changeHeaderSignature() {
 		JTextField headerLen = new JTextField();
 		headerLen.setText(String.valueOf(getDecrypter().getHeaderLen()));
