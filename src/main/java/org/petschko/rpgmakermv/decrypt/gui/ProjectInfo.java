@@ -227,6 +227,10 @@ class ProjectInfo extends JPanel {
 
 		this.jHeaderLen.add(new JLabel("Header-Length: "));
 		JLabel headerLabel = new JLabel(String.valueOf(this.headerLen));
+		if(this.headerLen != Decrypter.DEFAULT_HEADER_LEN && this.headerLen != 0) {
+			headerLabel.setForeground(Color.BLUE);
+			headerLabel.setText(headerLabel.getText() + " (Custom)");
+		}
 		if(this.headerLen == 0)
 			headerLabel.setForeground(Color.RED);
 		this.jHeaderLen.add(headerLabel);
@@ -235,18 +239,30 @@ class ProjectInfo extends JPanel {
 		JLabel signatureLabel = new JLabel(this.signature == null ? "-" : this.signature);
 		if(this.signature == null)
 			signatureLabel.setForeground(Color.RED);
+		else if(! this.signature.equals(Decrypter.DEFAULT_SIGNATURE)) {
+			signatureLabel.setForeground(Color.BLUE);
+			signatureLabel.setText(signatureLabel.getText() + " (Custom)");
+		}
 		this.jSignature.add(signatureLabel);
 
 		this.jVersion.add(new JLabel("Version: "));
 		JLabel versionLabel = new JLabel(this.version == null ? "-" : this.version);
 		if(this.version == null)
 			versionLabel.setForeground(Color.RED);
+		else if(! this.version.equals(Decrypter.DEFAULT_VERSION)) {
+			versionLabel.setForeground(Color.BLUE);
+			versionLabel.setText(versionLabel.getText() + " (Custom)");
+		}
 		this.jVersion.add(versionLabel);
 
 		this.jRemain.add(new JLabel("Remain: "));
 		JLabel remainLabel = new JLabel(this.remain == null ? "-" : this.remain);
 		if(this.remain == null)
 			remainLabel.setForeground(Color.RED);
+		else if(! this.remain.equals(Decrypter.DEFAULT_REMAIN)) {
+			remainLabel.setForeground(Color.BLUE);
+			remainLabel.setText(remainLabel.getText() + " (Custom)");
+		}
 		this.jRemain.add(remainLabel);
 
 		this.mainInfo.add(this.encryptedFiles);
