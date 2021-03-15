@@ -3,6 +3,7 @@ package org.petschko.rpgmakermv.decrypt.gui;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.gui.JDirectoryChooser;
+import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
@@ -50,6 +51,9 @@ class Menu extends JMenuBar {
 	JMenuItem encryptAllFilesMV;
 	JMenuItem encryptSelectedFilesMZ;
 	JMenuItem encryptAllFilesMZ;
+	JMenuItem setEncryptionKeyE;
+	JMenuItem setEncryptionFileE;
+	JMenuItem changeDecrypterSignatureE;
 
 	// Tool-Menu-Sub
 	JMenuItem detectKeyFromEncryptedImg;
@@ -118,7 +122,7 @@ class Menu extends JMenuBar {
 		this.allFiles = new JMenuItem("All Files");
 		this.restoreImages = new JMenuItem("Restore Images (No Key)");
 		this.setEncryptionKey = new JMenuItem("Set Encryption-Key...");
-		this.setEncryptionFile = new JMenuItem("Select Encryption-File...");
+		this.setEncryptionFile = new JMenuItem("Key from Encrypted-PNG-File...");
 		this.changeDecrypterSignature = new JMenuItem("Change Decrypter Signature...");
 	}
 
@@ -133,6 +137,9 @@ class Menu extends JMenuBar {
 		this.encryptAllFilesMV = new JMenuItem("All Files (to MV)");
 		this.encryptSelectedFilesMZ = new JMenuItem("Selected Files (to MZ)");
 		this.encryptAllFilesMZ = new JMenuItem("All Files (to MZ)");
+		this.setEncryptionKeyE = new JMenuItem(this.setEncryptionKey.getName());
+		this.setEncryptionFileE = new JMenuItem(this.setEncryptionFile.getName());
+		this.changeDecrypterSignatureE = new JMenuItem(this.changeDecrypterSignature.getName());
 	}
 
 	/**
@@ -188,8 +195,8 @@ class Menu extends JMenuBar {
 		this.decrypt.add(this.allFiles);
 		this.decrypt.add(this.restoreImages);
 		this.decrypt.addSeparator();
-		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.setEncryptionFile);
+		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.changeDecrypterSignature);
 
 		this.add(this.encrypt);
@@ -199,9 +206,9 @@ class Menu extends JMenuBar {
 		this.encrypt.add(this.encryptSelectedFilesMZ);
 		this.encrypt.add(this.encryptAllFilesMZ);
 		this.encrypt.addSeparator();
-		this.encrypt.add(this.setEncryptionKey);
-		this.encrypt.add(this.setEncryptionFile);
-		this.encrypt.add(this.changeDecrypterSignature);
+		this.encrypt.add(this.setEncryptionKeyE);
+		this.encrypt.add(this.setEncryptionFileE);
+		this.encrypt.add(this.changeDecrypterSignatureE);
 
 		this.add(this.tools);
 		this.tools.add(this.detectKeyFromEncryptedImg);
@@ -230,8 +237,8 @@ class Menu extends JMenuBar {
 		//this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
 		this.restoreImages.setEnabled(enable);
-		//this.setEncryptionKey.setEnabled(enable);
 		//this.setEncryptionFile.setEnabled(enable);
+		this.setEncryptionKey.setEnabled(enable);
 		//this.restoreProject.setEnabled(enable);
 	}
 
@@ -240,7 +247,6 @@ class Menu extends JMenuBar {
 	 */
 	private void disableUnimplemented() {
 		this.selectedFiles.setEnabled(false);
-		this.setEncryptionKey.setEnabled(false);
 		this.setEncryptionFile.setEnabled(false);
 		this.changeDecrypterSignature.setEnabled(false);
 		this.encrypt.setEnabled(false);
@@ -333,6 +339,13 @@ class Menu extends JMenuBar {
 		this.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
 		this.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
 		// -- Decrypt
+		this.setEncryptionKey.addActionListener(
+				e -> assignDecryptKey(gui)
+		);
+		// -- Encrypt
+		this.setEncryptionKeyE.addActionListener(
+				e -> assignDecryptKey(gui)
+		);
 		// -- Tools
 		// -- Info
 		this.updateProgram.addActionListener(
@@ -376,5 +389,28 @@ class Menu extends JMenuBar {
 		Functions.buttonRemoveAllActionListeners(closeRPGProject);
 		Functions.buttonRemoveAllActionListeners(allFiles);
 		Functions.buttonRemoveAllActionListeners(restoreImages);
+	}
+
+	/**
+	 * Assigns the Decryption Code
+	 *
+	 * @param gui - GUI-Object
+	 */
+	private void assignDecryptKey(GUI gui) {
+		String defaultValue = gui.getDecrypter().getDecryptCode() == null ? "" : gui.getDecrypter().getDecryptCode();
+		String value = JOptionPane.showInputDialog(gui.getMainWindow(), "Enter Decryption-Code:", defaultValue);
+
+		if(value != null) {
+			value = value.toLowerCase().trim();
+
+			if(value.matches("[0-9a-f]+")) {
+				gui.getDecrypter().setDecryptCode(value);
+				gui.projectInfo.setEncryptionKey(value);
+				gui.projectInfo.refresh();
+			} else {
+				ErrorWindow ew = new ErrorWindow("Only 0-9 and A-F are allowed for the Code!", ErrorWindow.ERROR_LEVEL_WARNING, false);
+				ew.show();
+			}
+		}
 	}
 }

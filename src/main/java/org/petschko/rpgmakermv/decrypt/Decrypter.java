@@ -62,7 +62,7 @@ public class Decrypter {
 	 *
 	 * @param decryptCode - Decrypt-Code
 	 */
-	void setDecryptCode(String decryptCode) {
+	public void setDecryptCode(String decryptCode) {
 		this.decryptCode = decryptCode;
 	}
 
