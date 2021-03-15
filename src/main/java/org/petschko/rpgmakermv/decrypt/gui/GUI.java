@@ -285,7 +285,9 @@ public class GUI {
 			boolean changes = false;
 
 			if(headerLen.getText().matches("[0-9]+")) {
-				getDecrypter().setHeaderLen(Integer.parseInt(headerLen.getText()));
+				int headerLength = Integer.parseInt(headerLen.getText());
+				getDecrypter().setHeaderLen(headerLength);
+				projectInfo.setHeaderLen(headerLength);
 				changes = true;
 			} else
 				errors.add("Header Length can be only numbers!");
