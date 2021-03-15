@@ -44,6 +44,7 @@ class Menu extends JMenuBar {
 	JMenuItem setEncryptionKey;
 	JMenuItem setEncryptionFile;
 	JMenuItem changeDecrypterSignature;
+	JMenuItem resetHeaderToDefault;
 
 	// Encrypt-Menu-Sub
 	JMenuItem encryptSelectedFilesMV;
@@ -53,6 +54,7 @@ class Menu extends JMenuBar {
 	JMenuItem setEncryptionKeyE;
 	JMenuItem setEncryptionFileE;
 	JMenuItem changeDecrypterSignatureE;
+	JMenuItem resetHeaderToDefaultE;
 
 	// Tool-Menu-Sub
 	JMenuItem detectKeyFromEncryptedImg;
@@ -78,6 +80,7 @@ class Menu extends JMenuBar {
 		this.constructInfoMenu();
 		this.addAllMenus();
 
+		this.defaultDisabled();
 		this.disableUnimplemented();
 	}
 
@@ -122,7 +125,8 @@ class Menu extends JMenuBar {
 		this.restoreImages = new JMenuItem("Restore Images (No Key)");
 		this.setEncryptionKey = new JMenuItem("Set Encryption-Key...");
 		this.setEncryptionFile = new JMenuItem("Key from Encrypted-PNG-File...");
-		this.changeDecrypterSignature = new JMenuItem("Change Header Values...");
+		this.changeDecrypterSignature = new JMenuItem("Change Header-Values...");
+		this.resetHeaderToDefault = new JMenuItem("Reset Header-Values");
 	}
 
 	/**
@@ -139,6 +143,7 @@ class Menu extends JMenuBar {
 		this.setEncryptionKeyE = new JMenuItem(this.setEncryptionKey.getName());
 		this.setEncryptionFileE = new JMenuItem(this.setEncryptionFile.getName());
 		this.changeDecrypterSignatureE = new JMenuItem(this.changeDecrypterSignature.getName());
+		this.resetHeaderToDefaultE = new JMenuItem(this.resetHeaderToDefault.getName());
 	}
 
 	/**
@@ -197,6 +202,7 @@ class Menu extends JMenuBar {
 		this.decrypt.add(this.setEncryptionFile);
 		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.changeDecrypterSignature);
+		this.decrypt.add(this.resetHeaderToDefault);
 
 		this.add(this.encrypt);
 		this.encrypt.add(this.encryptSelectedFilesMV);
@@ -208,6 +214,7 @@ class Menu extends JMenuBar {
 		this.encrypt.add(this.setEncryptionKeyE);
 		this.encrypt.add(this.setEncryptionFileE);
 		this.encrypt.add(this.changeDecrypterSignatureE);
+		this.encrypt.add(this.resetHeaderToDefaultE);
 
 		this.add(this.tools);
 		this.tools.add(this.detectKeyFromEncryptedImg);
@@ -251,7 +258,6 @@ class Menu extends JMenuBar {
 		this.setEncryptionKey.setEnabled(hasEncryptedFiles || hasResourceFiles);
 		this.changeDecrypterSignature.setEnabled(hasEncryptedFiles || hasResourceFiles);
 
-
 		//this.encrypt.setEnabled(hasResourceFiles);
 		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
 		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
@@ -277,6 +283,14 @@ class Menu extends JMenuBar {
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
+	}
+
+	/**
+	 * Disables Menu points which are always disabled on startup
+	 */
+	private void defaultDisabled() {
+		this.resetHeaderToDefault.setEnabled(false);
+		this.resetHeaderToDefaultE.setEnabled(false);
 	}
 
 	/**
@@ -368,12 +382,18 @@ class Menu extends JMenuBar {
 		this.changeDecrypterSignature.addActionListener(
 				e -> gui.changeHeaderSignature()
 		);
+		this.resetHeaderToDefault.addActionListener(
+				e -> gui.resetHeaderValues()
+		);
 		// -- Encrypt
 		this.setEncryptionKeyE.addActionListener(
 				e -> gui.assignDecryptKey()
 		);
 		this.changeDecrypterSignatureE.addActionListener(
 				e -> gui.changeHeaderSignature()
+		);
+		this.resetHeaderToDefaultE.addActionListener(
+				e -> gui.resetHeaderValues()
 		);
 		// -- Tools
 		// -- Info

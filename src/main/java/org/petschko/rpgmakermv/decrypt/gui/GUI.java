@@ -329,8 +329,28 @@ public class GUI {
 				ew.show(getMainWindow());
 			}
 
-			if(changes)
+			if(changes) {
 				projectInfo.refresh();
+
+				mainMenu.resetHeaderToDefault.setEnabled(true);
+				mainMenu.resetHeaderToDefaultE.setEnabled(true);
+			}
 		}
+	}
+
+	/**
+	 * Resets header values to the default
+	 */
+	void resetHeaderValues() {
+		getDecrypter().setHeaderLen(Decrypter.DEFAULT_HEADER_LEN);
+		getDecrypter().setSignature(Decrypter.DEFAULT_SIGNATURE);
+		getDecrypter().setVersion(Decrypter.DEFAULT_VERSION);
+		getDecrypter().setRemain(Decrypter.DEFAULT_REMAIN);
+
+		projectInfo.setValuesFromDecrypter(getDecrypter());
+		projectInfo.refresh();
+
+		mainMenu.resetHeaderToDefault.setEnabled(false);
+		mainMenu.resetHeaderToDefaultE.setEnabled(false);
 	}
 }
