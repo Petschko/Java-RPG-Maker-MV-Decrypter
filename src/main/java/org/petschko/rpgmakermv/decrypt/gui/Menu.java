@@ -52,6 +52,7 @@ class Menu extends JMenuBar {
 	JMenuItem encryptAllFilesMZ;
 
 	// Tool-Menu-Sub
+	JMenuItem detectKeyFromEncryptedImg;
 	JMenuItem restoreProjectMV;
 	JMenuItem restoreProjectMZ;
 	JMenuItem doClearOutputDir;
@@ -140,6 +141,7 @@ class Menu extends JMenuBar {
 	private void constructToolsMenu() {
 		this.tools = new JMenu("Tools");
 
+		this.detectKeyFromEncryptedImg = new JMenuItem("Extract Key from .rpgmvp/.png_ File");
 		this.restoreProjectMV = new JMenuItem("Restore-Project (MV) (Experimental)");
 		this.restoreProjectMZ = new JMenuItem("Restore-Project (MZ) (Experimental)");
 		this.doClearOutputDir = new JMenuItem("Clear Output-Dir now");
@@ -202,6 +204,7 @@ class Menu extends JMenuBar {
 		this.encrypt.add(this.changeDecrypterSignature);
 
 		this.add(this.tools);
+		this.tools.add(this.detectKeyFromEncryptedImg);
 		this.tools.add(this.restoreProjectMV);
 		this.tools.add(this.restoreProjectMZ);
 		this.tools.addSeparator();
@@ -241,6 +244,7 @@ class Menu extends JMenuBar {
 		this.setEncryptionFile.setEnabled(false);
 		this.changeDecrypterSignature.setEnabled(false);
 		this.encrypt.setEnabled(false);
+		this.detectKeyFromEncryptedImg.setEnabled(false);
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
