@@ -340,11 +340,11 @@ class Menu extends JMenuBar {
 		this.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
 		// -- Decrypt
 		this.setEncryptionKey.addActionListener(
-				e -> assignDecryptKey(gui)
+				e -> gui.assignDecryptKey()
 		);
 		// -- Encrypt
 		this.setEncryptionKeyE.addActionListener(
-				e -> assignDecryptKey(gui)
+				e -> gui.assignDecryptKey()
 		);
 		// -- Tools
 		// -- Info
@@ -387,28 +387,5 @@ class Menu extends JMenuBar {
 		Functions.buttonRemoveAllActionListeners(closeRPGProject);
 		Functions.buttonRemoveAllActionListeners(allFiles);
 		Functions.buttonRemoveAllActionListeners(restoreImages);
-	}
-
-	/**
-	 * Assigns the Decryption Code
-	 *
-	 * @param gui - GUI-Object
-	 */
-	private void assignDecryptKey(GUI gui) {
-		String defaultValue = gui.getDecrypter().getDecryptCode() == null ? "" : gui.getDecrypter().getDecryptCode();
-		String value = JOptionPane.showInputDialog(gui.getMainWindow(), "Enter Decryption-Code:", defaultValue);
-
-		if(value != null) {
-			value = value.toLowerCase().trim();
-
-			if(value.matches("[0-9a-f]+")) {
-				gui.getDecrypter().setDecryptCode(value);
-				gui.projectInfo.setEncryptionKey(value);
-				gui.projectInfo.refresh();
-			} else {
-				ErrorWindow ew = new ErrorWindow("Only 0-9 and A-F are allowed for the Code!", ErrorWindow.ERROR_LEVEL_WARNING, false);
-				ew.show();
-			}
-		}
 	}
 }

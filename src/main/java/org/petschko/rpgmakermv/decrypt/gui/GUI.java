@@ -5,11 +5,13 @@ import org.petschko.lib.File;
 import org.petschko.lib.Functions;
 import org.petschko.lib.exceptions.PathException;
 import org.petschko.lib.gui.*;
+import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.rpgmakermv.decrypt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -234,5 +236,26 @@ public class GUI {
 
 		resetFileList();
 		projectInfo.reset();
+	}
+
+	/**
+	 * Assigns the Decryption Code
+	 */
+	void assignDecryptKey() {
+		String defaultValue = getDecrypter().getDecryptCode() == null ? "" : getDecrypter().getDecryptCode();
+		String value = JOptionPane.showInputDialog(getMainWindow(), "Enter Decryption-Code:", defaultValue);
+
+		if(value != null) {
+			value = value.toLowerCase().trim();
+
+			if(value.matches("[0-9a-f]+")) {
+				getDecrypter().setDecryptCode(value);
+				projectInfo.setEncryptionKey(value);
+				projectInfo.refresh();
+			} else {
+				ErrorWindow ew = new ErrorWindow("Only 0-9 and A-F are allowed for the Code!", ErrorWindow.ERROR_LEVEL_WARNING, false);
+				ew.show();
+			}
+		}
 	}
 }
