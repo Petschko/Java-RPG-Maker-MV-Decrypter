@@ -26,6 +26,7 @@ class Menu extends JMenuBar {
 	JMenuItem changeOutputDir;
 	JMenuItem openRPGDirExplorer;
 	JMenuItem openOutputDirExplorer;
+	JMenuItem closeRPGProject;
 	JMenuItem exit;
 
 	// Options-Menu-Sub
@@ -78,6 +79,7 @@ class Menu extends JMenuBar {
 		this.changeOutputDir = new JMenuItem("Change Output-Directory...");
 		this.openRPGDirExplorer = new JMenuItem("Show RPG-Dir in Explorer");
 		this.openOutputDirExplorer = new JMenuItem("Show Output-Dir in Explorer");
+		this.closeRPGProject = new JMenuItem("Close RPG MV/MZ Project");
 		this.exit = new JMenuItem("Exit");
 	}
 
@@ -143,6 +145,8 @@ class Menu extends JMenuBar {
 		this.file.add(this.openRPGDirExplorer);
 		this.file.add(this.openOutputDirExplorer);
 		this.file.addSeparator();
+		this.file.add(this.closeRPGProject);
+		this.file.addSeparator();
 		this.file.add(this.exit);
 
 		this.add(this.options);
@@ -182,6 +186,7 @@ class Menu extends JMenuBar {
 	 */
 	void enableOnRPGProject(boolean enable) {
 		this.openRPGDirExplorer.setEnabled(enable);
+		this.closeRPGProject.setEnabled(enable);
 		//this.selectedFiles.setEnabled(enable);
 		this.allFiles.setEnabled(enable);
 		this.restoreImages.setEnabled(enable);
@@ -200,7 +205,6 @@ class Menu extends JMenuBar {
 		this.changeDecrypterSignature.setEnabled(false);
 		this.restoreProject.setEnabled(false);
 		this.help.setEnabled(false);
-		//this.updateProgram.setEnabled(false);
 	}
 
 	/**
@@ -305,13 +309,31 @@ class Menu extends JMenuBar {
 	void assignRPGActionListener(GUI gui) {
 		// Remove all Previous ActionListeners
 		Functions.buttonRemoveAllActionListeners(this.openRPGDirExplorer);
+		Functions.buttonRemoveAllActionListeners(this.closeRPGProject);
 		Functions.buttonRemoveAllActionListeners(this.allFiles);
 		Functions.buttonRemoveAllActionListeners(this.restoreImages);
 
 		// Add new ActionListener
 		this.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(gui.getRpgProject().getPath()));
+		this.closeRPGProject.addActionListener(
+				e -> {
+					gui.closeRPGProject();
+				}
+		);
 
 		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));
 		this.restoreImages.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles(), true));
+	}
+
+	/**
+	 * De-Assigns Action-Listeners for RPG-Project
+	 *
+	 * @param gui - GUI-Object
+	 */
+	void deAssignRPGActionListener(GUI gui) {
+		Functions.buttonRemoveAllActionListeners(openRPGDirExplorer);
+		Functions.buttonRemoveAllActionListeners(closeRPGProject);
+		Functions.buttonRemoveAllActionListeners(allFiles);
+		Functions.buttonRemoveAllActionListeners(restoreImages);
 	}
 }

@@ -9,6 +9,7 @@ import org.petschko.rpgmakermv.decrypt.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,8 +21,8 @@ public class GUI {
 	private JFrame mainWindow;
 	private Menu mainMenu;
 	private JPanel windowPanel = new JPanel(new BorderLayout());
-	private JPanel projectFilesPanel = new JPanel();
-	private JPanel fileList = new JPanel();
+	JPanel projectFilesPanel = new JPanel();
+	JList<java.io.File> fileList = new JList<>();
 	private About guiAbout;
 	private FileInfo fileInfo = new FileInfo();
 	private RPG_Project rpgProject = null;
@@ -150,14 +151,6 @@ public class GUI {
 	private void createWindowGUI() {
 		JPanel middleFileContainer = new JPanel(new GridLayout(1, 2));
 		JPanel footContainer = new JPanel(new GridLayout(1, 3));
-		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (\"File\" -> \"Select RPG MV Project\")");
-		filesListText.setColumns(20);
-
-		/*JScrollPane scrollPane = new JScrollPane(
-				this.fileList,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
-		);*/
 
 		// Design stuff
 		this.projectFilesPanel.setLayout(new BorderLayout());
@@ -169,8 +162,20 @@ public class GUI {
 		middleFileContainer.add(this.fileInfo);
 		this.windowPanel.add(middleFileContainer, BorderLayout.CENTER);
 		this.windowPanel.add(footContainer, BorderLayout.SOUTH);
-		this.projectFilesPanel.add(filesListText, BorderLayout.NORTH);
+		this.resetFileList();
 		this.mainWindow.add(this.windowPanel, BorderLayout.CENTER);
+	}
+
+	/**
+	 * Resets the File-List Panel
+	 */
+	void resetFileList() {
+		JLabelWrap filesListText = new JLabelWrap("Please open a RPG-Maker MV Project (\"File\" -> \"Select RPG MV/MZ Project\")");
+		filesListText.setColumns(20);
+
+		this.projectFilesPanel.removeAll();
+		this.projectFilesPanel.add(filesListText, BorderLayout.NORTH);
+		this.projectFilesPanel.validate();
 	}
 
 	/**
@@ -205,5 +210,18 @@ public class GUI {
 		// New ActionListener
 		this.mainMenu.openOutputDirExplorer.addActionListener(ActionListener.openExplorer(App.outputDir));
 		this.mainMenu.doClearOutputDir.addActionListener(new WorkerDirectoryClearing(this, App.outputDir));
+	}
+
+	/**
+	 * Removes everything from the open RPG-Project also removes UI-Changes
+	 */
+	void closeRPGProject() {
+		setRpgProject(null);
+		setDecrypter(null);
+
+		mainMenu.enableOnRPGProject(false);
+		mainMenu.deAssignRPGActionListener(this);
+
+		resetFileList();
 	}
 }

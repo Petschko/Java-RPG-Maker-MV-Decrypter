@@ -1,5 +1,6 @@
 package org.petschko.rpgmakermv.decrypt.gui;
 
+import org.petschko.lib.CellRenderer;
 import org.petschko.lib.Const;
 import org.petschko.lib.File;
 import org.petschko.lib.Functions;
@@ -11,7 +12,11 @@ import org.petschko.rpgmakermv.decrypt.Decrypter;
 import org.petschko.rpgmakermv.decrypt.Preferences;
 import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
+import java.awt.BorderLayout;
 
 /**
  * @author Peter Dragicevic
@@ -83,6 +88,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			return null;
 		}
 
+		createFileList();
 		return null;
 	}
 
@@ -106,9 +112,6 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			gui.getMainMenu().enableOnRPGProject(true);
 			gui.getMainMenu().assignRPGActionListener(gui);
 
-			// Refresh Project-Files
-			// todo (re)load file list
-
 			// Done
 			if(this.showInfoWindow) {
 				InfoWindow infoWindow = new InfoWindow(
@@ -121,5 +124,26 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 				infoWindow.show(gui.getMainWindow());
 			}
 		}
+	}
+
+	/**
+	 * Creates the File-List
+	 */
+	void createFileList() {
+		gui.fileList = new JList<>(gui.getRpgProject().getProjectFileList());
+		gui.fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		CellRenderer cellRenderer = new CellRenderer();
+		cellRenderer.setRelativePath(gui.getRpgProject().getPath());
+
+		gui.fileList.setCellRenderer(cellRenderer);
+		gui.fileList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		gui.fileList.setName("List");
+		gui.fileList.setVisibleRowCount(-1);
+
+		gui.projectFilesPanel.removeAll();
+		gui.projectFilesPanel.add(new JScrollPane(gui.fileList), BorderLayout.CENTER);
+		gui.projectFilesPanel.validate();
+		gui.projectFilesPanel.setVisible(true);
 	}
 }

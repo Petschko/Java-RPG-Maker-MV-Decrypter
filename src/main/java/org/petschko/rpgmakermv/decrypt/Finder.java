@@ -23,27 +23,27 @@ class Finder {
 	 * @return - System-File-Object if found else null
 	 */
 	static File findSystemFile(String projectDir) {
-		String[] filePaths = new String[]{
+		String[] filePaths = new String[] {
 				"data" + Const.DS + "System.json",
 				"www" + Const.DS + "data" + Const.DS + "System.json"
 		};
-		File systemJsonFile = null;
 
-		for(String filePath : filePaths) {
-			java.io.File systemFile = new java.io.File(projectDir + filePath);
+		return findFromArray(filePaths, projectDir);
+	}
 
-			if(systemFile.exists()) {
-				try {
-					systemJsonFile = new File(projectDir + filePath);
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+	/**
+	 * Finds the Project-File
+	 *
+	 * @param projectDir - Directory were to search
+	 * @return - Project File or null if not found
+	 */
+	static File findProjectFile(String projectDir) {
+		String[] potentialPaths = new String[] {
+				"Game.rpgproject",
+				"game.rmmzproject"
+		};
 
-				return systemJsonFile;
-			}
-		}
-
-		return null;
+		return findFromArray(potentialPaths, projectDir);
 	}
 
 	/**
@@ -97,7 +97,8 @@ class Finder {
 				"libGLESv2.dll",
 				"nw.pak",
 				"package.json",
-				"pdf.dll"
+				"pdf.dll",
+				"resources.pak"
 		};
 
 		// Check if a File is in there
@@ -111,5 +112,32 @@ class Finder {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Finds a File from the given Array
+	 *
+	 * @param filePathArray - The array with potential hits
+	 * @param mainPath - Main path which is added in front of all files (aka search in this dir)
+	 * @return - Target File or null if not found
+	 */
+	private static File findFromArray(String[] filePathArray, String mainPath) {
+		File targetFile = null;
+
+		for(String filePath : filePathArray) {
+			java.io.File fileIo = new java.io.File(mainPath + filePath);
+
+			if(fileIo.exists() && ! fileIo.isDirectory()) {
+				try {
+					targetFile = new File(mainPath + filePath);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+
+				return targetFile;
+			}
+		}
+
+		return null;
 	}
 }

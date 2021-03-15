@@ -14,6 +14,7 @@ public class RPG_Project {
 	private String path;
 	private String outputPath = Config.DEFAULT_OUTPUT_DIR;
 	private File system = null;
+	private File projectFile = null;
 	private File encryptedImgFile = null;
 	private String encryptionKeyName = "encryptionKey";
 	private boolean isEncrypted = true;
@@ -44,6 +45,7 @@ public class RPG_Project {
 
 		this.loadFiles();
 		this.findSystemFile();
+		this.findProjectFile();
 
 		if(this.getSystem() != null)
 			this.checkIfEncrypted();
@@ -112,6 +114,24 @@ public class RPG_Project {
 	 */
 	void setSystem(File system) {
 		this.system = system;
+	}
+
+	/**
+	 * Returns the Project-File
+	 *
+	 * @return - Project-File or null if none
+	 */
+	public File getProjectFile() {
+		return projectFile;
+	}
+
+	/**
+	 * Sets the Project-File
+	 *
+	 * @param projectFile - Project-File
+	 */
+	public void setProjectFile(File projectFile) {
+		this.projectFile = projectFile;
 	}
 
 	/**
@@ -306,10 +326,14 @@ public class RPG_Project {
 	 * Finds the System-File and assign it
 	 */
 	private void findSystemFile() {
-		File system = Finder.findSystemFile(this.getPath());
+		this.setSystem(Finder.findSystemFile(this.getPath()));
+	}
 
-		if(system != null)
-			this.setSystem(system);
+	/**
+	 * Finds the Project-File and assigns it
+	 */
+	private void findProjectFile() {
+		this.setProjectFile(Finder.findProjectFile(this.getPath()));
 	}
 
 	/**
@@ -468,5 +492,39 @@ public class RPG_Project {
 	 */
 	private boolean verifyDir() {
 		return Finder.verifyRPGDir(File.ensureDSonEndOfPath(this.getPath()));
+	}
+
+	/**
+	 * Returns the List of all relevant Project-Files
+	 *
+	 * @return - Project-Files Array
+	 */
+	public java.io.File[] getProjectFileList() {
+		int projectFilesCount = getEncryptedFiles().size() + getResourceFiles().size() + (getSystem() == null ? 0 : 1) + (getProjectFile() == null ? 0 : 1);
+		java.io.File[] fileList = new java.io.File[projectFilesCount];
+		int i = 0;
+
+		if(getSystem() != null) {
+			fileList[i] = new java.io.File(getSystem().getFilePath());
+			i++;
+		}
+
+		if(getProjectFile() != null) {
+			fileList[i] = new java.io.File(getProjectFile().getFilePath());
+			i++;
+		}
+
+		for(File file : getEncryptedFiles()) {
+			fileList[i] = new java.io.File(file.getFilePath());
+			i++;
+		}
+
+		for(File file : getResourceFiles()) {
+			fileList[i] = new java.io.File(file.getFilePath());
+			i++;
+		}
+
+
+		return fileList;
 	}
 }
