@@ -372,9 +372,7 @@ class Menu extends JMenuBar {
 		// Add new ActionListener
 		this.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(gui.getRpgProject().getPath()));
 		this.closeRPGProject.addActionListener(
-				e -> {
-					gui.closeRPGProject();
-				}
+				e -> gui.closeRPGProject()
 		);
 
 		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));
