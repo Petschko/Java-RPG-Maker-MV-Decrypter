@@ -12,10 +12,7 @@ import org.petschko.rpgmakermv.decrypt.Decrypter;
 import org.petschko.rpgmakermv.decrypt.Preferences;
 import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingWorker;
+import javax.swing.*;
 import java.awt.BorderLayout;
 
 /**
@@ -107,13 +104,19 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	@Override
 	protected void done() {
 		if(! this.isCancelled()) {
+			boolean keyFound = false;
 			gui.setDecrypter(new Decrypter());
 			gui.getRpgProject().setOutputPath(App.outputDir);
 			gui.getMainMenu().enableOnRPGProject(true, gui);
 			gui.getMainMenu().assignRPGActionListener(gui);
 
 			// Load the Key
-			gui.getDecrypter().detectEncryptionKeyFromJson(gui.getRpgProject().getSystem(), gui.getRpgProject().getEncryptionKeyName());
+			try {
+				gui.getDecrypter().detectEncryptionKeyFromJson(gui.getRpgProject().getSystem(), gui.getRpgProject().getEncryptionKeyName());
+				keyFound = true;
+			} catch(NullPointerException nullPointerException) {
+				gui.getMainMenu().disableOnNoKey(false, gui);
+			}
 
 			// Load Info-Values to GUI
 			gui.projectInfo.setValuesFromRPGProject(gui.getRpgProject());
@@ -123,14 +126,80 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 
 			// Done
 			if(this.showInfoWindow) {
-				InfoWindow infoWindow = new InfoWindow(
-						"RPG-Maker Project loaded..." + Const.NEW_LINE +
-						Const.NEW_LINE +
-						"Please use one of these options:" + Const.NEW_LINE +
-						"- \"Decrypt\" -> \"All Files\" to Decrypt." + Const.NEW_LINE +
-						"- \"Decrypt\" -> \"Restore Images (No Key)\" for restoring."
-				);
-				infoWindow.show(gui.getMainWindow());
+				if(keyFound) {
+					InfoWindow infoWindow = new InfoWindow(
+							"RPG-Maker Project loaded..." + Const.NEW_LINE + Const.NEW_LINE +
+							"Please use one of these options:" + Const.NEW_LINE +
+							"- \"Decrypt\" -> \"All Files\" to Decrypt." + Const.NEW_LINE +
+							"- \"Decrypt\" -> \"Restore Images (No Key)\" for restoring."
+					);
+					infoWindow.show(gui.getMainWindow());
+				} else {
+					String text = "RPG-Maker Project loaded..." + Const.NEW_LINE + Const.NEW_LINE +
+							"Key not Found... You can set it manually under:" + Const.NEW_LINE +
+							"- \"Decrypt\" -> \"Set Encryption-Key...\" or " + Const.NEW_LINE +
+							"- \"Encrypt\" -> \"Set Encryption-Key...\"" + Const.NEW_LINE + Const.NEW_LINE +
+							"You can also still restore the images without the Key:" + Const.NEW_LINE +
+							"- \"Decrypt\" -> \"Restore Images (No Key)\" for restoring.";
+
+					if(gui.getRpgProject().getEncryptedFiles().size() > 0) {
+						Object[] options = {
+								"Detect from Image",
+								"Ok"
+						};
+						int answer = JOptionPane.showOptionDialog(
+								gui.getMainWindow(),
+								text + Const.NEW_LINE + Const.NEW_LINE +
+								"You can also Auto-Detect the Key from images.",
+								"Project loaded without Key",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.WARNING_MESSAGE,
+								null,
+								options,
+								options[1]
+						);
+
+						if(answer == 0) {
+							try {
+								gui.getDecrypter().detectEncryptionKeyFromImage(gui.getRpgProject().getEncryptedImgFile());
+							} catch(Exception e) {
+								ErrorWindow errorWindow = new ErrorWindow(
+										"Could not find the Key from Images...",
+										ErrorWindow.ERROR_LEVEL_ERROR,
+										false,
+										e
+								);
+								errorWindow.show(gui.getMainWindow());
+								return;
+							}
+
+							if(gui.getDecrypter().getDecryptCode() == null) {
+								ErrorWindow errorWindow = new ErrorWindow(
+										"No Key found!...",
+										ErrorWindow.ERROR_LEVEL_ERROR,
+										false
+								);
+								errorWindow.show(gui.getMainWindow());
+							} else {
+								gui.projectInfo.setEncryptionKey(gui.getDecrypter().getDecryptCode());
+								gui.projectInfo.refresh();
+								gui.getMainMenu().disableOnNoKey(true, gui);
+
+								InfoWindow infoWindow = new InfoWindow(
+										"Key extracted! It may results in wrong en/decryption..."
+								);
+								infoWindow.show(gui.getMainWindow());
+							}
+						}
+					} else {
+						ErrorWindow errorWindow = new ErrorWindow(
+								text,
+								ErrorWindow.ERROR_LEVEL_WARNING,
+								false
+						);
+						errorWindow.show(gui.getMainWindow());
+					}
+				}
 			}
 		}
 	}

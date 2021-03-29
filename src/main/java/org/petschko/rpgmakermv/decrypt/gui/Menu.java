@@ -273,6 +273,31 @@ class Menu extends JMenuBar {
 	}
 
 	/**
+	 * Disable when no Key is Found on a Project
+	 */
+	public void disableOnNoKey(boolean enable, GUI gui) {
+		boolean hasEncryptedFiles = false;
+		boolean hasResourceFiles = false;
+		if(gui != null) {
+			if(gui.getRpgProject() != null) {
+				hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
+				hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+			}
+		}
+
+		//this.selectedFiles.setEnabled(hasEncryptedFiles);
+		this.allFiles.setEnabled(hasEncryptedFiles);
+
+		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
+
+		//this.restoreProjectMV.setEnabled(enable);
+		//this.restoreProjectMZ.setEnabled(enable);
+	}
+
+	/**
 	 * Disable currently unimplemented Menus
 	 */
 	private void disableUnimplemented() {
