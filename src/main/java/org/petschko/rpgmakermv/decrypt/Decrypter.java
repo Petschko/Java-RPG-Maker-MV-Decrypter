@@ -62,7 +62,7 @@ public class Decrypter {
 	 *
 	 * @param decryptCode - Decrypt-Code
 	 */
-	void setDecryptCode(String decryptCode) {
+	public void setDecryptCode(String decryptCode) {
 		this.decryptCode = decryptCode;
 	}
 
@@ -113,7 +113,7 @@ public class Decrypter {
 	 *
 	 * @return - File-Header Length in Bytes
 	 */
-	int getHeaderLen() {
+	public int getHeaderLen() {
 		return headerLen;
 	}
 

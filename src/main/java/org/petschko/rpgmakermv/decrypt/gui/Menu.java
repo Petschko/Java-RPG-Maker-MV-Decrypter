@@ -44,12 +44,17 @@ class Menu extends JMenuBar {
 	JMenuItem setEncryptionKey;
 	JMenuItem setEncryptionFile;
 	JMenuItem changeDecrypterSignature;
+	JMenuItem resetHeaderToDefault;
 
 	// Encrypt-Menu-Sub
 	JMenuItem encryptSelectedFilesMV;
 	JMenuItem encryptAllFilesMV;
 	JMenuItem encryptSelectedFilesMZ;
 	JMenuItem encryptAllFilesMZ;
+	JMenuItem setEncryptionKeyE;
+	JMenuItem setEncryptionFileE;
+	JMenuItem changeDecrypterSignatureE;
+	JMenuItem resetHeaderToDefaultE;
 
 	// Tool-Menu-Sub
 	JMenuItem detectKeyFromEncryptedImg;
@@ -75,6 +80,7 @@ class Menu extends JMenuBar {
 		this.constructInfoMenu();
 		this.addAllMenus();
 
+		this.defaultDisabled();
 		this.disableUnimplemented();
 	}
 
@@ -118,8 +124,9 @@ class Menu extends JMenuBar {
 		this.allFiles = new JMenuItem("All Files");
 		this.restoreImages = new JMenuItem("Restore Images (No Key)");
 		this.setEncryptionKey = new JMenuItem("Set Encryption-Key...");
-		this.setEncryptionFile = new JMenuItem("Select Encryption-File...");
-		this.changeDecrypterSignature = new JMenuItem("Change Decrypter Signature...");
+		this.setEncryptionFile = new JMenuItem("Key from Encrypted-PNG-File...");
+		this.changeDecrypterSignature = new JMenuItem("Change Header-Values...");
+		this.resetHeaderToDefault = new JMenuItem("Reset Header-Values");
 	}
 
 	/**
@@ -133,6 +140,10 @@ class Menu extends JMenuBar {
 		this.encryptAllFilesMV = new JMenuItem("All Files (to MV)");
 		this.encryptSelectedFilesMZ = new JMenuItem("Selected Files (to MZ)");
 		this.encryptAllFilesMZ = new JMenuItem("All Files (to MZ)");
+		this.setEncryptionKeyE = new JMenuItem(this.setEncryptionKey.getName());
+		this.setEncryptionFileE = new JMenuItem(this.setEncryptionFile.getName());
+		this.changeDecrypterSignatureE = new JMenuItem(this.changeDecrypterSignature.getName());
+		this.resetHeaderToDefaultE = new JMenuItem(this.resetHeaderToDefault.getName());
 	}
 
 	/**
@@ -188,9 +199,10 @@ class Menu extends JMenuBar {
 		this.decrypt.add(this.allFiles);
 		this.decrypt.add(this.restoreImages);
 		this.decrypt.addSeparator();
-		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.setEncryptionFile);
+		this.decrypt.add(this.setEncryptionKey);
 		this.decrypt.add(this.changeDecrypterSignature);
+		this.decrypt.add(this.resetHeaderToDefault);
 
 		this.add(this.encrypt);
 		this.encrypt.add(this.encryptSelectedFilesMV);
@@ -199,9 +211,10 @@ class Menu extends JMenuBar {
 		this.encrypt.add(this.encryptSelectedFilesMZ);
 		this.encrypt.add(this.encryptAllFilesMZ);
 		this.encrypt.addSeparator();
-		this.encrypt.add(this.setEncryptionKey);
-		this.encrypt.add(this.setEncryptionFile);
-		this.encrypt.add(this.changeDecrypterSignature);
+		this.encrypt.add(this.setEncryptionKeyE);
+		this.encrypt.add(this.setEncryptionFileE);
+		this.encrypt.add(this.changeDecrypterSignatureE);
+		this.encrypt.add(this.resetHeaderToDefaultE);
 
 		this.add(this.tools);
 		this.tools.add(this.detectKeyFromEncryptedImg);
@@ -222,17 +235,66 @@ class Menu extends JMenuBar {
 	 * Enable/Disable Menu-Items for RPGMaker Project-Operations
 	 *
 	 * @param enable - enable or disable Menu-Items
+	 * @param gui - GUI-Object
 	 */
-	void enableOnRPGProject(boolean enable) {
+	void enableOnRPGProject(boolean enable, GUI gui) {
+		boolean hasEncryptedFiles = false;
+		boolean hasResourceFiles = false;
+		if(gui != null) {
+			if(gui.getRpgProject() != null) {
+				hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
+				hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+			}
+		}
+
 		this.openRPGDirExplorer.setEnabled(enable);
 		this.closeRPGProject.setEnabled(enable);
-		this.decrypt.setEnabled(enable);
-		//this.selectedFiles.setEnabled(enable);
-		this.allFiles.setEnabled(enable);
-		this.restoreImages.setEnabled(enable);
-		//this.setEncryptionKey.setEnabled(enable);
-		//this.setEncryptionFile.setEnabled(enable);
-		//this.restoreProject.setEnabled(enable);
+
+		this.decrypt.setEnabled(hasEncryptedFiles);
+		//this.selectedFiles.setEnabled(hasEncryptedFiles);
+		this.allFiles.setEnabled(hasEncryptedFiles);
+		this.restoreImages.setEnabled(hasEncryptedFiles);
+		//this.setEncryptionFile.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionKey.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.changeDecrypterSignature.setEnabled(hasEncryptedFiles || hasResourceFiles);
+
+		//this.encrypt.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
+		//this.setEncryptionFileE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionKeyE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.changeDecrypterSignatureE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+
+		//this.detectKeyFromEncryptedImg.setEnabled(enable);
+		//this.restoreProjectMV.setEnabled(enable);
+		//this.restoreProjectMZ.setEnabled(enable);
+	}
+
+	/**
+	 * Disable when no Key is Found on a Project
+	 */
+	public void disableOnNoKey(boolean enable, GUI gui) {
+		boolean hasEncryptedFiles = false;
+		boolean hasResourceFiles = false;
+		if(gui != null) {
+			if(gui.getRpgProject() != null) {
+				hasEncryptedFiles = gui.getRpgProject().getEncryptedFiles().size() > 0 && enable;
+				hasResourceFiles = gui.getRpgProject().getResourceFiles().size() > 0 && enable;
+			}
+		}
+
+		//this.selectedFiles.setEnabled(hasEncryptedFiles);
+		this.allFiles.setEnabled(hasEncryptedFiles);
+
+		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
+		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
+
+		//this.restoreProjectMV.setEnabled(enable);
+		//this.restoreProjectMZ.setEnabled(enable);
 	}
 
 	/**
@@ -240,14 +302,20 @@ class Menu extends JMenuBar {
 	 */
 	private void disableUnimplemented() {
 		this.selectedFiles.setEnabled(false);
-		this.setEncryptionKey.setEnabled(false);
 		this.setEncryptionFile.setEnabled(false);
-		this.changeDecrypterSignature.setEnabled(false);
 		this.encrypt.setEnabled(false);
 		this.detectKeyFromEncryptedImg.setEnabled(false);
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
+	}
+
+	/**
+	 * Disables Menu points which are always disabled on startup
+	 */
+	private void defaultDisabled() {
+		this.resetHeaderToDefault.setEnabled(false);
+		this.resetHeaderToDefaultE.setEnabled(false);
 	}
 
 	/**
@@ -272,7 +340,7 @@ class Menu extends JMenuBar {
 		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
 			this.checkForUpdates.setState(true);
 
-		this.enableOnRPGProject(false);
+		this.enableOnRPGProject(false, null);
 	}
 
 	/**
@@ -333,6 +401,25 @@ class Menu extends JMenuBar {
 		this.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
 		this.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
 		// -- Decrypt
+		this.setEncryptionKey.addActionListener(
+				e -> gui.assignDecryptKey()
+		);
+		this.changeDecrypterSignature.addActionListener(
+				e -> gui.changeHeaderSignature()
+		);
+		this.resetHeaderToDefault.addActionListener(
+				e -> gui.resetHeaderValues()
+		);
+		// -- Encrypt
+		this.setEncryptionKeyE.addActionListener(
+				e -> gui.assignDecryptKey()
+		);
+		this.changeDecrypterSignatureE.addActionListener(
+				e -> gui.changeHeaderSignature()
+		);
+		this.resetHeaderToDefaultE.addActionListener(
+				e -> gui.resetHeaderValues()
+		);
 		// -- Tools
 		// -- Info
 		this.updateProgram.addActionListener(
@@ -359,9 +446,7 @@ class Menu extends JMenuBar {
 		// Add new ActionListener
 		this.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(gui.getRpgProject().getPath()));
 		this.closeRPGProject.addActionListener(
-				e -> {
-					gui.closeRPGProject();
-				}
+				e -> gui.closeRPGProject()
 		);
 
 		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));

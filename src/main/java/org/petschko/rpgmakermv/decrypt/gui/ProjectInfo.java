@@ -19,6 +19,7 @@ class ProjectInfo extends JPanel {
 	private JPanel projectFile = new JPanel(new GridLayout(1, 2));
 	private JPanel systemFile = new JPanel(new GridLayout(1, 2));
 	private JPanel jEncryptionKey = new JPanelLine();
+	private JPanel jHeaderLen = new JPanelLine();
 	private JPanel jSignature = new JPanelLine();
 	private JPanel jVersion = new JPanelLine();
 	private JPanel jRemain = new JPanelLine();
@@ -29,6 +30,7 @@ class ProjectInfo extends JPanel {
 	private boolean hasProjectFile = false;
 	private boolean hasSystemFile = false;
 	private String encryptionKey = null;
+	private int headerLen = 0;
 	private String signature = null;
 	private String version = null;
 	private String remain = null;
@@ -94,6 +96,15 @@ class ProjectInfo extends JPanel {
 	}
 
 	/**
+	 * Sets the Header-Len
+	 *
+	 * @param headerLen - Header-Len
+	 */
+	public void setHeaderLen(int headerLen) {
+		this.headerLen = headerLen;
+	}
+
+	/**
 	 * Sets the Header-Signature
 	 *
 	 * @param signature - Header-Signature
@@ -145,6 +156,7 @@ class ProjectInfo extends JPanel {
 			return;
 
 		this.encryptionKey = decrypter.getDecryptCode();
+		this.headerLen = decrypter.getHeaderLen();
 		this.signature = decrypter.getSignature();
 		this.version = decrypter.getVersion();
 		this.remain = decrypter.getRemain();
@@ -161,6 +173,7 @@ class ProjectInfo extends JPanel {
 		projectFile.removeAll();
 		systemFile.removeAll();
 		jEncryptionKey.removeAll();
+		jHeaderLen.removeAll();
 		jSignature.removeAll();
 		jVersion.removeAll();
 		jRemain.removeAll();
@@ -212,22 +225,44 @@ class ProjectInfo extends JPanel {
 			keyLabel.setForeground(Color.RED);
 		this.jEncryptionKey.add(keyLabel);
 
+		this.jHeaderLen.add(new JLabel("Header-Length: "));
+		JLabel headerLabel = new JLabel(String.valueOf(this.headerLen));
+		if(this.headerLen != Decrypter.DEFAULT_HEADER_LEN && this.headerLen != 0) {
+			headerLabel.setForeground(Color.BLUE);
+			headerLabel.setText(headerLabel.getText() + " (Custom)");
+		}
+		if(this.headerLen == 0)
+			headerLabel.setForeground(Color.RED);
+		this.jHeaderLen.add(headerLabel);
+
 		this.jSignature.add(new JLabel("Signature: "));
 		JLabel signatureLabel = new JLabel(this.signature == null ? "-" : this.signature);
 		if(this.signature == null)
 			signatureLabel.setForeground(Color.RED);
+		else if(! this.signature.equals(Decrypter.DEFAULT_SIGNATURE)) {
+			signatureLabel.setForeground(Color.BLUE);
+			signatureLabel.setText(signatureLabel.getText() + " (Custom)");
+		}
 		this.jSignature.add(signatureLabel);
 
 		this.jVersion.add(new JLabel("Version: "));
 		JLabel versionLabel = new JLabel(this.version == null ? "-" : this.version);
 		if(this.version == null)
 			versionLabel.setForeground(Color.RED);
+		else if(! this.version.equals(Decrypter.DEFAULT_VERSION)) {
+			versionLabel.setForeground(Color.BLUE);
+			versionLabel.setText(versionLabel.getText() + " (Custom)");
+		}
 		this.jVersion.add(versionLabel);
 
 		this.jRemain.add(new JLabel("Remain: "));
 		JLabel remainLabel = new JLabel(this.remain == null ? "-" : this.remain);
 		if(this.remain == null)
 			remainLabel.setForeground(Color.RED);
+		else if(! this.remain.equals(Decrypter.DEFAULT_REMAIN)) {
+			remainLabel.setForeground(Color.BLUE);
+			remainLabel.setText(remainLabel.getText() + " (Custom)");
+		}
 		this.jRemain.add(remainLabel);
 
 		this.mainInfo.add(this.encryptedFiles);
@@ -237,6 +272,7 @@ class ProjectInfo extends JPanel {
 		this.mainInfo.validate();
 
 		this.keyInfo.add(this.jEncryptionKey);
+		this.keyInfo.add(this.jHeaderLen);
 		this.keyInfo.add(this.jSignature);
 		this.keyInfo.add(this.jVersion);
 		this.keyInfo.add(this.jRemain);
@@ -260,6 +296,7 @@ class ProjectInfo extends JPanel {
 		hasProjectFile = false;
 		hasSystemFile = false;
 		encryptionKey = null;
+		headerLen = 0;
 		signature = null;
 		version = null;
 		remain = null;
