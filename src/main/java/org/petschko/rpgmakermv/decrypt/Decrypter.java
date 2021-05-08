@@ -1,5 +1,6 @@
 package org.petschko.rpgmakermv.decrypt;
 
+import com.github.diogoduailibe.lzstring4j.LZString;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.petschko.lib.File;
@@ -402,9 +403,14 @@ public class Decrypter {
 			String fileContentAsString = new String(file.getContent(), StandardCharsets.UTF_8);
 			jsonObj = new JSONObject(fileContentAsString);
 		} catch(Exception e) {
-			e.printStackTrace();
+			try {
+				String fileContentAsString = LZString.decompress(new String(file.getContent(), StandardCharsets.UTF_8));
+				jsonObj = new JSONObject(fileContentAsString);
+			} catch(Exception ex) {
+				e.printStackTrace();
 
-			return;
+				return;
+			}
 		}
 
 		key = jsonObj.getString(keyName);
