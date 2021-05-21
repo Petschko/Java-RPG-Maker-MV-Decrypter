@@ -7,7 +7,7 @@ Everything what's explained here is also explained in the help-commands within t
 Before we start:
 - You only need the params which are marked as __(Req.)__. All other params are optional.
 - If a path contains a space use the quotations "" around: `"D:\games\Project with Space\"`
-- Remember that IOS & Linux not have a Drive-Letter nor using the `\ ` as Directory-Separator; use `/` instead when you're using Linux/IOS
+- Remember that IOS & Linux not have a Drive-Letter nor using the `\ ` as Directory-Separator; use `/` instead when you're using Linux/MacOS
 - Important: If you just Type `java -jar "RPG Maker MV Decrypter.jar"` the Program will start with GUI
 - You can also use the Help-Command with `java -jar "RPG Maker MV Decrypter.jar" help`
 - The Script ends with "Done." Then you're done.
