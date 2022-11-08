@@ -215,7 +215,6 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 		cellRenderer.setRelativePath(gui.getRpgProject().getPath());
 
 		gui.fileList.setCellRenderer(cellRenderer);
-		gui.fileList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
 		gui.fileList.setName("List");
 		gui.fileList.setVisibleRowCount(-1);
 
