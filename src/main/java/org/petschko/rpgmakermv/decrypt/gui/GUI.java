@@ -133,7 +133,11 @@ public class GUI {
 	 */
 	private void createMainWindow() {
 		this.mainWindow = new JFrame(Config.PROGRAM_NAME + " by " + Const.CREATOR + " " + Config.VERSION);
-		this.mainWindow.setPreferredSize(new Dimension(450, 500));
+		this.mainWindow.setPreferredSize(new Dimension(1000, 900));
+
+		// Center the Window
+		this.mainWindow.setLocationRelativeTo(null);
+		this.mainWindow.pack();
 
 		// Change close Action
 		this.mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
