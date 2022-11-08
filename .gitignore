@@ -19,11 +19,9 @@ hs_err_pid*
 target/
 output/
 out/
-bin/
 
 #Other
 config.pref
 updateCache.pref
 RPG Maker MV Decrypter.iml
-.classpath
-.project
+pom.xml
