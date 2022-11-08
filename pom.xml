@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.petschko</groupId>
+	<artifactId>rpgmaker-mv-decrypter</artifactId>
+	<version>0.4.1</version>
+	<packaging>jar</packaging>
+
+	<name>Petschko's RPG-Maker-MV/MZ File-Decrypter</name>
+	<description>This Project is used to Decrypt RPG-Maker MV/MZ Projects</description>
+	<url>https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter</url>
+	<developers>
+		<developer>
+			<name>Peter Dragicevic</name>
+			<email>peter@petschko.org</email>
+			<url>https://petschko.org/</url>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>MIT</name>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20211205</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>RPG Maker MV Decrypter ${project.version}</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<appendAssemblyId>false</appendAssemblyId>
+					<archive>
+						<manifest>
+							<mainClass>org.petschko.rpgmakermv.decrypt.App</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Version>${project.version}</Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>org.petschko.rpgmakermv.decrypt.App</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
