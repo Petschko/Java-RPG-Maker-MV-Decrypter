@@ -317,6 +317,8 @@ class Menu extends JMenuBar {
 	 * Disables the Update-Function in the Menu
 	 */
 	private void disableUpdateCheck() {
+		this.checkForUpdates.setState(false);
+		this.checkForUpdates.setEnabled(false);
 		this.updateProgram.setEnabled(false);
 	}
 
@@ -347,8 +349,10 @@ class Menu extends JMenuBar {
 		} else
 			this.overwriteExistingFiles.setEnabled(false);
 
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
-			this.checkForUpdates.setState(true);
+		if(Config.UPDATE_CHECK) {
+			if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
+				this.checkForUpdates.setState(true);
+		}
 
 		this.enableOnRPGProject(false, null);
 	}
