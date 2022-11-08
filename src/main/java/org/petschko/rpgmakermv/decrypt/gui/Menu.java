@@ -373,7 +373,7 @@ class Menu extends JMenuBar {
 
 					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
 					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					int choose = dirChooser.showDialog(gui.getMainMenu(), null);
+					int choose = dirChooser.showDialog(gui.getMainWindow(), null);
 
 					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
 						App.preferences.setConfig(Preferences.LAST_RPG_DIR, dirChooser.getCurrentDirectory().getPath());
