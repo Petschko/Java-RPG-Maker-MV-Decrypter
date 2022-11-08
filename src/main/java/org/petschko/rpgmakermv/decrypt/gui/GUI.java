@@ -51,8 +51,10 @@ public class GUI {
 		this.setNewOutputDir(App.outputDir);
 
 		// Add Update-Check
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
-			new Update(this, true);
+		if(Config.UPDATE_CHECK) {
+			if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
+				new Update(this, true);
+		}
 	}
 
 	/**

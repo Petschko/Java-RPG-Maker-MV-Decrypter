@@ -6,6 +6,10 @@ import org.petschko.lib.gui.notification.ErrorWindow;
 import org.petschko.rpgmakermv.decrypt.cmd.CMD;
 import org.petschko.rpgmakermv.decrypt.gui.GUI;
 
+import java.io.IOException;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
 /**
  * @author Peter Dragicevic
  */
@@ -22,6 +26,9 @@ public class App {
 	 * @param args - Optional Arguments from Command-Line
 	 */
 	public static void main(String[] args) {
+		// Dynamically read the Versions number into the CFG
+		Config.setVersion(readMfVersion());
+
 		// Ensure System output dir always exists
 		if(! File.existsDir(Config.DEFAULT_OUTPUT_DIR))
 			File.createDirectory(Config.DEFAULT_OUTPUT_DIR);
@@ -93,5 +100,22 @@ public class App {
 
 		App.gui.dispose();
 		System.exit(0);
+	}
+
+	/**
+	 * Returns the Version-Number from the Manifest-File
+	 *
+	 * @return - Version number from the Manifest File or null for debug
+	 */
+	public static String readMfVersion() {
+		Manifest mf = new Manifest();
+		try {
+			mf.read(Thread.currentThread().getContextClassLoader().getResourceAsStream("META-INF/MANIFEST.MF"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		Attributes attributes = mf.getMainAttributes();
+		return attributes.getValue("Version");
 	}
 }

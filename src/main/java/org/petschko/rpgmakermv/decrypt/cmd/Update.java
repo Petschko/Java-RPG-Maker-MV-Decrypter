@@ -24,6 +24,12 @@ class Update implements I_CMD {
 	 */
 	@Override
 	public void run(String[] args) {
+		if(! Config.UPDATE_CHECK) {
+			App.showMessage("Updates are disabled!", CMD.STATUS_WARNING);
+			CMD.exitCMD(CMD.STATUS_WARNING);
+			return;
+		}
+
 		this.update = checkForUpdates(false, true);
 
 		if(this.update != null) {

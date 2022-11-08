@@ -82,6 +82,9 @@ class Menu extends JMenuBar {
 
 		this.defaultDisabled();
 		this.disableUnimplemented();
+
+		if(! Config.UPDATE_CHECK)
+			this.disableUpdateCheck();
 	}
 
 	/**
@@ -308,6 +311,13 @@ class Menu extends JMenuBar {
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
+	}
+
+	/**
+	 * Disables the Update-Function in the Menu
+	 */
+	private void disableUpdateCheck() {
+		this.updateProgram.setEnabled(false);
 	}
 
 	/**

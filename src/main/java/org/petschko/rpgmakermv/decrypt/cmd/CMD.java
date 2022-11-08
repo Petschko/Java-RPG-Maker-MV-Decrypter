@@ -50,7 +50,8 @@ public class CMD {
 		System.out.println(Config.PROGRAM_NAME + " - " + Config.VERSION + " by " + Const.CREATOR + " | Command-Line Version");
 		System.out.println(LINE_CMD);
 
-		Update.checkForUpdates();
+		if(Config.UPDATE_CHECK)
+			Update.checkForUpdates();
 
 		sanitizeArgs();
 		processArgs();
