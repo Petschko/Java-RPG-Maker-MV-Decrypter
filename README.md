@@ -3,7 +3,7 @@
 ## What's that?
 This Project is used to decrypt RPG-Maker-MV/MZ-Resource-Files that are encrypted with the Build-In-Encryption of the RPG-Maker.
 
-This Project is also able to decrypt whole RPG-Directories. It's similar to [my previous Project](https://github.com/Petschko/RPG-Maker-MV-Decrypter) but more comfortable.
+This Project is also able to decrypt whole RPG-Directories. It's similar to [my previous Project](https://gitlab.com/Petschko/RPG-Maker-MV-Decrypter) but more comfortable.
 
 ### Which Files can be decrypted with this Program?
 You can decrypt the Build-In-Encrypted Files from the RPG Maker MV or MZ. They usually have the extension `.rpgmvp`, `.rpgmvm`, `.rpgmvo`, `.png_`, `.m4a_` or `.ogg_`.
@@ -13,7 +13,7 @@ You can decrypt the Build-In-Encrypted Files from the RPG Maker MV or MZ. They u
 - Any OS (Linux, Windows, IOS etc)
 
 ## Installation
-- [Download this ZIP (!!Alpha!!) - Version: 0.4.1](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/releases/download/v.0.4.1-alpha/RPG_Maker_MV_Decrypter_jar_0.4.1.zip) or Clone/Download the Project and make yourself a JAR-File
+- [Download this ZIP (!!Alpha!!) - Version: 0.4.1](https://petschko.org/upload/projects/java-rpg-maker-decrypter/RPG_Maker_MV_Decrypter_jar_0.4.1.zip) or Clone/Download the Project and make yourself a JAR-File
 - Put it where ever you want (Don't forget to extract, if you downloaded the ZIP xP)
 
 ### Dependencies (Only needed when creating yourself a JAR)
@@ -100,4 +100,4 @@ If you like this Project and want to thank me may consider to [Donate](https://w
 ## Contact
 - E-Mail me if you have questions (no bug reporting please): peter@petschko.org
   - You can also tell me you like it or not >.< Of course you can make improvement suggestions if you want
-- Please report Bugs here on github.com use the "[Issue](https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter/issues)"-Section on this Project
+- Please report Bugs here on gitlab.com use the "[Issue](https://gitlab.com/Petschko/Java-RPG-Maker-MV-Decrypter/-/issues)"-Section on this Project

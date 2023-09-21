@@ -68,7 +68,7 @@ class About extends org.petschko.lib.gui.GUI_About {
 
 		JPanelLine projectLine = new JPanelLine();
 		JLabelExtra projectHpHeading = new JLabelExtra("Project-HP:");
-		JLabelExtra projectHp = new JLabelExtra("Visit the Project-Page on Github");
+		JLabelExtra projectHp = new JLabelExtra("Visit the Project-Page on GitLab");
 		projectHp.setURL(Config.PROJECT_PAGE_URL, true);
 
 		JPanelLine creditLine = new JPanelLine();

@@ -8,7 +8,7 @@
 
 	<name>Petschko's RPG-Maker-MV/MZ File-Decrypter</name>
 	<description>This Project is used to Decrypt RPG-Maker MV/MZ Projects</description>
-	<url>https://github.com/Petschko/Java-RPG-Maker-MV-Decrypter</url>
+	<url>https://gitlab.com/Petschko/Java-RPG-Maker-MV-Decrypter</url>
 	<developers>
 		<developer>
 			<name>Peter Dragicevic</name>
@@ -24,7 +24,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 	</properties>
@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20211205</version>
+			<version>20220320</version>
 		</dependency>
 	</dependencies>
 
