@@ -1,14 +1,14 @@
 package org.petschko.rpgmakermv.decrypt.gui;
 
-import org.petschko.lib.File;
 import org.petschko.lib.Functions;
-import org.petschko.lib.gui.JDirectoryChooser;
-import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Config;
 import org.petschko.rpgmakermv.decrypt.Preferences;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  * @author Peter Dragicevic
@@ -24,7 +24,11 @@ class Menu extends JMenuBar {
 
 	// File-Menu-Sub
 	JMenuItem open;
+	JMenuItem openCurrentDir;
+	JMenuItem openCurrentDirDecrypt;
+	JMenuItem openCurrentDirEncrypt;
 	JMenuItem changeOutputDir;
+	JMenuItem changeOutputDirToCurrent;
 	JMenuItem openRPGDirExplorer;
 	JMenuItem openOutputDirExplorer;
 	JMenuItem closeRPGProject;
@@ -95,7 +99,11 @@ class Menu extends JMenuBar {
 
 		// Sub-Items
 		this.open = new JMenuItem("Select RPG MV/MZ Project...");
+		this.openCurrentDir = new JMenuItem("Select Project from current Directory");
+		this.openCurrentDirDecrypt = new JMenuItem("Select Project from current Dir & Decrypt");
+		this.openCurrentDirEncrypt = new JMenuItem("Select Project from current Dir & Encrypt...");
 		this.changeOutputDir = new JMenuItem("Change Output-Directory...");
+		this.changeOutputDirToCurrent = new JMenuItem("Change Output-Directory to current Directory");
 		this.openRPGDirExplorer = new JMenuItem("Show RPG-Dir in Explorer");
 		this.openOutputDirExplorer = new JMenuItem("Show Output-Dir in Explorer");
 		this.closeRPGProject = new JMenuItem("Close RPG MV/MZ Project");
@@ -179,7 +187,13 @@ class Menu extends JMenuBar {
 	private void addAllMenus() {
 		this.add(this.file);
 		this.file.add(this.open);
+		this.file.addSeparator();
+		this.file.add(this.openCurrentDir);
+		this.file.add(this.openCurrentDirDecrypt);
+		this.file.add(this.openCurrentDirEncrypt);
+		this.file.addSeparator();
 		this.file.add(this.changeOutputDir);
+		this.file.add(this.changeOutputDirToCurrent);
 		this.file.addSeparator();
 		this.file.add(this.openRPGDirExplorer);
 		this.file.add(this.openOutputDirExplorer);
@@ -349,6 +363,8 @@ class Menu extends JMenuBar {
 		} else
 			this.overwriteExistingFiles.setEnabled(false);
 
+		this.doClearOutputDir.setEnabled(!App.preferences.getConfig(Preferences.LAST_OUTPUT_DIR, "").equals("."));
+
 		if(Config.UPDATE_CHECK) {
 			if(Functions.strToBool(App.preferences.getConfig(Preferences.AUTO_CHECK_FOR_UPDATES, "true")))
 				this.checkForUpdates.setState(true);
@@ -364,47 +380,14 @@ class Menu extends JMenuBar {
 	 */
 	void assignActionListeners(GUI gui) {
 		// -- File
-		this.open.addActionListener(
-				e -> {
-					String openDir = App.preferences.getConfig(Preferences.LAST_RPG_DIR, ".");
-
-					if(! File.existsDir(openDir))
-						openDir = ".";
-
-					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
-					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					int choose = dirChooser.showDialog(gui.getMainWindow(), null);
-
-					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
-						App.preferences.setConfig(Preferences.LAST_RPG_DIR, dirChooser.getCurrentDirectory().getPath());
-
-						gui.openRPGProject(dirChooser.getSelectedFile().getPath(), true);
-					}
-				}
-		);
-		this.changeOutputDir.addActionListener(
-				e -> {
-					// Warn the user that the selected directory will be cleared
-					if(Boolean.parseBoolean(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")))
-						new InfoWindow("You have chosen, that the selected Directory will be cleared.\nBeware that this Program clear the selected Directory (Deletes all Files within)! Don't select directories where you have important Files or Sub-Directories in!\n\n(Or turn off the clearing under Options)", "Important Info about your Files").show(gui.getMainWindow());
-
-					String openDir = App.preferences.getConfig(Preferences.LAST_OUTPUT_PARENT_DIR, ".");
-
-					if(! File.existsDir(openDir))
-						openDir = ".";
-
-					UIManager.put("FileChooser.readOnly", Boolean.TRUE);
-					JDirectoryChooser dirChooser = new JDirectoryChooser(openDir);
-					int choose = dirChooser.showDialog(gui.getMainMenu(), null);
-
-					if(dirChooser.getSelectedFile() != null && choose == JDirectoryChooser.APPROVE_OPTION) {
-						App.preferences.setConfig(Preferences.LAST_OUTPUT_PARENT_DIR, dirChooser.getCurrentDirectory().getPath());
-						App.preferences.setConfig(Preferences.LAST_OUTPUT_DIR, dirChooser.getSelectedFile().getPath());
-						gui.setNewOutputDir(dirChooser.getSelectedFile().getPath());
-					}
-				}
-		);
+		this.open.addActionListener(ActionListener.selectRPGMDir(gui));
+		this.openCurrentDir.addActionListener(e -> { gui.openRPGProject(".", true);});
+		this.openCurrentDirDecrypt.addActionListener(e -> {gui.openRPGProjectDecrypt(".");});
+		this.openCurrentDirEncrypt.addActionListener(e -> {gui.openRPGProjectEncrypt(".");});
+		this.changeOutputDir.addActionListener(ActionListener.changeOutputDirectory(gui));
+		this.changeOutputDirToCurrent.addActionListener(ActionListener.changeOutputDirToCurrentDir(gui));
 		this.exit.addActionListener(ActionListener.closeMenu());
+
 		// -- Options
 		this.ignoreFakeHeader.addActionListener(ActionListener.switchSetting(Preferences.IGNORE_FAKE_HEADER));
 		this.loadInvalidRPGDirs.addActionListener(ActionListener.switchSetting(Preferences.LOAD_INVALID_RPG_DIRS));
@@ -414,6 +397,7 @@ class Menu extends JMenuBar {
 		);
 		this.overwriteExistingFiles.addActionListener(ActionListener.switchSetting(Preferences.OVERWRITE_FILES));
 		this.checkForUpdates.addActionListener(ActionListener.switchSetting(Preferences.AUTO_CHECK_FOR_UPDATES));
+
 		// -- Decrypt
 		this.setEncryptionKey.addActionListener(
 				e -> gui.assignDecryptKey()
@@ -424,6 +408,7 @@ class Menu extends JMenuBar {
 		this.resetHeaderToDefault.addActionListener(
 				e -> gui.resetHeaderValues()
 		);
+
 		// -- Encrypt
 		this.setEncryptionKeyE.addActionListener(
 				e -> gui.assignDecryptKey()
@@ -434,6 +419,7 @@ class Menu extends JMenuBar {
 		this.resetHeaderToDefaultE.addActionListener(
 				e -> gui.resetHeaderValues()
 		);
+
 		// -- Tools
 		// -- Info
 		this.updateProgram.addActionListener(

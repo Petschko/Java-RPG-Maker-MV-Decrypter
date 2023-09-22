@@ -387,6 +387,27 @@ public class File {
 	}
 
 	/**
+	 * Converts relative paths to absolute paths
+	 *
+	 * @param path - The may relative path
+	 * @return - Absolute Path
+	 */
+	public static String convertRelativePathToAbsolute(String path) throws IOException {
+		if(path == null)
+			return null;
+
+		if(path.length() == 0)
+			return path;
+
+		char firstDirChar = path.charAt(0);
+
+		if(firstDirChar != '.')
+			return path;
+
+		return new java.io.File(path).getCanonicalPath();
+	}
+
+	/**
 	 * Checks if a Directory exists
 	 *
 	 * @param path - Path of the Directory

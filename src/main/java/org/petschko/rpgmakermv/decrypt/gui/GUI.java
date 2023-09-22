@@ -212,6 +212,32 @@ public class GUI {
 	}
 
 	/**
+	 * Opens the RPG-MV-Project & Decrypts it
+	 *
+	 * @param currentDirectory - Current RPG-Maker Directory
+	 */
+	void openRPGProjectDecrypt(String currentDirectory) {
+		WorkerOpenRPGDir openRPG = new WorkerOpenRPGDir(this, currentDirectory, false);
+		openRPG.showImportantMessages = true;
+		openRPG.decryptWhenDone = true;
+		openRPG.closeProjectWhenDone = true;
+		openRPG.execute();
+	}
+
+	/**
+	 * Opens the RPG-MV-Project & Encrypts it
+	 *
+	 * @param currentDirectory - Current RPG-Maker Directory
+	 */
+	void openRPGProjectEncrypt(String currentDirectory) {
+		WorkerOpenRPGDir openRPG = new WorkerOpenRPGDir(this, currentDirectory, false);
+		openRPG.showImportantMessages = true;
+		openRPG.encryptWhenDone = true;
+		openRPG.closeProjectWhenDone = true;
+		openRPG.execute();
+	}
+
+	/**
 	 * Set the new Output dir & assign new ActionListeners
 	 *
 	 * @param newOutputDir - New Output-Directory
