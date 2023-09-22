@@ -14,6 +14,7 @@ import org.petschko.rpgmakermv.decrypt.RPG_Project;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.io.IOException;
 
 /**
  * @author Peter Dragicevic
@@ -22,6 +23,10 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	private GUI gui;
 	private String directoryPath;
 	private boolean showInfoWindow = false;
+	public boolean showImportantMessages = false;
+	public boolean decryptWhenDone = false;
+	public boolean encryptWhenDone = false;
+	public boolean closeProjectWhenDone = false;
 
 	/**
 	 * WorkerOpenRPGDir constructor
@@ -59,6 +64,8 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() {
 		try {
+			this.directoryPath = File.convertRelativePathToAbsolute(this.directoryPath);
+
 			gui.setRpgProject(
 				new RPG_Project(
 					File.ensureDSonEndOfPath(this.directoryPath),
@@ -105,8 +112,21 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 	protected void done() {
 		if(! this.isCancelled()) {
 			boolean keyFound = false;
+
+			// Set values for the GUI and the Decrypter
 			gui.setDecrypter(new Decrypter());
-			gui.getRpgProject().setOutputPath(App.outputDir);
+			try {
+				gui.getRpgProject().setOutputPath(File.convertRelativePathToAbsolute(App.outputDir));
+			} catch (IOException e) {
+				ErrorWindow errorWindow = new ErrorWindow(
+						"Cant convert the relative output Path to an absolute Path...",
+						ErrorWindow.ERROR_LEVEL_ERROR,
+						false
+				);
+				errorWindow.show(gui.getMainWindow());
+				gui.closeRPGProject();
+				return;
+			}
 			gui.getMainMenu().enableOnRPGProject(true, gui);
 			gui.getMainMenu().assignRPGActionListener(gui);
 
@@ -125,8 +145,8 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			gui.getMainWindow().pack();
 
 			// Done
-			if(this.showInfoWindow) {
-				if(keyFound) {
+			if(this.showInfoWindow || this.showImportantMessages) {
+				if(keyFound && this.showInfoWindow) {
 					InfoWindow infoWindow = new InfoWindow(
 							"RPG-Maker Project loaded..." + Const.NEW_LINE + Const.NEW_LINE +
 							"Please use one of these options:" + Const.NEW_LINE +
@@ -134,7 +154,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 							"- \"Decrypt\" -> \"Restore Images (No Key)\" for restoring."
 					);
 					infoWindow.show(gui.getMainWindow());
-				} else {
+				} else if(! keyFound) {
 					String text = "RPG-Maker Project loaded..." + Const.NEW_LINE + Const.NEW_LINE +
 							"Key not Found... You can set it manually under:" + Const.NEW_LINE +
 							"- \"Decrypt\" -> \"Set Encryption-Key...\" or " + Const.NEW_LINE +
@@ -181,6 +201,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 								);
 								errorWindow.show(gui.getMainWindow());
 							} else {
+								keyFound = true;
 								gui.projectInfo.setEncryptionKey(gui.getDecrypter().getDecryptCode());
 								gui.projectInfo.refresh();
 								gui.getMainMenu().disableOnNoKey(true, gui);
@@ -191,7 +212,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 								infoWindow.show(gui.getMainWindow());
 							}
 						}
-					} else {
+					} else if(this.showInfoWindow || this.showImportantMessages) {
 						ErrorWindow errorWindow = new ErrorWindow(
 								text,
 								ErrorWindow.ERROR_LEVEL_WARNING,
@@ -201,7 +222,15 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 					}
 				}
 			}
+
+			// Check if there are more jobs to run
+			if(keyFound)
+				runEndJobs();
 		}
+
+		// Close Project if its set
+		if(this.closeProjectWhenDone)
+			gui.closeRPGProject();
 	}
 
 	/**
@@ -222,5 +251,27 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 		gui.projectFilesPanel.add(new JScrollPane(gui.fileList), BorderLayout.CENTER);
 		gui.projectFilesPanel.validate();
 		gui.projectFilesPanel.setVisible(true);
+	}
+
+	/**
+	 * Runs all end jobs like encryption or decryption
+	 */
+	private void runEndJobs() {
+		if(this.decryptWhenDone) {
+			WorkerDecryption decryptWorker = new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles());
+			decryptWorker.alternateOutPutDir = this.directoryPath;
+			decryptWorker.closeProjectWhenDone = true;
+			decryptWorker.ignoreClearing = true;
+			decryptWorker.execute();
+		} else if(this.encryptWhenDone) {
+			// todo
+
+			// remove when encryption function is here
+			gui.closeRPGProject();
+		}
+
+		// Ensure the project will only be closed after these jobs are done
+		if(this.decryptWhenDone || this.encryptWhenDone)
+			this.closeProjectWhenDone = false;
 	}
 }

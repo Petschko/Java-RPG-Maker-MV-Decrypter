@@ -24,6 +24,9 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 	private ArrayList<File> files;
 	private ProgressMonitor progressMonitor;
 	private boolean restoreImages = false;
+	public boolean closeProjectWhenDone = false;
+	public boolean ignoreClearing = false;
+	public String alternateOutPutDir = null;
 
 	/**
 	 * WorkerDecryption constructor
@@ -34,6 +37,8 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 	WorkerDecryption(GUI gui, ArrayList<File> files) {
 		this.gui = gui;
 		this.files = files;
+
+		this.init();
 	}
 
 	/**
@@ -47,6 +52,13 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 		this.gui = gui;
 		this.files = files;
 		this.restoreImages = restoreImages;
+
+		this.init();
+	}
+
+	private void init() {
+		this.progressMonitor = new ProgressMonitor(gui.getMainWindow(), this.restoreImages ? "Restoring..." : "Decrypting...", "Preparing...", 0, this.files.size());
+		this.progressMonitor.setProgress(0);
 	}
 
 	/**
@@ -84,10 +96,19 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 			return null;
 		}
 
-		// Clear Output-Dir if checked
-		if(Functions.strToBool(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true"))) {
-			this.progressMonitor.setNote("Clearing Output-Directory...");
-			File.clearDirectory(App.outputDir);
+		// Set Alternative output dir
+		if(this.alternateOutPutDir != null)
+			gui.getRpgProject().setOutputPath(this.alternateOutPutDir);
+
+		// Clear Output-Dir if checked but only if not alternate output dir or current dir
+		if(!App.outputDir.equals(".") && this.alternateOutPutDir == null) {
+			if(
+				Functions.strToBool(App.preferences.getConfig(Preferences.CLEAR_OUTPUT_DIR_BEFORE_DECRYPT, "true")) &&
+				! this.ignoreClearing
+			) {
+				this.progressMonitor.setNote("Clearing Output-Directory...");
+				File.clearDirectory(App.outputDir);
+			}
 		}
 
 		// Setup Decrypter
@@ -189,7 +210,11 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 		this.progressMonitor.close();
 
 		// Reset Files/ActionListener
-		gui.openRPGProject(gui.getRpgProject().getPath(), false);
+		if(this.closeProjectWhenDone) {
+			gui.closeRPGProject();
+		} else {
+			gui.openRPGProject(gui.getRpgProject().getPath(), false);
+		}
 
 		if(this.isCancelled()) {
 			System.out.println("Cancelled...");
@@ -221,9 +246,6 @@ class WorkerDecryption extends SwingWorker<Void, Void> implements ActionListener
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.progressMonitor = new ProgressMonitor(gui.getMainWindow(), this.restoreImages ? "Restoring..." : "Decrypting...", "Preparing...", 0, this.files.size());
-		this.progressMonitor.setProgress(0);
-
 		this.execute();
 	}
 }
