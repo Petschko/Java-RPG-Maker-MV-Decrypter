@@ -252,6 +252,23 @@ public class RPG_Project {
 	}
 
 	/**
+	 * Returns Encrypted Images only
+	 *
+	 * @return - File List
+	 */
+	public ArrayList<File> getEncryptedImages() {
+		ArrayList<File> fileList = new ArrayList<>();
+
+		for (File file : this.getEncryptedFiles()) {
+			if(file.isImage() && file.isFileEncryptedExt()) {
+				fileList.add(file);
+			}
+		}
+
+		return fileList;
+	}
+
+	/**
 	 * Returns the Resource-File List
 	 *
 	 * @return - Resource-File List

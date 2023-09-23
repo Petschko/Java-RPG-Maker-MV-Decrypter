@@ -450,7 +450,7 @@ class Menu extends JMenuBar {
 		);
 
 		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));
-		this.restoreImages.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles(), true));
+		this.restoreImages.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedImages(), true));
 	}
 
 	/**
