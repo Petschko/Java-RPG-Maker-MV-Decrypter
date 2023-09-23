@@ -292,7 +292,7 @@ public class Decrypter {
 	 * @param rpgMakerMv - Encrypt as RPG-Maker-MV File
 	 * @throws Exception - Various Exceptions
 	 */
-	void encryptFile(File file, boolean rpgMakerMv) throws Exception {
+	public void encryptFile(File file, boolean rpgMakerMv) throws Exception {
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
