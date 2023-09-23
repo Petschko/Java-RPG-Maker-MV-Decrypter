@@ -52,10 +52,8 @@ public class RPG_Project {
 		if(this.getSystem() != null)
 			this.checkIfEncrypted();
 
-		if(this.isEncrypted())
-			this.findEncryptedFiles();
-		else
-			this.findResourceFiles();
+		this.findEncryptedFiles();
+		this.findResourceFiles();
 	}
 
 	/**
