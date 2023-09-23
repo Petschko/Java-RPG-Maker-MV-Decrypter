@@ -286,6 +286,22 @@ public class Decrypter {
 	}
 
 	/**
+	 * Adds the RPG-MV/MZ File-Header to the content
+	 *
+	 * @param content - Content where the header should be added
+	 * @return - Header before content
+	 */
+	private byte[] addFileHeader(byte[] content) {
+		byte[] header = this.getRpgHeaderBytes();
+
+		ByteBuffer buffer = ByteBuffer.wrap(new byte[header.length + content.length]);
+		buffer.put(header);
+		buffer.put(content);
+
+		return buffer.array();
+	}
+
+	/**
 	 * (Re-)Encrypts the File and adds the File-Header
 	 *
 	 * @param file - File which should be encrypted
@@ -293,6 +309,9 @@ public class Decrypter {
 	 * @throws Exception - Various Exceptions
 	 */
 	public void encryptFile(File file, boolean rpgMakerMv) throws Exception {
+		if(! file.canBeEncrypted())
+			return;
+
 		try {
 			if(! file.load())
 				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
@@ -323,22 +342,6 @@ public class Decrypter {
 		// Add header and update File-Content
 		file.setContent(this.addFileHeader(content));
 		file.changeExtension(file.fakeExtByRealExt(rpgMakerMv));
-	}
-
-	/**
-	 * Adds the RPG-MV/MZ File-Header to the content
-	 *
-	 * @param content - Content where the header should be added
-	 * @return - Header before content
-	 */
-	private byte[] addFileHeader(byte[] content) {
-		byte[] header = this.getRpgHeaderBytes();
-
-		ByteBuffer buffer = ByteBuffer.wrap(new byte[header.length + content.length]);
-		buffer.put(header);
-		buffer.put(content);
-
-		return buffer.array();
 	}
 
 	/**
