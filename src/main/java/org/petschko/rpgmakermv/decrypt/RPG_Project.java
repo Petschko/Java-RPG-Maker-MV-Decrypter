@@ -17,6 +17,8 @@ public class RPG_Project {
 	private File projectFile = null;
 	private File encryptedImgFile = null;
 	private String encryptionKeyName = "encryptionKey";
+	private String isEncryptedImagesName = "hasEncryptedImages";
+	private String isEncryptedAudioName = "hasEncryptedAudio";
 	private boolean isEncrypted = true;
 	private boolean isMV = true;
 	private ArrayList<File> files = new ArrayList<>();
@@ -171,6 +173,24 @@ public class RPG_Project {
 	}
 
 	/**
+	 * Get the IsEncryptedImages Name
+	 *
+	 * @return - IsEncryptedImages Name
+	 */
+	private String getIsEncryptedImagesName() {
+		return isEncryptedImagesName;
+	}
+
+	/**
+	 * Get the IsEncryptedAudio Name
+	 *
+	 * @return - IsEncryptedAudio Name
+	 */
+	private String getIsEncryptedAudioName() {
+		return isEncryptedAudioName;
+	}
+
+	/**
 	 * Set the EncryptionKeyName to the Default-Value
 	 */
 	void setEncryptionKeyNameToDefault() {
@@ -281,6 +301,16 @@ public class RPG_Project {
 				this.setEncrypted(true);
 			}
 		}
+
+		// Ensure if the Game is encrypted or not (sometimes the key still exists even if the game isn't encrypted anymore)
+		try {
+			d.detectHasEncryptedAudio(this.getSystem(), this.getIsEncryptedAudioName());
+			d.detectHasEncryptedImages(this.getSystem(), this.getIsEncryptedImagesName());
+		} catch(Exception ex) {
+			// VOID
+		}
+
+		this.setEncrypted(d.isHasEncryptedAudio() || d.isHasEncryptedImages());
 	}
 
 	/**

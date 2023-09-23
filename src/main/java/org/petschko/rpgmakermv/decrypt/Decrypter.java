@@ -23,6 +23,8 @@ public class Decrypter {
 	private static byte[] pngHeaderBytes = null;
 
 	private String decryptCode = null;
+	private boolean hasEncryptedAudio = false;
+	private boolean hasEncryptedImages = false;
 	private String[] realDecryptCode = null;
 	private byte[] rpgHeaderBytes = null;
 	private int headerLen;
@@ -64,6 +66,42 @@ public class Decrypter {
 	 */
 	public void setDecryptCode(String decryptCode) {
 		this.decryptCode = decryptCode;
+	}
+
+	/**
+	 * Returns if it has encrypted Audio
+	 *
+	 * @return - Has encrypted Audio
+	 */
+	boolean isHasEncryptedAudio() {
+		return hasEncryptedAudio;
+	}
+
+	/**
+	 * Set if it has encrypted Audio
+	 *
+	 * @param hasEncryptedAudio - Has encrypted Audio
+	 */
+	private void setHasEncryptedAudio(boolean hasEncryptedAudio) {
+		this.hasEncryptedAudio = hasEncryptedAudio;
+	}
+
+	/**
+	 * Returns if it has encrypted Images
+	 *
+	 * @return - Has encrypted Images
+	 */
+	boolean isHasEncryptedImages() {
+		return hasEncryptedImages;
+	}
+
+	/**
+	 * Set if it has encrypted Images
+	 *
+	 * @param hasEncryptedImages - Has encrypted Images
+	 */
+	private void setHasEncryptedImages(boolean hasEncryptedImages) {
+		this.hasEncryptedImages = hasEncryptedImages;
 	}
 
 	/**
@@ -384,33 +422,59 @@ public class Decrypter {
 	 * @throws NullPointerException - System-File is null
 	 */
 	public void detectEncryptionKeyFromJson(File file, String keyName) throws JSONException, NullPointerException {
-		try {
-			if(! file.load())
-				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
-		} catch(NullPointerException nullEx) {
-			throw new NullPointerException("System-File is not set!");
-		} catch(Exception e) {
-			e.printStackTrace();
-
-			return;
-		}
-
 		JSONObject jsonObj;
-		String key;
-
 		try {
-			String fileContentAsString = new String(file.getContent(), StandardCharsets.UTF_8);
-			jsonObj = new JSONObject(fileContentAsString);
-		} catch(Exception e) {
-			e.printStackTrace();
-
-			return;
+			jsonObj = this.loadJson(file);
+		} catch (NullPointerException nullEx) {
+			throw new NullPointerException(nullEx.getMessage());
 		}
 
-		key = jsonObj.getString(keyName);
+		if(jsonObj != null) {
+			String key = jsonObj.getString(keyName);
 
-		App.showMessage("Key found :)!", CMD.STATUS_OK);
-		this.setDecryptCode(key);
+			App.showMessage("Key found :)!", CMD.STATUS_OK);
+			this.setDecryptCode(key);
+		}
+	}
+
+	/**
+	 * Detect if the Game has Encrypted Audio from the given Json-File
+	 *
+	 * @param file - JSON-File with HasEncryptedAudio Information
+	 * @param keyName - Key-Name of the HasEncryptedAudio Information
+	 * @throws JSONException - HasEncryptedAudio-Key not Found Exception
+	 * @throws NullPointerException - System-File is null
+	 */
+	void detectHasEncryptedAudio(File file, String keyName) throws JSONException, NullPointerException {
+		JSONObject jsonObj;
+		try {
+			jsonObj = this.loadJson(file);
+		} catch (NullPointerException nullEx) {
+			throw new NullPointerException(nullEx.getMessage());
+		}
+
+		if(jsonObj != null)
+			this.setHasEncryptedAudio(jsonObj.getBoolean(keyName));
+	}
+
+	/**
+	 * Detect if the Game has Encrypted Images from the given Json-File
+	 *
+	 * @param file - JSON-File with HasEncryptedImages Information
+	 * @param keyName - Key-Name of the HasEncryptedImages Information
+	 * @throws JSONException - HasEncryptedImages-Key not Found Exception
+	 * @throws NullPointerException - System-File is null
+	 */
+	void detectHasEncryptedImages(File file, String keyName) throws JSONException, NullPointerException {
+		JSONObject jsonObj;
+		try {
+			jsonObj = this.loadJson(file);
+		} catch (NullPointerException nullEx) {
+			throw new NullPointerException(nullEx.getMessage());
+		}
+
+		if(jsonObj != null)
+			this.setHasEncryptedImages(jsonObj.getBoolean(keyName));
 	}
 
 	/**
@@ -458,6 +522,38 @@ public class Decrypter {
 
 		App.showMessage("Key found :) - Inside Image!", CMD.STATUS_OK);
 		this.setDecryptCode(bytesToHex(keyBytes));
+	}
+
+	/**
+	 * Loads a Json-File to a Json Object
+	 *
+	 * @param file - Json-File
+	 * @return - Json Object or null
+	 * @throws NullPointerException - File not found
+	 */
+	private JSONObject loadJson(File file) throws NullPointerException {
+		try {
+			if(! file.load())
+				throw new FileSystemException(file.getFilePath(), "", "Can't load File-Content...");
+		} catch(NullPointerException nullEx) {
+			throw new NullPointerException("Json-File is not set!");
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return null;
+		}
+
+		JSONObject jsonObj;
+		try {
+			String fileContentAsString = new String(file.getContent(), StandardCharsets.UTF_8);
+			jsonObj = new JSONObject(fileContentAsString);
+		} catch(Exception e) {
+			e.printStackTrace();
+
+			return null;
+		}
+
+		return jsonObj;
 	}
 
 	/**
