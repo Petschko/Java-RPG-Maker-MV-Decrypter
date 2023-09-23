@@ -349,7 +349,10 @@ public class Decrypter {
 	 * @throws Exception - Various Exceptions
 	 */
 	public void decryptFile(File file, boolean restorePictures) throws Exception {
-		if(restorePictures && (! file.isImage() || ! file.isFileEncryptedExt()))
+		if(restorePictures && ! file.isImage())
+			return;
+
+		if(! file.isFileEncryptedExt())
 			return;
 
 		try {
