@@ -88,6 +88,7 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			this.cancel(true);
 			return null;
 		} catch(Exception e) {
+			e.printStackTrace(System.out);
 			ErrorWindow errorWindow = new ErrorWindow(e.getMessage(), ErrorWindow.ERROR_LEVEL_ERROR, false);
 			errorWindow.show(gui.getMainWindow());
 
