@@ -275,9 +275,9 @@ class Menu extends JMenuBar {
 		this.setEncryptionKey.setEnabled(hasEncryptedFiles || hasResourceFiles);
 		this.changeDecrypterSignature.setEnabled(hasEncryptedFiles || hasResourceFiles);
 
-		//this.encrypt.setEnabled(hasResourceFiles);
-		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
-		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		this.encrypt.setEnabled(hasResourceFiles);
+		this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
 		//this.setEncryptionFileE.setEnabled(hasEncryptedFiles || hasResourceFiles);
@@ -305,8 +305,8 @@ class Menu extends JMenuBar {
 		//this.selectedFiles.setEnabled(hasEncryptedFiles);
 		this.allFiles.setEnabled(hasEncryptedFiles);
 
-		//this.encryptAllFilesMV.setEnabled(hasResourceFiles);
-		//this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
+		this.encryptAllFilesMV.setEnabled(hasResourceFiles);
+		this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
 
@@ -320,7 +320,8 @@ class Menu extends JMenuBar {
 	private void disableUnimplemented() {
 		this.selectedFiles.setEnabled(false);
 		this.setEncryptionFile.setEnabled(false);
-		this.encrypt.setEnabled(false);
+		this.encryptSelectedFilesMV.setEnabled(false);
+		this.encryptSelectedFilesMZ.setEnabled(false);
 		this.detectKeyFromEncryptedImg.setEnabled(false);
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
@@ -442,6 +443,8 @@ class Menu extends JMenuBar {
 		Functions.buttonRemoveAllActionListeners(this.closeRPGProject);
 		Functions.buttonRemoveAllActionListeners(this.allFiles);
 		Functions.buttonRemoveAllActionListeners(this.restoreImages);
+		Functions.buttonRemoveAllActionListeners(this.encryptAllFilesMV);
+		Functions.buttonRemoveAllActionListeners(this.encryptAllFilesMZ);
 
 		// Add new ActionListener
 		this.openRPGDirExplorer.addActionListener(ActionListener.openExplorer(gui.getRpgProject().getPath()));
@@ -449,8 +452,15 @@ class Menu extends JMenuBar {
 				e -> gui.closeRPGProject()
 		);
 
+		// Decryption
 		this.allFiles.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedFiles()));
 		this.restoreImages.addActionListener(new WorkerDecryption(gui, gui.getRpgProject().getEncryptedImages(), true));
+
+		// Encryption
+		WorkerEncryption encryptToMz = new WorkerEncryption(gui, gui.getRpgProject().getResourceFiles());
+		encryptToMz.toMv = false;
+		this.encryptAllFilesMV.addActionListener(new WorkerEncryption(gui, gui.getRpgProject().getResourceFiles()));
+		this.encryptAllFilesMZ.addActionListener(encryptToMz);
 	}
 
 	/**
