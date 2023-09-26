@@ -54,7 +54,7 @@ class Decrypt implements I_CMD {
 		if(args.length >= 5)
 			ignoreFakeHeader = Boolean.parseBoolean(args[4]);
 		if(args.length >= 6) {
-			if(! args[5].toLowerCase().equals("auto")) {
+			if(! args[5].equalsIgnoreCase("auto")) {
 				key = args[5].toLowerCase();
 			}
 		}
