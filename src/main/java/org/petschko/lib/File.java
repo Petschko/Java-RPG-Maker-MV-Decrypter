@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -593,9 +596,18 @@ public class File {
 	/**
 	 * Shows if this file can be encrypted
 	 *
+	 * @param rpgPath - RPG-Path or null of not want to check excluded files
 	 * @return - Can file be encrypted
 	 */
-	public boolean canBeEncrypted() {
+	public boolean canBeEncrypted(String rpgPath) {
+		if(this.extension == null) {
+			return false;
+		}
+
+		if(rpgPath != null)
+			if(this.isEncryptionExcluded(rpgPath))
+				return false;
+
 		switch(this.extension) {
 			case "png":
 			case "m4a":
@@ -686,5 +698,49 @@ public class File {
 			default:
 				return false;
 		}
+	}
+
+	/**
+	 * Checks if this File is excluded from Encryption
+	 *
+	 * @param rpgPath - RPG-Project Path
+	 * @return - File is excluded from encryption
+	 */
+	private boolean isEncryptionExcluded(String rpgPath) {
+		if(this.isFileEncryptedExt())
+			return true;
+
+		String[] excludedFilePaths = {
+			rpgPath + "www" + Const.DS + "img" + Const.DS + "system" + Const.DS + "Loading.png",
+			rpgPath + "www" + Const.DS + "img" + Const.DS + "system" + Const.DS + "Window.png",
+			rpgPath + "www" + Const.DS + "icon" + Const.DS + "icon.png"
+		};
+
+		for (String excludedPath : excludedFilePaths) {
+			if(this.pathEndsWith(excludedPath))
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if this current File-Path Ends with the searched path
+	 *
+	 * @param endsWith - Path to look if this File ends with
+	 * @return - File ends with the path
+	 */
+	private boolean pathEndsWith(String endsWith) {
+		Path currentPath = Paths.get(this.getFilePath());
+		Path endsWithPath = Paths.get(endsWith);
+
+		try {
+			if (Files.isSameFile(currentPath, endsWithPath))
+				return true;
+		} catch(Exception e) {
+			return false;
+		}
+
+		return false;
 	}
 }
