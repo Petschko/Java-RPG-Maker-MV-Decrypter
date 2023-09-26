@@ -151,10 +151,10 @@ class Menu extends JMenuBar {
 		this.encryptAllFilesMV = new JMenuItem("All Files (to MV)");
 		this.encryptSelectedFilesMZ = new JMenuItem("Selected Files (to MZ)");
 		this.encryptAllFilesMZ = new JMenuItem("All Files (to MZ)");
-		this.setEncryptionKeyE = new JMenuItem(this.setEncryptionKey.getName());
-		this.setEncryptionFileE = new JMenuItem(this.setEncryptionFile.getName());
-		this.changeDecrypterSignatureE = new JMenuItem(this.changeDecrypterSignature.getName());
-		this.resetHeaderToDefaultE = new JMenuItem(this.resetHeaderToDefault.getName());
+		this.setEncryptionKeyE = new JMenuItem(this.setEncryptionKey.getText());
+		this.setEncryptionFileE = new JMenuItem(this.setEncryptionFile.getText());
+		this.changeDecrypterSignatureE = new JMenuItem(this.changeDecrypterSignature.getText());
+		this.resetHeaderToDefaultE = new JMenuItem(this.resetHeaderToDefault.getText());
 	}
 
 	/**
@@ -228,8 +228,8 @@ class Menu extends JMenuBar {
 		this.encrypt.add(this.encryptSelectedFilesMZ);
 		this.encrypt.add(this.encryptAllFilesMZ);
 		this.encrypt.addSeparator();
-		this.encrypt.add(this.setEncryptionKeyE);
 		this.encrypt.add(this.setEncryptionFileE);
+		this.encrypt.add(this.setEncryptionKeyE);
 		this.encrypt.add(this.changeDecrypterSignatureE);
 		this.encrypt.add(this.resetHeaderToDefaultE);
 
