@@ -20,6 +20,9 @@ import java.io.IOException;
  * @author Peter Dragicevic
  */
 class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
+	private static final int TO_MZ = 0;
+	private static final int TO_MV = 1;
+
 	private GUI gui;
 	private String directoryPath;
 	private boolean showInfoWindow = false;
@@ -262,16 +265,55 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 			decryptWorker.alternateOutPutDir = this.directoryPath;
 			decryptWorker.closeProjectWhenDone = true;
 			decryptWorker.ignoreClearing = true;
+
 			decryptWorker.execute();
 		} else if(this.encryptWhenDone) {
-			// todo
+			WorkerEncryption encryptWorker = new WorkerEncryption(gui, gui.getRpgProject().getResourceFiles());
+			encryptWorker.alternateOutPutDir = this.directoryPath;
+			encryptWorker.closeProjectWhenDone = true;
+			encryptWorker.ignoreClearing = true;
 
-			// remove when encryption function is here
-			gui.closeRPGProject();
+			// Ask if MV or MZ
+			switch(this.dialogMvOrMZ()) {
+				case TO_MZ:
+					encryptWorker.toMv = false;
+					break;
+				case TO_MV:
+					encryptWorker.toMv = true;
+					break;
+				default:
+					gui.closeRPGProject();
+					return;
+			}
+
+			encryptWorker.execute();
 		}
 
 		// Ensure the project will only be closed after these jobs are done
 		if(this.decryptWhenDone || this.encryptWhenDone)
 			this.closeProjectWhenDone = false;
+	}
+
+	/**
+	 * Asks if the Encryption should be for RPG-Maker MV or MZ
+	 *
+	 * @return - Answer
+	 */
+	private int dialogMvOrMZ() {
+		Object[] options = {
+			"MZ",
+			"MV",
+			"Cancel"
+		};
+		return JOptionPane.showOptionDialog(
+				gui.getMainWindow(),
+				"Do you want to encrypt to RPG-Maker MZ or MV?",
+				"Encrypt to...?",
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[1]
+		);
 	}
 }
