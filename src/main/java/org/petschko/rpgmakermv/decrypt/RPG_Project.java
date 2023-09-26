@@ -362,7 +362,7 @@ public class RPG_Project {
 	 */
 	private void findResourceFiles() {
 		for(File file : this.getFiles()) {
-			if(file.canBeEncrypted())
+			if(file.canBeEncrypted(this.getPath()))
 				this.getResourceFiles().add(file);
 		}
 	}
@@ -408,15 +408,17 @@ public class RPG_Project {
 
 		for(int i = 0; i < this.getResourceFiles().size(); i++) {
 			File currentFile = this.getResourceFiles().get(i);
+			boolean encrypted = false;
 
 			try {
 				App.showMessage("Encrypting: " + currentFile.getFilePath());
 
-				encrypter.encryptFile(currentFile, this.isMV());
+				encrypted = encrypter.encryptFile(currentFile, this.getPath(), this.isMV());
 			} catch(Exception e) {
 				e.printStackTrace();
 			} finally {
-				this.saveFile(currentFile);
+				if(encrypted)
+					this.saveFile(currentFile);
 			}
 		}
 	}

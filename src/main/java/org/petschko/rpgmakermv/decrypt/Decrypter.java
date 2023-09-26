@@ -305,12 +305,14 @@ public class Decrypter {
 	 * (Re-)Encrypts the File and adds the File-Header
 	 *
 	 * @param file - File which should be encrypted
+	 * @param rpgPath - RPG-Maker Project Path
 	 * @param rpgMakerMv - Encrypt as RPG-Maker-MV File
+	 * @return - Was file encrypted
 	 * @throws Exception - Various Exceptions
 	 */
-	public void encryptFile(File file, boolean rpgMakerMv) throws Exception {
-		if(! file.canBeEncrypted())
-			return;
+	public boolean encryptFile(File file, String rpgPath, boolean rpgMakerMv) throws Exception {
+		if(! file.canBeEncrypted(rpgPath))
+			return false;
 
 		try {
 			if(! file.load())
@@ -318,7 +320,7 @@ public class Decrypter {
 		} catch(Exception e) {
 			e.printStackTrace();
 
-			return;
+			return false;
 		}
 
 		// Check if all required external stuff is here
@@ -342,6 +344,8 @@ public class Decrypter {
 		// Add header and update File-Content
 		file.setContent(this.addFileHeader(content));
 		file.changeExtension(file.fakeExtByRealExt(rpgMakerMv));
+
+		return true;
 	}
 
 	/**
