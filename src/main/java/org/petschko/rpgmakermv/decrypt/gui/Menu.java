@@ -271,7 +271,7 @@ class Menu extends JMenuBar {
 		//this.selectedFiles.setEnabled(hasEncryptedFiles);
 		this.allFiles.setEnabled(hasEncryptedFiles);
 		this.restoreImages.setEnabled(hasEncryptedFiles);
-		//this.setEncryptionFile.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionFile.setEnabled(hasEncryptedFiles);
 		this.setEncryptionKey.setEnabled(hasEncryptedFiles || hasResourceFiles);
 		this.changeDecrypterSignature.setEnabled(hasEncryptedFiles || hasResourceFiles);
 
@@ -280,11 +280,11 @@ class Menu extends JMenuBar {
 		this.encryptAllFilesMZ.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMV.setEnabled(hasResourceFiles);
 		//this.encryptSelectedFilesMZ.setEnabled(hasResourceFiles);
-		//this.setEncryptionFileE.setEnabled(hasEncryptedFiles || hasResourceFiles);
+		this.setEncryptionFileE.setEnabled(hasEncryptedFiles);
 		this.setEncryptionKeyE.setEnabled(hasEncryptedFiles || hasResourceFiles);
 		this.changeDecrypterSignatureE.setEnabled(hasEncryptedFiles || hasResourceFiles);
 
-		//this.detectKeyFromEncryptedImg.setEnabled(enable);
+		this.detectKeyFromEncryptedImg.setEnabled(hasEncryptedFiles);
 		//this.restoreProjectMV.setEnabled(enable);
 		//this.restoreProjectMZ.setEnabled(enable);
 	}
@@ -319,10 +319,8 @@ class Menu extends JMenuBar {
 	 */
 	private void disableUnimplemented() {
 		this.selectedFiles.setEnabled(false);
-		this.setEncryptionFile.setEnabled(false);
 		this.encryptSelectedFilesMV.setEnabled(false);
 		this.encryptSelectedFilesMZ.setEnabled(false);
-		this.detectKeyFromEncryptedImg.setEnabled(false);
 		this.restoreProjectMV.setEnabled(false);
 		this.restoreProjectMZ.setEnabled(false);
 		this.help.setEnabled(false);
@@ -403,6 +401,7 @@ class Menu extends JMenuBar {
 		this.setEncryptionKey.addActionListener(
 				e -> gui.assignDecryptKey()
 		);
+		this.setEncryptionFile.addActionListener(ActionListener.detectKeyFromImage(gui));
 		this.changeDecrypterSignature.addActionListener(
 				e -> gui.changeHeaderSignature()
 		);
@@ -414,6 +413,7 @@ class Menu extends JMenuBar {
 		this.setEncryptionKeyE.addActionListener(
 				e -> gui.assignDecryptKey()
 		);
+		this.setEncryptionFileE.addActionListener(ActionListener.detectKeyFromImage(gui));
 		this.changeDecrypterSignatureE.addActionListener(
 				e -> gui.changeHeaderSignature()
 		);
@@ -422,6 +422,7 @@ class Menu extends JMenuBar {
 		);
 
 		// -- Tools
+		this.detectKeyFromEncryptedImg.addActionListener(ActionListener.detectKeyFromImage(gui));
 		// -- Info
 		this.updateProgram.addActionListener(
 				e -> new Update(gui)

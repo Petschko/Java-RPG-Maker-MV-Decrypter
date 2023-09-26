@@ -8,8 +8,10 @@ import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.App;
 import org.petschko.rpgmakermv.decrypt.Preferences;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.Desktop;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -191,6 +193,62 @@ class ActionListener {
 			App.preferences.setConfig(Preferences.LAST_OUTPUT_DIR, newDir);
 			gui.setNewOutputDir(newDir);
 			gui.getMainMenu().doClearOutputDir.setEnabled(false);
+		};
+	}
+
+	/**
+	 * Opens a File-Chooser and detects the Key from an Encrypted Image
+	 *
+	 * @param gui - Main GUI Object
+	 * @return - File-Chooser and detection from Image
+	 */
+	static java.awt.event.ActionListener detectKeyFromImage(GUI gui) {
+		return e -> {
+			String openDir = gui.getRpgProject().getPath();
+
+			if(! File.existsDir(openDir))
+				openDir = ".";
+
+			// Add settings to File-Chooser
+			UIManager.put("FileChooser.readOnly", Boolean.TRUE);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Encrypted RPG Pictures", "rpgmvp", "png_");
+			JFileChooser fileChooser = new JFileChooser(openDir);
+			fileChooser.setFileFilter(filter);
+
+			int choose = fileChooser.showDialog(gui.getMainWindow(), null);
+
+			if(fileChooser.getSelectedFile() != null && choose == JFileChooser.APPROVE_OPTION) {
+				File file;
+				try {
+					file = new File(fileChooser.getSelectedFile().getPath());
+				} catch (Exception ex) {
+					ErrorWindow errorWindow = new ErrorWindow(
+						"Could not  load the selected File...",
+						ErrorWindow.ERROR_LEVEL_ERROR,
+						false,
+						ex
+					);
+					errorWindow.show(gui.getMainWindow());
+
+					return;
+				}
+
+				try {
+					gui.getDecrypter().detectEncryptionKeyFromImage(file);
+				} catch (Exception ex) {
+					ErrorWindow errorWindow = new ErrorWindow(
+						"Could not find the Key from the selected File...",
+						ErrorWindow.ERROR_LEVEL_ERROR,
+						false,
+						ex
+					);
+					errorWindow.show(gui.getMainWindow());
+					return;
+				}
+
+				// If found update the values and show it to the user
+				gui.setExtractedKey();
+			}
 		};
 	}
 }

@@ -197,24 +197,10 @@ class WorkerOpenRPGDir extends SwingWorker<Void, Void> {
 								return;
 							}
 
-							if(gui.getDecrypter().getDecryptCode() == null) {
-								ErrorWindow errorWindow = new ErrorWindow(
-										"No Key found!...",
-										ErrorWindow.ERROR_LEVEL_ERROR,
-										false
-								);
-								errorWindow.show(gui.getMainWindow());
-							} else {
+							if(gui.getDecrypter().getDecryptCode() != null)
 								keyFound = true;
-								gui.projectInfo.setEncryptionKey(gui.getDecrypter().getDecryptCode());
-								gui.projectInfo.refresh();
-								gui.getMainMenu().disableOnNoKey(true, gui);
 
-								InfoWindow infoWindow = new InfoWindow(
-										"Key extracted! It may results in wrong en/decryption..."
-								);
-								infoWindow.show(gui.getMainWindow());
-							}
+							gui.setExtractedKey();
 						}
 					} else if(this.showInfoWindow || this.showImportantMessages) {
 						ErrorWindow errorWindow = new ErrorWindow(

@@ -6,6 +6,7 @@ import org.petschko.lib.Functions;
 import org.petschko.lib.exceptions.PathException;
 import org.petschko.lib.gui.*;
 import org.petschko.lib.gui.notification.ErrorWindow;
+import org.petschko.lib.gui.notification.InfoWindow;
 import org.petschko.rpgmakermv.decrypt.*;
 
 import javax.swing.*;
@@ -384,5 +385,31 @@ public class GUI {
 
 		mainMenu.resetHeaderToDefault.setEnabled(false);
 		mainMenu.resetHeaderToDefaultE.setEnabled(false);
+	}
+
+	/**
+	 * Sets the Extracted key, refreshes the displayed value and enables certain features
+	 */
+	void setExtractedKey() {
+		if(this.getDecrypter().getDecryptCode() == null) {
+			ErrorWindow errorWindow = new ErrorWindow(
+					"No Key found!...",
+					ErrorWindow.ERROR_LEVEL_ERROR,
+					false
+			);
+			errorWindow.show(this.getMainWindow());
+
+			return;
+		}
+
+		this.projectInfo.setEncryptionKey(this.getDecrypter().getDecryptCode());
+		this.projectInfo.refresh();
+		this.getMainMenu().disableOnNoKey(true, this);
+
+		InfoWindow infoWindow = new InfoWindow(
+			"Key extracted! It may results in wrong en/decryption..."
+		);
+
+		infoWindow.show(this.getMainWindow());
 	}
 }
