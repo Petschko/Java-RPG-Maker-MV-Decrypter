@@ -13,15 +13,15 @@ You can decrypt the Build-In-Encrypted Files from the RPG Maker MV or MZ. They u
 - Any OS (Linux, Windows, IOS etc)
 
 ## Installation
-- [Download this ZIP (!!Alpha!!) - Version: 0.4.1](https://petschko.org/upload/projects/java-rpg-maker-decrypter/RPG_Maker_MV_Decrypter_jar_0.4.1.zip) or Clone/Download the Project and make yourself a JAR-File
+- [Download this ZIP (!!Alpha!!) - Version: 0.4.2](https://petschko.org/upload/projects/java-rpg-maker-decrypter/RPG_Maker_MV_Decrypter_jar_0.4.2.zip) or Clone/Download the Project and make yourself a JAR-File
 - Put it where ever you want (Don't forget to extract, if you downloaded the ZIP xP)
 
 ### Dependencies (Only needed when creating yourself a JAR)
-- [org.json](https://github.com/douglascrockford/JSON-java) ([20180813](https://mvnrepository.com/artifact/org.json/json/20180813))
+- [org.json](https://github.com/douglascrockford/JSON-java)
 
 ## How to use
 ### (Normal) With Graphical interface
-- Just double click on the JAR then the Program should start *(If not try the BAT-File - Windows only)*
+- Just double-click on the JAR then the Program should start *(If not try the BAT-File - Windows only)*
 - Click on the Menu "File" then "Open"
   - Browse to the RPG-Maker MV Project which you want decrypt
   - Select the Main-Directory of the Project (The Folder where the Game.exe is) on click on "Choose Directory"

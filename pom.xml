@@ -3,7 +3,7 @@
 
 	<groupId>org.petschko</groupId>
 	<artifactId>rpgmaker-mv-decrypter</artifactId>
-	<version>0.4.1</version>
+	<version>0.4.2</version>
 	<packaging>jar</packaging>
 
 	<name>Petschko's RPG-Maker-MV/MZ File-Decrypter</name>
