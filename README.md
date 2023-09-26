@@ -25,19 +25,21 @@ You can decrypt the Build-In-Encrypted Files from the RPG Maker MV or MZ. They u
 - Click on the Menu "File" then "Open"
   - Browse to the RPG-Maker MV Project which you want decrypt
   - Select the Main-Directory of the Project (The Folder where the Game.exe is) on click on "Choose Directory"
+    - You can also put the Program right into your Game-Directory and select the option "Select Project from current Directory"
 - Wait for a short moment =)
 - If there are Files listed and a Decryption-Key is in the Text-Box you're ready to Decrypt
   - Then go into the Menu and click "Decrypt" -> "All Files"
   - After a short moment you're done =)
   - You can find the Files now within the "Output"-Directory, which is in the same Directory as this Program. *(If you not changed it already via "File" -> "Change Output-Directory...")*
 
-- You can also Decrypt single/multiple Files - Select them in the Project-Files Tab after that you go to "Decrypter" -> "Selected Files"
+- (Not yet implemented) You can also Decrypt single/multiple Files - Select them in the Project-Files Tab after that you go to "Decrypter" -> "Selected Files"
+- You can also Re-Encrypt Files (For example if you translated text on images for the Game)
 - You can also check out the "Option"-Menu and check if the settings fit to you =)
-- You can find this "Manual" also within the "Info"-Menu
+- (Not yet implemented) You can find this "Manual" also within the "Info"-Menu
 
-### Start with CMD - For automation / the guys who like it :3
+### Run with CMD - For automation / the guys who like it :3
 
-In some case it can be useful to do stuff via the commandline. For example you want to mod a game and make it easy for the user to mod it (like they just need to start a .bat/.sh file which does the stuff)
+In some case it can be useful to do stuff via the commandline. For example, you want to mod a game and make it easy for the user to mod it (like they just need to start a .bat/.sh file which does the stuff)
 
 - To see the global help (with all sub-commands) type in `java -jar "RPG Maker MV Decrypter.jar" help`
 - To see the detailed help of a specific command type in `java -jar "RPG Maker MV Decrypter.jar" [command] help`
@@ -48,18 +50,18 @@ For details use and examples how to use it see [CMD Instructions](cmd-instructio
 ## Motivation behind this
 As Art-Creator for the RPG-Maker by myself, it is sometimes hard to figure out, if somebody is using Resources from you *(and may violate the licence like giving no credit or using a Non-Commercial-Resource in a Commercial Game for example)*.
 
-I don't have time to play through all the games (even if I want^^). So I just quick look at the files, but its only possible if the files are not encrypted...
+I don't have time to play through all the games (even if I want^^). So I just quick look at the files, but it's only possible if the files are not encrypted...
 
 Sad for me, more People use the build in Encryption from the RPG-Maker-MV, so that's why I wrote this Program - To get a quick look at the Files without playing the whole Game =) May some other Artists will find this useful too.
 
-It can be also useful for Translators, eg when you want to make a Game available for different Regions. *(IMO you should ask the Creator of the Game first! - Sometimes it's not possible...)* 
+It can be also useful for Translators, e.g. when you want to make a Game available for different Regions. *(IMO you should ask the Creator of the Game first! - Sometimes it's not possible...)* 
 
 I'm also interested in Encryption in general, so this was a good base to learn, since the MV-Encryption is very weak - But it's great that's simple, because it will not slow down weak machines! *(See below)*
 
 ### Why is the encryption of my Game useless in this case?
 Sometimes there is a nice Picture that you may save for yourself. You would even do with without this Decrypter by making a Screenshot (or record the Sound) >.<
 
-So you see there is no need for encryption in RPG-Maker Games... If someone wants to get the Files, he will able to get them.
+So you see there is no need for encryption in RPG-Maker Games... If someone wants to get the Files, he will be able to get them, this also happens to AAA Games.
 You can't encrypt your Files 100%, because the Game has to decrypt them by itself, to display them... (Or Play) - And since you are able to play the Game offline, you have to provide the Decryption Method and the Key. 
 
 ### But somebody will steal my assets
@@ -68,8 +70,8 @@ Everybody is allowed to save anything for (!)personal use **only**(!) - But you'
 So please DON'T steal stuff, as Artist I know how much time such stuff take, so DON'T do it! 
 
 ### Why as Java-Project? | Advantages
-This Java-Decrypter is better for whole Directories. It was easier to do it with Java, because you are very limited with JavaScript. (File-Access / Saving etc)
-Why Java? - Because I know this Language xP
+This Java-Decrypter is better for whole Directories or automated Scripts. It was easier to do it with Java, because you are very limited with JavaScript. (File-Access / Saving etc)
+Why Java? - Because I know this Language xP - Feel free to port it to an other language, which may doesn't require the installation of a Run-Time-Environment...
 
 **Advantages using this in comparison to my previous Project:**
 - Works with whole Directories
@@ -78,8 +80,9 @@ Why Java? - Because I know this Language xP
   - It keeps the Directory-Structure
   - You can specify an Output-Directory
 - It's able to Detect the Encryption File & Key by its own
-- Less buggy and faster than my JavaScript Version, because I'm independent from Browsers and Charset-Problems...
+- Less buggy and faster than my JavaScript Version, because I'm independent of Browsers and Charset-Problems...
 - You can use Command-Line to if you want
+  - You can, may use it for Modding? Idk I've heard that some do
 - Will add a restore Project Function in the future
 - You can en/disable the verification of the 16Byte Fake-Header
   - If you disable the verification, it will just cut away the Fake-Header aka the first 16 Bytes of the File *(Useful when Decrypter-Signature changes)*
